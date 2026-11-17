@@ -68,7 +68,9 @@ ul{margin:0;padding-left:20px} li{margin-bottom:7px}
 .pair figcaption{font-size:12.5px;color:var(--ink-soft);margin-top:6px}
 .ask{border-left:2px solid var(--berry);padding:2px 0 2px 14px;margin-bottom:12px} .ask b{display:block;font-weight:500} .ask span{font-size:14px;color:var(--ink-soft)}
 .big{font-family:var(--display);font-weight:var(--dw);font-size:calc(26px * var(--ds));line-height:1.2}
-@media (prefers-reduced-motion: reduce){ .track{height:auto} .stage{position:relative} .say,.hint{transition:none} }
+.still .track{height:auto} .still .stage{position:relative} .still .say,.still .hint{transition:none} .still .rail,.still .hint{display:none}
+.motion-on{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:500 13px/1.2 var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--on-dark);border:0;padding:16px 22px;box-shadow:0 6px 30px rgba(60,10,25,.25)}
+.diag{position:absolute;right:max(10px,env(safe-area-inset-right,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px));font:400 10.5px/1.2 ui-monospace,Menlo,monospace;color:var(--on-dark);background:rgba(40,8,18,.55);padding:4px 8px;border-radius:4px;max-width:70vw}
 </style>
 </head>
 <body>
@@ -88,6 +90,8 @@ ul{margin:0;padding-left:20px} li{margin-bottom:7px}
       <div class="say off" data-from="0.8" data-to="1.01"><p class="kick">Малиновый зефир</p><p class="h">Хочется <em>взять</em></p><div class="buy"><button class="btn" type="button">Выбрать вкус</button><span class="price">750 ₽ · 9 штук · 360 г</span></div></div>
     </div>
     <span class="hint" id="hint">Листайте</span>
+    <button class="motion-on" id="motionOn" type="button" hidden>Включить анимацию</button>
+    <span class="diag" id="diag" aria-hidden="true"></span>
   </div>
 </div>
 
@@ -132,34 +136,45 @@ ul{margin:0;padding-left:20px} li{margin-bottom:7px}
 <script>
 (function(){
   var SETS={tall:{dir:'k',n:108}, wide:{dir:'w',n:100}};
-  var track=document.getElementById('track'), fg=document.getElementById('fg'), fx=fg.getContext('2d'),
-      set=null, N=0, frames=[], shown=-1, pos=0, target=0,
-      says=[].slice.call(document.querySelectorAll('.say')), hint=document.getElementById('hint'), dot=document.getElementById('dot');
-  var reduce=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root=document.documentElement, track=document.getElementById('track'), fg=document.getElementById('fg'), fx=fg.getContext('2d'),
+      set=null, N=0, frames=[], okCount=0, failCount=0, shown=-1, pos=0, target=0, lastErr='',
+      says=[].slice.call(document.querySelectorAll('.say')), hint=document.getElementById('hint'), dot=document.getElementById('dot'),
+      diag=document.getElementById('diag'), motionBtn=document.getElementById('motionOn');
+  var sysReduce=!!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var motion=!sysReduce;
+  try{ if(sessionStorage.getItem('zefir-motion')==='on') motion=true; }catch(e){}
+  window.addEventListener('error', function(e){ lastErr=(e.message||'error'); });
+  function applyMotion(){ root.classList.toggle('still', !motion); motionBtn.hidden = motion; shown=-1; }
+  motionBtn.addEventListener('click', function(){ motion=true; try{ sessionStorage.setItem('zefir-motion','on'); }catch(e){} applyMotion(); choose(true); window.scrollTo(0,0); });
   function pad(i){ return String(i).padStart(3,'0'); }
-  function load(i){ if(frames[i]) return; var im=new Image(), mine=set; im.decoding='async'; im.onload=function(){ if(mine!==set) return; im._ok=true; shown=-1; }; im.src=set.dir+'/'+pad(i+1)+'.webp'; frames[i]=im; }
-  function choose(){ var r=fg.getBoundingClientRect(), want = r.width>=r.height ? SETS.wide : SETS.tall;
-    var d=Math.min(window.devicePixelRatio||1,2); fg.width=Math.round(r.width*d); fg.height=Math.round(r.height*d); shown=-1;
-    if(want===set) return; set=want; N=set.n; frames=new Array(N);
+  function load(i){ if(frames[i]) return; var im=new Image(), mine=set; im.decoding='async';
+    im.onload=function(){ if(mine!==set) return; im._ok=true; okCount++; shown=-1; };
+    im.onerror=function(){ if(mine!==set) return; failCount++; };
+    im.src=set.dir+'/'+pad(i+1)+'.webp'; frames[i]=im; }
+  function choose(force){ var r=fg.getBoundingClientRect(), want = r.width>=r.height ? SETS.wide : SETS.tall;
+    var d=Math.min(window.devicePixelRatio||1,2); fg.width=Math.max(1,Math.round(r.width*d)); fg.height=Math.max(1,Math.round(r.height*d)); shown=-1;
+    if(want===set && !force) return; set=want; N=set.n; frames=new Array(N); okCount=0; failCount=0;
     var order=[]; for(var s=0;s<N;s+=8) order.push(s); order.push(N-1); for(var q=0;q<N;q+=2) if(order.indexOf(q)<0) order.push(q); for(var z=0;z<N;z++) if(order.indexOf(z)<0) order.push(z);
-    var mine=set; if(reduce){ load(N-1); } else { order.forEach(function(i,j){ setTimeout(function(){ if(mine===set) load(i); }, j<20?0:(j-20)*12); }); } }
+    var mine=set; if(!motion){ load(N-1); } else { order.forEach(function(i,j){ setTimeout(function(){ if(mine===set) load(i); }, j<20?0:(j-20)*12); }); } }
   function pick(i){ for(var d=0;d<N;d++){ var a=frames[i-d], b=frames[i+d]; if(a&&a._ok) return a; if(b&&b._ok) return b; } return null; }
   function draw(i){ var im=pick(i); if(!im) return; var cw=fg.width, ch=fg.height, iw=im.naturalWidth, ih=im.naturalHeight, k=Math.max(cw/iw, ch/ih), w=iw*k, h=ih*k;
     fx.drawImage(im,(cw-w)/2,(ch-h)/2,w,h); shown=i; }
   function progress(){ var r=track.getBoundingClientRect(), total=r.height-window.innerHeight; return total>0 ? Math.min(1,Math.max(0,-r.top/total)) : 1; }
+  var ticks=0;
   function tick(){
-    target = reduce ? 1 : progress();
+    target = motion ? progress() : 1;
     pos += (target-pos)*0.16; if(Math.abs(target-pos)<0.0005) pos=target;
     var i=Math.round(pos*(N-1)); if(i!==shown) draw(i);
     says.forEach(function(s){ s.classList.toggle('off', !(pos>=+s.dataset.from && pos<+s.dataset.to)); });
     hint.classList.toggle('off', pos>0.03); dot.style.top=(pos*100)+'%';
+    if((ticks++ % 15)===0){ diag.textContent='v4 · '+(set===SETS.wide?'wide':'tall')+' · кадры '+okCount+'/'+N+(failCount?' · ошибок '+failCount:'')+' · прокрутка '+Math.round(pos*100)+'% · движение '+(motion?'вкл':'выкл'+(sysReduce?' (настройка системы)':''))+(lastErr?' · '+lastErr.slice(0,60):''); }
     requestAnimationFrame(tick);
   }
-  choose(); window.addEventListener('resize', choose);
+  applyMotion(); choose(true); window.addEventListener('resize', function(){ choose(false); });
   [].forEach.call(document.querySelectorAll('.types button'), function(b){ b.addEventListener('click', function(){
-    document.documentElement.setAttribute('data-type', b.dataset.t);
+    root.setAttribute('data-type', b.dataset.t);
     [].forEach.call(document.querySelectorAll('.types button'), function(x){ x.setAttribute('aria-pressed', x===b ? 'true':'false'); }); }); });
-  document.documentElement.setAttribute('data-type','a');
+  root.setAttribute('data-type','a');
   requestAnimationFrame(tick);
 })();
 </script>
