@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Зефирная симфония · сцена 1 (предпросмотр)</title>
+<style>*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}button{cursor:pointer}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Forum&family=Jost:wght@300;400;500&family=Onest:wght@300;400;500&family=Prata&family=Tenor+Sans&display=swap">
+<style>
+/* Layout: one pinned photographic stage that the visitor's scroll drives for about one and a quarter screens, then a short paper column. Single look on purpose: the box's dusty rose. */
+:root{ --paper:#F1D9DC; --sheet:#FFF9F4; --ink:#4E1229; --ink-soft:#8A5566; --rose:#D9979F; --berry:#A32A52; --line:#E7C6CC; --stage:#C98C93; --on-dark:#FFF6F1;
+  --display:"Cormorant Garamond","Times New Roman",serif; --ui:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif; --dw:300; --ds:1; --tr:.22em; color-scheme:light }
+:root[data-type="b"]{ --display:"Prata","Times New Roman",serif; --ui:"Onest",system-ui,sans-serif; --dw:400; --ds:.8; --tr:.18em }
+:root[data-type="c"]{ --display:"Forum","Times New Roman",serif; --ui:"Tenor Sans",system-ui,sans-serif; --dw:400; --ds:.92; --tr:.2em }
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.55}
+.gutter{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+
+.track{height:225vh;position:relative}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--stage)}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+.top{position:absolute;left:0;right:0;top:0;padding-block:calc(14px + env(safe-area-inset-top,0px)) 0;display:flex;align-items:center;gap:22px;color:var(--on-dark)}
+.top a{font:400 11.5px/1 var(--ui);letter-spacing:var(--tr);text-transform:uppercase;color:inherit;text-decoration:none;padding:10px 0}
+.top .sp{flex:1}
+.logo{width:min(27vw,112px);height:auto;display:block}
+.types{position:absolute;right:max(20px,env(safe-area-inset-right,0px));top:calc(74px + env(safe-area-inset-top,0px));display:flex;gap:6px;align-items:center;background:rgba(255,246,241,.16);border:1px solid rgba(255,246,241,.38);border-radius:99px;padding:4px 6px 4px 12px;color:var(--on-dark);font:400 11px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.types button{font:500 12px/1 var(--ui);width:28px;height:28px;border-radius:50%;border:0;background:transparent;color:var(--on-dark)}
+.types button[aria-pressed="true"]{background:var(--on-dark);color:var(--ink)}
+.rail{position:absolute;right:max(10px,env(safe-area-inset-right,0px));top:32%;height:36%;width:1px;background:rgba(255,246,241,.4)}
+.rail i{position:absolute;left:-2px;width:5px;height:5px;border-radius:50%;background:var(--on-dark);top:0}
+
+.words{position:absolute;left:0;right:0;bottom:0;padding-block:0 calc(30px + env(safe-area-inset-bottom,0px));min-height:34%;display:grid;align-items:end}
+.say{grid-area:1/1;transition:opacity .45s ease, transform .45s ease;max-width:560px;margin:0 auto;width:100%}
+.say.off{opacity:0;transform:translateY(10px);pointer-events:none}
+.kick{font:400 11.5px/1.2 var(--ui);letter-spacing:var(--tr);text-transform:uppercase;margin:0 0 12px;color:var(--ink)}
+.h{font-family:var(--display);font-weight:var(--dw);font-size:calc(clamp(40px,11.5vw,64px) * var(--ds));line-height:1.02;letter-spacing:-.01em;margin:0;text-wrap:balance;color:var(--ink)}
+.h em{font-style:italic}
+:root[data-type="b"] .h em,:root[data-type="c"] .h em{font-style:normal}
+.buy{display:flex;align-items:center;gap:16px;margin-top:20px;flex-wrap:wrap}
+.btn{font:500 12.5px/1 var(--ui);letter-spacing:var(--tr);text-transform:uppercase;color:var(--on-dark);background:var(--ink);border:0;border-radius:0;padding:17px 26px}
+.price{font:400 13px/1.3 var(--ui);letter-spacing:.06em;color:var(--ink)}
+.hint{position:absolute;left:50%;bottom:calc(10px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);font:400 10.5px/1 var(--ui);letter-spacing:var(--tr);text-transform:uppercase;color:var(--ink);opacity:.7;transition:opacity .3s}
+.hint.off{opacity:0}
+.btn:focus-visible,.types button:focus-visible,.top a:focus-visible{outline:2px solid var(--on-dark);outline-offset:3px}
+@media (min-aspect-ratio: 1/1){
+  .words{bottom:auto;top:17%;min-height:0;align-items:start;padding-left:max(6vw,env(safe-area-inset-left,0px));padding-right:max(6vw,env(safe-area-inset-right,0px))}
+  .say{margin:0;max-width:34vw}
+  .kick,.h,.price{color:var(--on-dark)}
+  .h{font-size:calc(clamp(44px,5.4vw,92px) * var(--ds))}
+  .btn{background:var(--on-dark);color:var(--ink)}
+  .top{padding-left:max(6vw,env(safe-area-inset-left,0px));padding-right:max(6vw,env(safe-area-inset-right,0px))}
+  .logo{width:min(12vw,170px)}
+  .types{top:auto;right:auto;left:max(6vw,env(safe-area-inset-left,0px));bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+  .hint{color:var(--ink)}
+  .rail{right:max(2.4vw,env(safe-area-inset-right,0px))}
+}
+
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:18px;padding-block:40px 72px}
+h2{font-family:var(--display);font-weight:var(--dw);font-size:calc(clamp(30px,7vw,44px) * var(--ds));line-height:1.08;margin:0 0 8px;text-wrap:balance}
+p{margin:0 0 10px} p:last-child{margin-bottom:0}
+.eyebrow{font:400 11.5px/1.2 var(--ui);letter-spacing:var(--tr);text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px}
+.sheet{background:var(--sheet);padding:22px 20px;min-width:0}
+ul{margin:0;padding-left:20px} li{margin-bottom:7px}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:12px}
+.pair figure{margin:0} .pair img{display:block;width:100%;height:auto}
+.pair figcaption{font-size:12.5px;color:var(--ink-soft);margin-top:6px}
+.ask{border-left:2px solid var(--berry);padding:2px 0 2px 14px;margin-bottom:12px} .ask b{display:block;font-weight:500} .ask span{font-size:14px;color:var(--ink-soft)}
+.big{font-family:var(--display);font-weight:var(--dw);font-size:calc(26px * var(--ds));line-height:1.2}
+@media (prefers-reduced-motion: reduce){ .track{height:auto} .stage{position:relative} .say,.hint{transition:none} }
+</style>
+</head>
+<body>
+
+
+<div class="track" id="track">
+  <div class="stage">
+    <canvas id="fg" role="img" aria-label="A steel star nozzle pipes one raspberry zefir onto dusty rose paper, with fresh raspberries beside it"></canvas>
+
+    <div class="top gutter"><img class="logo" src="wordmark-white.png" alt="Зефирная симфония" width="773" height="387"><span class="sp"></span><a href="#after">Каталог</a><a href="#after">Корзина</a></div>
+    <div class="types" role="group" aria-label="Шрифт"><span>Шрифт</span><button type="button" data-t="a" aria-pressed="true">A</button><button type="button" data-t="b" aria-pressed="false">B</button><button type="button" data-t="c" aria-pressed="false">C</button></div>
+    <div class="rail" aria-hidden="true"><i id="dot"></i></div>
+
+    <div class="words gutter">
+      <div class="say" data-from="0" data-to="0.34"><p class="kick">Ручная работа · Пенза</p><p class="h">Из настоящей <em>малины</em></p></div>
+      <div class="say off" data-from="0.34" data-to="0.8"><p class="kick">Один зефир — одно движение</p><p class="h">Собран <em>вручную</em></p></div>
+      <div class="say off" data-from="0.8" data-to="1.01"><p class="kick">Малиновый зефир</p><p class="h">Хочется <em>взять</em></p><div class="buy"><button class="btn" type="button">Выбрать вкус</button><span class="price">750 ₽ · 9 штук · 360 г</span></div></div>
+    </div>
+    <span class="hint" id="hint">Листайте</span>
+  </div>
+</div>
+
+<main class="gutter" id="after"><div class="wrap">
+  <section class="sheet">
+    <p class="eyebrow">Scene 1 · the real thing</p>
+    <h2>Your thumb pipes it</h2>
+    <p>Scroll back up, slowly, then fast, then backwards. The film follows your thumb, the way your reference sites work. One screen and a quarter of scroll, start to finish.</p>
+    <ul>
+      <li><b>The zefir is yours.</b> The finished piece is the real one from your take 76867: same ridges, same berry specks. Only the set around it was rebuilt: rose paper like the box, studio light, fresh raspberries.</li>
+      <li><b>Made the way your references are made:</b> a clean first frame, a clean last frame, a generated clip between them, cut into frames.</li>
+      <li><b>The real technique.</b> The nozzle travels in circles, laying ring on ring, as your chef does in the original take. Both films were remade for this.</li>
+      <li><b>Both screens.</b> Laptops get a wide film with raspberries on both sides; phones get a tall film. It is the same scene, made twice, so nothing is cropped or destroyed.</li>
+    </ul>
+    <div class="pair">
+      <figure><img src="wide-start.jpg" alt="Wide first frame: the nozzle touching rose paper, raspberries on both sides" width="1280" height="714"><figcaption>First frame, laptop</figcaption></figure>
+      <figure><img src="wide-end.jpg" alt="Wide last frame: the finished zefir with raspberries on both sides" width="1280" height="714"><figcaption>Last frame, laptop</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <p class="eyebrow">Fonts</p>
+    <h2>Three pairs to choose from</h2>
+    <p>You were right about the fonts. Use the A · B · C switch at the top of the scene and watch the big words change.</p>
+    <ul>
+      <li><b>A:</b> a light, tall serif with a soft italic, and a clean geometric sans for the small capitals. Quiet and expensive. My pick.</li>
+      <li><b>B:</b> a strong contrast serif, closer to the letters on the box, with a modern sans.</li>
+      <li><b>C:</b> classic Roman capitals, like an engraved programme, with a humanist sans.</li>
+    </ul>
+    <p>The name on the box stays as your artwork. The Russian lines are drafts.</p>
+  </section>
+
+  <section class="sheet">
+    <p class="eyebrow">Two answers</p>
+    <h2>What I need from you</h2>
+    <div class="ask"><b>The scene</b><span>"yes" to continue with scene 2 the same way, or tell me what is wrong with this one.</span></div>
+    <div class="ask"><b>The font</b><span>"A", "B" or "C".</span></div>
+    <p class="big" style="margin-top:14px">Nothing is live until you say yes.</p>
+  </section>
+</div></main>
+
+<script>
+(function(){
+  var SETS={tall:{dir:'k',n:108}, wide:{dir:'w',n:100}};
+  var track=document.getElementById('track'), fg=document.getElementById('fg'), fx=fg.getContext('2d'),
+      set=null, N=0, frames=[], shown=-1, pos=0, target=0,
+      says=[].slice.call(document.querySelectorAll('.say')), hint=document.getElementById('hint'), dot=document.getElementById('dot');
+  var reduce=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function pad(i){ return String(i).padStart(3,'0'); }
+  function load(i){ if(frames[i]) return; var im=new Image(), mine=set; im.decoding='async'; im.onload=function(){ if(mine!==set) return; im._ok=true; shown=-1; }; im.src=set.dir+'/'+pad(i+1)+'.webp'; frames[i]=im; }
+  function choose(){ var r=fg.getBoundingClientRect(), want = r.width>=r.height ? SETS.wide : SETS.tall;
+    var d=Math.min(window.devicePixelRatio||1,2); fg.width=Math.round(r.width*d); fg.height=Math.round(r.height*d); shown=-1;
+    if(want===set) return; set=want; N=set.n; frames=new Array(N);
+    var order=[]; for(var s=0;s<N;s+=8) order.push(s); order.push(N-1); for(var q=0;q<N;q+=2) if(order.indexOf(q)<0) order.push(q); for(var z=0;z<N;z++) if(order.indexOf(z)<0) order.push(z);
+    var mine=set; if(reduce){ load(N-1); } else { order.forEach(function(i,j){ setTimeout(function(){ if(mine===set) load(i); }, j<20?0:(j-20)*12); }); } }
+  function pick(i){ for(var d=0;d<N;d++){ var a=frames[i-d], b=frames[i+d]; if(a&&a._ok) return a; if(b&&b._ok) return b; } return null; }
+  function draw(i){ var im=pick(i); if(!im) return; var cw=fg.width, ch=fg.height, iw=im.naturalWidth, ih=im.naturalHeight, k=Math.max(cw/iw, ch/ih), w=iw*k, h=ih*k;
+    fx.drawImage(im,(cw-w)/2,(ch-h)/2,w,h); shown=i; }
+  function progress(){ var r=track.getBoundingClientRect(), total=r.height-window.innerHeight; return total>0 ? Math.min(1,Math.max(0,-r.top/total)) : 1; }
+  function tick(){
+    target = reduce ? 1 : progress();
+    pos += (target-pos)*0.16; if(Math.abs(target-pos)<0.0005) pos=target;
+    var i=Math.round(pos*(N-1)); if(i!==shown) draw(i);
+    says.forEach(function(s){ s.classList.toggle('off', !(pos>=+s.dataset.from && pos<+s.dataset.to)); });
+    hint.classList.toggle('off', pos>0.03); dot.style.top=(pos*100)+'%';
+    requestAnimationFrame(tick);
+  }
+  choose(); window.addEventListener('resize', choose);
+  [].forEach.call(document.querySelectorAll('.types button'), function(b){ b.addEventListener('click', function(){
+    document.documentElement.setAttribute('data-type', b.dataset.t);
+    [].forEach.call(document.querySelectorAll('.types button'), function(x){ x.setAttribute('aria-pressed', x===b ? 'true':'false'); }); }); });
+  document.documentElement.setAttribute('data-type','a');
+  requestAnimationFrame(tick);
+})();
+</script>
+
+</body>
+</html>
