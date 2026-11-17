@@ -5,176 +5,290 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Зефирная симфония · сцена 1 (предпросмотр)</title>
-<style>*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}button{cursor:pointer}</style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Forum&family=Jost:wght@300;400;500&family=Onest:wght@300;400;500&family=Prata&family=Tenor+Sans&display=swap">
+<link rel="preload" href="../fonts/nsd300i.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-/* Layout: one pinned photographic stage that the visitor's scroll drives for about one and a quarter screens, then a short paper column. Single look on purpose: the box's dusty rose. */
-:root{ --paper:#F1D9DC; --sheet:#FFF9F4; --ink:#4E1229; --ink-soft:#8A5566; --rose:#D9979F; --berry:#A32A52; --line:#E7C6CC; --stage:#C98C93; --on-dark:#FFF6F1;
-  --display:"Cormorant Garamond","Times New Roman",serif; --ui:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif; --dw:300; --ds:1; --tr:.22em; color-scheme:light }
-:root[data-type="b"]{ --display:"Prata","Times New Roman",serif; --ui:"Onest",system-ui,sans-serif; --dw:400; --ds:.8; --tr:.18em }
-:root[data-type="c"]{ --display:"Forum","Times New Roman",serif; --ui:"Tenor Sans",system-ui,sans-serif; --dw:400; --ds:.92; --tr:.2em }
-html,body{height:100%}
-body{background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.55}
-.gutter{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+/* Type system (preview v6). Two families, both served from this site.
+   One loud thing only: the name on the back wall, very large, behind the piping.
+   Everything else is small, light and exact, like the fine print on a good box:
+   sentence case, regular weight, hairlines, no heavy fills. */
+@font-face{font-family:"Noto Serif Display";src:url(../fonts/nsd300i.woff2) format("woff2");font-weight:300;font-style:italic;font-display:swap}
+@font-face{font-family:"Noto Serif Display";src:url(../fonts/nsd400.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Serif Display";src:url(../fonts/nsd400i.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Onest";src:url(../fonts/onest400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Onest";src:url(../fonts/onest500.woff2) format("woff2");font-weight:500;font-display:swap}
 
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+:root{
+  --paper:#F3DEE0; --sheet:#FFF9F4; --ink:#4E1229; --ink-soft:#86505F; --line:rgba(78,18,41,.14);
+  --cream:#FFF6F1; --stage:#C98C93;
+  --display:"Noto Serif Display","Times New Roman",serif; --text:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --small:400 13.5px/1.35 var(--text);
+  --ease:cubic-bezier(.22,.7,.2,1);
+  --gx:max(20px,env(safe-area-inset-left,0px)); --gxr:max(20px,env(safe-area-inset-right,0px));
+  color-scheme:light }
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+img{max-width:100%}
+[hidden]{display:none!important}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* ---------- the stage ---------- */
 .track{height:225vh;position:relative}
 .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--stage)}
 .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#fx{pointer-events:none}
 
-.top{position:absolute;left:0;right:0;top:0;padding-block:calc(14px + env(safe-area-inset-top,0px)) 0;display:flex;align-items:center;gap:22px;color:var(--on-dark)}
-.top a{font:400 11.5px/1 var(--ui);letter-spacing:var(--tr);text-transform:uppercase;color:inherit;text-decoration:none;padding:10px 0}
+/* the name: stands on the back wall; the nozzle and the zefir pass in front of it */
+.mast{position:absolute;left:0;right:0;top:0;margin:0;text-align:center;white-space:nowrap;pointer-events:none;
+  font:italic 300 100px/1 var(--display);letter-spacing:-.01em;
+  opacity:0;transition:opacity 1s ease .15s;transform-origin:50% 100%;transform:scale(calc(1.05 - .05 * var(--p,0)))}
+.ready .mast{opacity:1}
+.mast .w{display:inline-block;padding:0 .14em .12em;margin:0 -.14em -.12em;
+  background:radial-gradient(120% 150% at 50% 60%,#FFF7EF 0%,#F9E2DC 52%,#EBC3C4 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 .035em .08em rgba(46,8,20,.3))}
+.mast .b{display:inline-block;width:0;height:0}
+
+/* top bar */
+.top{position:absolute;left:0;right:0;top:0;padding:calc(14px + env(safe-area-inset-top,0px)) var(--gxr) 0 var(--gx);display:flex;align-items:center;gap:8px;color:var(--cream)}
 .top .sp{flex:1}
-.logo{width:min(27vw,112px);height:auto;display:block}
-.types{position:absolute;right:max(20px,env(safe-area-inset-right,0px));top:calc(74px + env(safe-area-inset-top,0px));display:flex;gap:6px;align-items:center;background:rgba(255,246,241,.16);border:1px solid rgba(255,246,241,.38);border-radius:99px;padding:4px 6px 4px 12px;color:var(--on-dark);font:400 11px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-.types button{font:500 12px/1 var(--ui);width:28px;height:28px;border-radius:50%;border:0;background:transparent;color:var(--on-dark)}
-.types button[aria-pressed="true"]{background:var(--on-dark);color:var(--ink)}
-.rail{position:absolute;right:max(10px,env(safe-area-inset-right,0px));top:32%;height:36%;width:1px;background:rgba(255,246,241,.4)}
-.rail i{position:absolute;left:-2px;width:5px;height:5px;border-radius:50%;background:var(--on-dark);top:0}
+.logo{width:min(28vw,116px);height:auto;display:block}
+.nav{font:var(--small);letter-spacing:.02em;color:inherit;text-decoration:none;padding:12px 10px;position:relative;display:none}
+.nav::after{content:"";position:absolute;left:10px;right:10px;bottom:8px;height:1px;background:currentColor;opacity:.7;transform:scaleX(0);transform-origin:0 50%;transition:transform .5s var(--ease)}
+.nav:hover::after,.nav:focus-visible::after{transform:scaleX(1)}
+/* the two controls that sit over the picture get a breath of dark frosted glass, so they read over the pale piping bag */
+.bag,.menu{color:var(--cream);background:rgba(64,12,30,.3);box-shadow:inset 0 0 0 1px rgba(255,246,241,.26);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);transition:background .5s ease}
+.bag{display:inline-flex;align-items:center;gap:9px;height:38px;padding:0 7px 0 16px;border-radius:99px;font:var(--small);letter-spacing:.02em;text-decoration:none}
+.bag b{font:400 12px/1 var(--text);min-width:24px;height:24px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,246,241,.45)}
+.menu{width:38px;height:38px;border-radius:50%;border:0;padding:0;cursor:pointer;display:grid;place-content:center;gap:6px}
+.menu i{display:block;width:15px;height:1px;background:currentColor}
+@media (hover:hover){ .bag:hover,.menu:hover{background:rgba(64,12,30,.46)} }
 
-.words{position:absolute;left:0;right:0;bottom:0;padding-block:0 calc(30px + env(safe-area-inset-bottom,0px));min-height:34%;display:grid;align-items:end}
-.say{grid-area:1/1;transition:opacity .45s ease, transform .45s ease;max-width:560px;margin:0 auto;width:100%}
-.say.off{opacity:0;transform:translateY(10px);pointer-events:none}
-.kick{font:400 11.5px/1.2 var(--ui);letter-spacing:var(--tr);text-transform:uppercase;margin:0 0 12px;color:var(--ink)}
-.h{font-family:var(--display);font-weight:var(--dw);font-size:calc(clamp(40px,11.5vw,64px) * var(--ds));line-height:1.02;letter-spacing:-.01em;margin:0;text-wrap:balance;color:var(--ink)}
-.h em{font-style:italic}
-:root[data-type="b"] .h em,:root[data-type="c"] .h em{font-style:normal}
-.buy{display:flex;align-items:center;gap:16px;margin-top:20px;flex-wrap:wrap}
-.btn{font:500 12.5px/1 var(--ui);letter-spacing:var(--tr);text-transform:uppercase;color:var(--on-dark);background:var(--ink);border:0;border-radius:0;padding:17px 26px}
-.price{font:400 13px/1.3 var(--ui);letter-spacing:.06em;color:var(--ink)}
-.hint{position:absolute;left:50%;bottom:calc(10px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);font:400 10.5px/1 var(--ui);letter-spacing:var(--tr);text-transform:uppercase;color:var(--ink);opacity:.7;transition:opacity .3s}
-.hint.off{opacity:0}
-.btn:focus-visible,.types button:focus-visible,.top a:focus-visible{outline:2px solid var(--on-dark);outline-offset:3px}
-@media (min-aspect-ratio: 1/1){
-  .words{bottom:auto;top:17%;min-height:0;align-items:start;padding-left:max(6vw,env(safe-area-inset-left,0px));padding-right:max(6vw,env(safe-area-inset-right,0px))}
-  .say{margin:0;max-width:34vw}
-  .kick,.h,.price{color:var(--on-dark)}
-  .h{font-size:calc(clamp(44px,5.4vw,92px) * var(--ds))}
-  .btn{background:var(--on-dark);color:var(--ink)}
-  .top{padding-left:max(6vw,env(safe-area-inset-left,0px));padding-right:max(6vw,env(safe-area-inset-right,0px))}
-  .logo{width:min(12vw,170px)}
-  .types{top:auto;right:auto;left:max(6vw,env(safe-area-inset-left,0px));bottom:calc(24px + env(safe-area-inset-bottom,0px))}
-  .hint{color:var(--ink)}
-  .rail{right:max(2.4vw,env(safe-area-inset-right,0px))}
+/* side rail: scene number, progress, cue */
+.side{position:absolute;right:max(14px,env(safe-area-inset-right,0px));top:60%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--cream);pointer-events:none}
+.side .no{font:italic 400 15px/1 var(--display);display:none}
+.side .no.of{opacity:.6}
+.rail{position:relative;width:1px;height:min(11vh,180px);background:linear-gradient(180deg,rgba(255,246,241,.7),rgba(255,246,241,.22))}
+.rail i{position:absolute;left:-2px;top:0;width:5px;height:5px;margin-top:-2px;border-radius:50%;background:var(--cream)}
+.cue{font:400 12px/1 var(--text);letter-spacing:.1em;writing-mode:vertical-rl;margin-top:4px;transition:opacity .4s ease}
+.cue.off{opacity:0}
+
+/* the dock: one thin sheet of vellum that carries the line, the price and the button */
+.dock{position:absolute;left:0;right:0;bottom:0;padding:22px var(--gxr) calc(16px + env(safe-area-inset-bottom,0px)) var(--gx);color:var(--ink);
+  background:linear-gradient(180deg,rgba(255,250,247,.7),rgba(255,245,240,.6));
+  -webkit-backdrop-filter:blur(22px) saturate(1.1);backdrop-filter:blur(22px) saturate(1.1);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+.beats{display:grid;text-align:center}
+.say{grid-area:1/1;transition:opacity .5s ease,transform .6s var(--ease)}
+.say.off{opacity:0;transform:translateY(6px);pointer-events:none}
+.line{font:400 clamp(24px,6.9vw,30px)/1.1 var(--display);margin:0;text-wrap:balance}
+.buy{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.price{margin:0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.price b{font:400 23px/1 var(--display);font-variant-numeric:lining-nums}
+.price span{font:var(--small);font-size:12.5px;color:var(--ink-soft)}
+
+/* the button: a porcelain capsule, thin and light. On hover it fills from below, slowly. */
+.cta{position:relative;display:inline-flex;align-items:center;gap:12px;height:46px;padding:0 20px 0 22px;border-radius:99px;border:0;cursor:pointer;text-decoration:none;white-space:nowrap;overflow:hidden;isolation:isolate;
+  font:400 14px/1 var(--text);letter-spacing:.015em;color:var(--ink);
+  background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.5));
+  box-shadow:inset 0 0 0 1px rgba(78,18,41,.14),0 1px 2px rgba(78,18,41,.05);
+  transition:color .5s var(--ease),transform .25s var(--ease)}
+.cta::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--ink);transform:translateY(102%);transition:transform .6s var(--ease)}
+.cta svg{width:22px;height:9px;display:block;flex:none;transition:transform .5s var(--ease)}
+.cta:active{transform:scale(.985)}
+@media (hover:hover){ .cta:hover{color:var(--cream)} .cta:hover::before{transform:none} .cta:hover svg{transform:translateX(4px)} }
+.cta:focus-visible{color:var(--cream)} .cta:focus-visible::before{transform:none}
+/* the quiet link: a hairline that draws itself */
+.more{position:relative;display:inline-flex;align-items:center;gap:10px;font:400 14px/1 var(--text);letter-spacing:.015em;color:var(--ink);text-decoration:none;padding:10px 0}
+.more::after{content:"";position:absolute;left:0;right:0;bottom:4px;height:1px;background:currentColor;opacity:.35;transition:opacity .5s ease}
+.more svg{width:22px;height:9px;transition:transform .5s var(--ease)}
+@media (hover:hover){ .more:hover::after{opacity:1} .more:hover svg{transform:translateX(4px)} }
+a:focus-visible,button:focus-visible{outline:1px solid var(--cream);outline-offset:4px}
+main a:focus-visible,.dock a:focus-visible{outline-color:var(--ink)}
+
+/* laptops and wide screens: the dock becomes one long thin capsule */
+@media (min-aspect-ratio:1/1){
+  :root{--gx:max(4.5vw,env(safe-area-inset-left,0px));--gxr:max(4.5vw,env(safe-area-inset-right,0px))}
+  .top{padding-top:22px;gap:10px}
+  .nav{display:block} .menu{display:none}
+  .logo{width:clamp(120px,11vw,176px)}
+  .side{top:50%;right:max(2.6vw,env(safe-area-inset-right,0px))} .side .no{display:block} .rail{height:min(22vh,180px)}
+  .dock{left:50%;right:auto;transform:translateX(-50%);bottom:clamp(16px,3.4vh,34px);width:min(820px,calc(100vw - 2 * var(--gx)));display:flex;align-items:center;gap:28px;padding:9px 9px 9px 34px;border-radius:99px;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.46),0 26px 44px -34px rgba(78,18,41,.55)}
+  .beats{flex:1;text-align:left}
+  .line{font-size:clamp(24px,2vw,30px);white-space:nowrap}
+  .buy{margin:0;padding:0;border:0;gap:24px}
+  .price{flex-direction:column;align-items:flex-end;gap:5px}
+  .price b{font-size:22px}
+  .cta{height:50px;padding:0 24px 0 26px}
 }
+@media (max-height:520px) and (min-aspect-ratio:1/1){ .line{font-size:20px} }
 
-.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:18px;padding-block:40px 72px}
-h2{font-family:var(--display);font-weight:var(--dw);font-size:calc(clamp(30px,7vw,44px) * var(--ds));line-height:1.08;margin:0 0 8px;text-wrap:balance}
-p{margin:0 0 10px} p:last-child{margin-bottom:0}
-.eyebrow{font:400 11.5px/1.2 var(--ui);letter-spacing:var(--tr);text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px}
-.sheet{background:var(--sheet);padding:22px 20px;min-width:0}
-ul{margin:0;padding-left:20px} li{margin-bottom:7px}
-.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:12px}
-.pair figure{margin:0} .pair img{display:block;width:100%;height:auto}
-.pair figcaption{font-size:12.5px;color:var(--ink-soft);margin-top:6px}
-.ask{border-left:2px solid var(--berry);padding:2px 0 2px 14px;margin-bottom:12px} .ask b{display:block;font-weight:500} .ask span{font-size:14px;color:var(--ink-soft)}
-.big{font-family:var(--display);font-weight:var(--dw);font-size:calc(26px * var(--ds));line-height:1.2}
-.still .track{height:auto} .still .stage{position:relative} .still .say,.still .hint{transition:none} .still .rail,.still .hint{display:none}
-.motion-on{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:500 13px/1.2 var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--on-dark);border:0;padding:16px 22px;box-shadow:0 6px 30px rgba(60,10,25,.25)}
-.diag{position:absolute;right:max(10px,env(safe-area-inset-right,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px));font:400 10.5px/1.2 ui-monospace,Menlo,monospace;color:var(--on-dark);background:rgba(40,8,18,.55);padding:4px 8px;border-radius:4px;max-width:70vw}
+/* ---------- paper column under the scene ---------- */
+.paper{padding:clamp(64px,9vw,128px) var(--gx) 96px}
+.col{max-width:760px;margin:0 auto}
+.kicker{font:var(--small);color:var(--ink-soft);margin:0 0 20px;text-align:center}
+h2{font:400 clamp(40px,7.4vw,76px)/1.03 var(--display);letter-spacing:-.012em;margin:0 0 26px;text-align:center;text-wrap:balance}
+.lede{font-size:18px;line-height:1.6;text-align:center;max-width:54ch;margin:0 auto;text-wrap:pretty}
+.rule{height:1px;background:var(--line);margin:clamp(44px,7vw,84px) 0;border:0}
+.spec{display:grid;gap:0;margin:clamp(44px,7vw,84px) 0 0;padding:0;list-style:none}
+.spec li{display:grid;grid-template-columns:1fr;gap:10px;padding:26px 0;border-top:1px solid var(--line)}
+.spec li:last-child{border-bottom:1px solid var(--line)}
+.spec .tag{font:var(--small);color:var(--ink-soft)}
+.spec .d1{font:italic 300 clamp(56px,11vw,104px)/1 var(--display);letter-spacing:-.01em}
+.spec .d2{font:400 clamp(30px,5vw,44px)/1.1 var(--display)}
+.spec .t1{font-size:17px;line-height:1.6;max-width:58ch;margin:0}
+.spec .row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px}
+.spec .num{font:400 34px/1 var(--display);font-variant-numeric:lining-nums}
+.spec small{display:block;margin-top:8px;font:400 13px/1.45 var(--text);color:var(--ink-soft)}
+@media (min-width:760px){ .spec li{grid-template-columns:150px 1fr;align-items:baseline;gap:24px} }
+.notes{margin:0;padding:0;list-style:none;display:grid;gap:18px}
+.notes li{padding-left:22px;position:relative;max-width:62ch}
+.notes li::before{content:"";position:absolute;left:0;top:.78em;width:10px;height:1px;background:var(--ink)}
+.notes b{font-weight:500}
+.asks{display:grid;gap:0;margin-top:clamp(44px,7vw,84px);border-top:1px solid var(--line)}
+.ask{padding:22px 0;border-bottom:1px solid var(--line);display:grid;gap:4px}
+.ask b{font:400 26px/1.2 var(--display)}
+.ask span{font-size:15px;color:var(--ink-soft)}
+.fin{font:italic 300 clamp(30px,5vw,46px)/1.15 var(--display);text-align:center;margin:clamp(44px,7vw,80px) 0 0}
+
+.still .track{height:auto} .still .stage{position:relative} .still .side{display:none} .still .say{transition:none}
+.motion-on{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%)}
+.diag{position:absolute;left:10px;top:calc(96px + env(safe-area-inset-top,0px));font:400 10.5px/1.2 ui-monospace,Menlo,monospace;color:var(--cream);background:rgba(40,8,18,.55);padding:4px 8px;border-radius:4px;max-width:70vw}
+@media (prefers-reduced-motion:reduce){ .mast,.say,.cta,.cta::before,.cta svg,.nav::after{transition:none} }
 </style>
 </head>
 <body>
 
-
 <div class="track" id="track">
-  <div class="stage">
-    <canvas id="fg" role="img" aria-label="A steel star nozzle pipes one raspberry zefir onto dusty rose paper, with fresh raspberries beside it"></canvas>
+  <div class="stage" id="stage">
+    <h1 class="vh">Малиновый зефир ручной работы «Зефирная симфония»</h1>
+    <canvas id="fg" role="img" aria-label="Стальная насадка отсаживает один малиновый зефир на розовую бумагу, рядом свежая малина"></canvas>
+    <p class="mast" id="mast" aria-hidden="true"><span class="w" id="mw">Малина</span><i class="b" id="mb"></i></p>
+    <canvas id="fx" aria-hidden="true"></canvas>
 
-    <div class="top gutter"><img class="logo" src="wordmark-white.png" alt="Зефирная симфония" width="773" height="387"><span class="sp"></span><a href="#after">Каталог</a><a href="#after">Корзина</a></div>
-    <div class="types" role="group" aria-label="Шрифт"><span>Шрифт</span><button type="button" data-t="a" aria-pressed="true">A</button><button type="button" data-t="b" aria-pressed="false">B</button><button type="button" data-t="c" aria-pressed="false">C</button></div>
-    <div class="rail" aria-hidden="true"><i id="dot"></i></div>
+    <header class="top">
+      <img class="logo" src="wordmark-white.png" alt="Зефирная симфония" width="773" height="387">
+      <span class="sp"></span>
+      <a class="nav" href="#after">Каталог</a>
+      <a class="bag" href="#after" aria-label="Корзина, 0 товаров">Корзина <b>0</b></a>
+      <button class="menu" type="button" aria-label="Меню"><i></i><i></i></button>
+    </header>
 
-    <div class="words gutter">
-      <div class="say" data-from="0" data-to="0.34"><p class="kick">Ручная работа · Пенза</p><p class="h">Из настоящей <em>малины</em></p></div>
-      <div class="say off" data-from="0.34" data-to="0.8"><p class="kick">Один зефир — одно движение</p><p class="h">Собран <em>вручную</em></p></div>
-      <div class="say off" data-from="0.8" data-to="1.01"><p class="kick">Малиновый зефир</p><p class="h">Хочется <em>взять</em></p><div class="buy"><button class="btn" type="button">Выбрать вкус</button><span class="price">750 ₽ · 9 штук · 360 г</span></div></div>
-    </div>
-    <span class="hint" id="hint">Листайте</span>
-    <button class="motion-on" id="motionOn" type="button" hidden>Включить анимацию</button>
-    <span class="diag" id="diag" aria-hidden="true"></span>
+    <div class="side" aria-hidden="true"><span class="no">01</span><span class="rail"><i id="dot"></i></span><span class="no of">06</span><span class="cue" id="cue">листайте</span></div>
+
+    <section class="dock" aria-label="Малиновый зефир">
+      <div class="beats">
+        <div class="say" data-from="0" data-to="0.34"><p class="line">Из настоящей малины</p></div>
+        <div class="say off" data-from="0.34" data-to="0.8"><p class="line">Отсажен вручную, по одному</p></div>
+        <div class="say off" data-from="0.8" data-to="1.01"><p class="line">Девять таких в коробке</p></div>
+      </div>
+      <div class="buy">
+        <p class="price"><b>750 ₽</b><span>9 штук, 360 г</span></p>
+        <a class="cta" href="#after"><span>Выбрать вкус</span><svg viewBox="0 0 22 9" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M.5 4.5h21M17.5 1l4 3.5-4 3.5"/></svg></a>
+      </div>
+    </section>
+
+    <button class="cta motion-on" id="motionOn" type="button" hidden><span>Включить анимацию</span><svg viewBox="0 0 22 9" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M.5 4.5h21M17.5 1l4 3.5-4 3.5"/></svg></button>
+    <span class="diag" id="diag" aria-hidden="true" hidden></span>
   </div>
 </div>
 
-<main class="gutter" id="after"><div class="wrap">
-  <section class="sheet">
-    <p class="eyebrow">Scene 1 · the real thing</p>
-    <h2>Your thumb pipes it</h2>
-    <p>Scroll back up, slowly, then fast, then backwards. The film follows your thumb, the way your reference sites work. One screen and a quarter of scroll, start to finish.</p>
-    <ul>
-      <li><b>The zefir is yours.</b> The finished piece is the real one from your take 76867: same ridges, same berry specks. Only the set around it was rebuilt: rose paper like the box, studio light, fresh raspberries.</li>
-      <li><b>Made the way your references are made:</b> a clean first frame, a clean last frame, a generated clip between them, cut into frames.</li>
-      <li><b>The real technique.</b> The nozzle travels in circles, laying ring on ring, as your chef does in the original take. Both films were remade for this.</li>
-      <li><b>Both screens.</b> Laptops get a wide film with raspberries on both sides; phones get a tall film. It is the same scene, made twice, so nothing is cropped or destroyed.</li>
-    </ul>
-    <div class="pair">
-      <figure><img src="wide-start.jpg" alt="Wide first frame: the nozzle touching rose paper, raspberries on both sides" width="1280" height="714"><figcaption>First frame, laptop</figcaption></figure>
-      <figure><img src="wide-end.jpg" alt="Wide last frame: the finished zefir with raspberries on both sides" width="1280" height="714"><figcaption>Last frame, laptop</figcaption></figure>
-    </div>
-  </section>
+<main class="paper" id="after"><div class="col">
+  <p class="kicker">Preview 6, typography</p>
+  <h2>The name is inside the picture now</h2>
+  <p class="lede">Scroll back up and watch the word on the wall. The nozzle passes in front of it, the zefir grows in front of it, and when the bag lifts, the whole name is there. It is real text, not a picture of text.</p>
 
-  <section class="sheet">
-    <p class="eyebrow">Fonts</p>
-    <h2>Three pairs to choose from</h2>
-    <p>You were right about the fonts. Use the A · B · C switch at the top of the scene and watch the big words change.</p>
-    <ul>
-      <li><b>A:</b> a light, tall serif with a soft italic, and a clean geometric sans for the small capitals. Quiet and expensive. My pick.</li>
-      <li><b>B:</b> a strong contrast serif, closer to the letters on the box, with a modern sans.</li>
-      <li><b>C:</b> classic Roman capitals, like an engraved programme, with a humanist sans.</li>
-    </ul>
-    <p>The name on the box stays as your artwork. The Russian lines are drafts.</p>
-  </section>
+  <ul class="spec">
+    <li><span class="tag">The name</span><div><div class="d1">Малина</div><small>A light italic with strong contrast, very large, centred. The one loud thing on the screen. Each flavour gets its own word in the same place.</small></div></li>
+    <li><span class="tag">Headlines</span><div><div class="d2">Из настоящей малины</div><small>The same family, upright and calm.</small></div></li>
+    <li><span class="tag">Reading</span><p class="t1">Зефир отсаживают вручную, по одному. Девять штук в коробке, 360 граммов. Храним пятнадцать дней и отправляем по России.</p></li>
+    <li><span class="tag">Price</span><div class="row"><span class="num">750 ₽</span><span style="font:var(--small);color:var(--ink-soft)">9 штук, 360 г</span></div></li>
+    <li><span class="tag">Buttons</span><div><div class="row">
+      <a class="cta" href="#track"><span>В корзину</span><svg viewBox="0 0 22 9" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M.5 4.5h21M17.5 1l4 3.5-4 3.5"/></svg></a>
+      <a class="more" href="#track">О зефире <svg viewBox="0 0 22 9" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M.5 4.5h21M17.5 1l4 3.5-4 3.5"/></svg></a>
+    </div><small>Thin, light, regular weight. Point at the first one: it fills slowly from below.</small></div></li>
+  </ul>
 
-  <section class="sheet">
-    <p class="eyebrow">Two answers</p>
-    <h2>What I need from you</h2>
-    <div class="ask"><b>The scene</b><span>"yes" to continue with scene 2 the same way, or tell me what is wrong with this one.</span></div>
-    <div class="ask"><b>The font</b><span>"A", "B" or "C".</span></div>
-    <p class="big" style="margin-top:14px">Nothing is live until you say yes.</p>
-  </section>
+  <hr class="rule">
+
+  <ul class="notes">
+    <li><b>One loud thing.</b> The name on the wall carries the style. Everything around it is small and exact, like the fine print on a good box: sentence case, regular weight, hairlines.</li>
+    <li><b>One component.</b> A thin sheet of vellum at the bottom carries the line, the price and the button. Nothing else sits on the picture.</li>
+    <li><b>Buttons the way the luxury houses do them.</b> Regular weight, small sentence-case letters, one full capsule shape, no shadow, no gradient, slow hover.</li>
+    <li><b>Sharper film.</b> The frames are now served at the full size of the source film instead of a reduced copy.</li>
+    <li><b>The Russian lines are drafts.</b> The copy gets its own pass.</li>
+  </ul>
+
+  <div class="asks">
+    <div class="ask"><b>The typography</b><span>"yes" to keep this system for the whole site, or tell me what still feels wrong.</span></div>
+    <div class="ask"><b>The buttons</b><span>"yes", or "lighter" or "stronger".</span></div>
+  </div>
+  <p class="fin">Nothing is live until you say yes.</p>
 </div></main>
 
 <script>
 (function(){
-  var SETS={tall:{dir:'k',n:108}, wide:{dir:'w',n:100}};
-  var root=document.documentElement, track=document.getElementById('track'), fg=document.getElementById('fg'), fx=fg.getContext('2d'),
-      set=null, N=0, frames=[], okCount=0, failCount=0, shown=-1, pos=0, target=0, lastErr='',
-      says=[].slice.call(document.querySelectorAll('.say')), hint=document.getElementById('hint'), dot=document.getElementById('dot'),
-      diag=document.getElementById('diag'), motionBtn=document.getElementById('motionOn');
+  /* hz: where the table begins, as a share of the film height. mh: how much of the film height the matte images cover.
+     span: how wide the name may be, as a share of the screen. */
+  var SETS={tall:{dir:'k',mdir:'mk',n:108,w:1076,h:1928,hz:.445,mh:448/964,span:.9},
+            wide:{dir:'w',mdir:'mw',n:100,w:1928,h:1076,hz:.42,mh:236/538,span:.72}};
+  var root=document.documentElement, track=document.getElementById('track'), stage=document.getElementById('stage'),
+      fg=document.getElementById('fg'), c1=fg.getContext('2d'), fxc=document.getElementById('fx'), c2=fxc.getContext('2d'),
+      mast=document.getElementById('mast'), mw=document.getElementById('mw'), mb=document.getElementById('mb'),
+      set=null, N=0, frames=[], mats=[], okCount=0, failCount=0, matFail=0, shown=-1, pos=0, target=0, lastErr='',
+      says=[].slice.call(document.querySelectorAll('.say')), cue=document.getElementById('cue'), dot=document.getElementById('dot'),
+      diag=document.getElementById('diag'), motionBtn=document.getElementById('motionOn'), topBar=document.querySelector('.top');
   var sysReduce=!!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var motion=!sysReduce;
   try{ if(sessionStorage.getItem('zefir-motion')==='on') motion=true; }catch(e){}
+  if(/[?&]debug/.test(location.search)) diag.hidden=false;
   window.addEventListener('error', function(e){ lastErr=(e.message||'error'); });
   function applyMotion(){ root.classList.toggle('still', !motion); motionBtn.hidden = motion; shown=-1; }
   motionBtn.addEventListener('click', function(){ motion=true; try{ sessionStorage.setItem('zefir-motion','on'); }catch(e){} applyMotion(); choose(true); window.scrollTo(0,0); });
   function pad(i){ return String(i).padStart(3,'0'); }
-  function load(i){ if(frames[i]) return; var im=new Image(), mine=set; im.decoding='async';
+  function load(i){ if(frames[i]) return; var mine=set, im=new Image(), ma=new Image(); im.decoding='async'; ma.decoding='async';
     im.onload=function(){ if(mine!==set) return; im._ok=true; okCount++; shown=-1; };
     im.onerror=function(){ if(mine!==set) return; failCount++; };
-    im.src=set.dir+'/'+pad(i+1)+'.webp'; frames[i]=im; }
+    ma.onload=function(){ if(mine!==set) return; ma._ok=true; shown=-1; };
+    ma.onerror=function(){ if(mine!==set) return; ma._bad=true; matFail++; shown=-1; };
+    im.src=set.dir+'/'+pad(i+1)+'.webp'; ma.src=set.mdir+'/'+pad(i+1)+'.webp'; frames[i]=im; mats[i]=ma; }
+  /* The name is placed from the film, not from the screen: its baseline sits just above the table edge, wherever the film lands. */
+  function place(){ var cw=stage.clientWidth, ch=stage.clientHeight, k=Math.max(cw/set.w, ch/set.h), fh=set.h*k, fy=(ch-fh)/2, hy=fy+set.hz*fh;
+    mast.style.fontSize='100px'; var em=100, w100=mw.offsetWidth-.28*em, floor=topBar.offsetHeight+10, lift=.034*fh;
+    var size=Math.max(40, Math.min(cw*set.span/w100*100, (hy-lift-floor)/.74));
+    mast.style.fontSize=size+'px'; mast.style.top=(hy-lift-(mb.offsetTop+mb.offsetHeight))+'px'; }
   function choose(force){ var r=fg.getBoundingClientRect(), want = r.width>=r.height ? SETS.wide : SETS.tall;
-    var d=Math.min(window.devicePixelRatio||1,2); fg.width=Math.max(1,Math.round(r.width*d)); fg.height=Math.max(1,Math.round(r.height*d)); shown=-1;
-    if(want===set && !force) return; set=want; N=set.n; frames=new Array(N); okCount=0; failCount=0;
-    var order=[]; for(var s=0;s<N;s+=8) order.push(s); order.push(N-1); for(var q=0;q<N;q+=2) if(order.indexOf(q)<0) order.push(q); for(var z=0;z<N;z++) if(order.indexOf(z)<0) order.push(z);
-    var mine=set; if(!motion){ load(N-1); } else { order.forEach(function(i,j){ setTimeout(function(){ if(mine===set) load(i); }, j<20?0:(j-20)*12); }); } }
-  function pick(i){ for(var d=0;d<N;d++){ var a=frames[i-d], b=frames[i+d]; if(a&&a._ok) return a; if(b&&b._ok) return b; } return null; }
-  function draw(i){ var im=pick(i); if(!im) return; var cw=fg.width, ch=fg.height, iw=im.naturalWidth, ih=im.naturalHeight, k=Math.max(cw/iw, ch/ih), w=iw*k, h=ih*k;
-    fx.drawImage(im,(cw-w)/2,(ch-h)/2,w,h); shown=i; }
+    var d=Math.min(window.devicePixelRatio||1,2), W=Math.max(1,Math.round(r.width*d)), H=Math.max(1,Math.round(r.height*d));
+    fg.width=W; fg.height=H; fxc.width=W; fxc.height=H; c2.imageSmoothingQuality='high'; shown=-1;
+    if(want!==set || force){ set=want; N=set.n; frames=new Array(N); mats=new Array(N); okCount=0; failCount=0; matFail=0;
+      var order=[]; for(var s=0;s<N;s+=8) order.push(s); order.push(N-1); for(var q=0;q<N;q+=2) if(order.indexOf(q)<0) order.push(q); for(var z=0;z<N;z++) if(order.indexOf(z)<0) order.push(z);
+      var mine=set; if(!motion){ load(N-1); } else { order.forEach(function(i,j){ setTimeout(function(){ if(mine===set) load(i); }, j<20?0:(j-20)*14); }); } }
+    place(); }
+  function ready(i){ var f=frames[i], m=mats[i]; return f && f._ok && m && (m._ok || m._bad); }
+  function pick(i){ for(var d=0;d<N;d++){ if(ready(i-d)) return i-d; if(ready(i+d)) return i+d; } return -1; }
+  function draw(i){ var j=pick(i); if(j<0) return; var im=frames[j], ma=mats[j], cw=fg.width, ch=fg.height, iw=im.naturalWidth, ih=im.naturalHeight,
+      k=Math.max(cw/iw, ch/ih), w=iw*k, h=ih*k, x=(cw-w)/2, y=(ch-h)/2;
+    c1.drawImage(im,x,y,w,h);
+    /* second layer: only what stands in front of the name (bag, nozzle, the top of the zefir) */
+    c2.globalCompositeOperation='source-over'; c2.clearRect(0,0,cw,ch);
+    if(ma._ok){ var mh=set.mh; c2.drawImage(ma,x,y,w,h*mh); c2.globalCompositeOperation='source-in'; c2.drawImage(im,0,0,iw,ih*mh,x,y,w,h*mh); c2.globalCompositeOperation='source-over'; }
+    shown=i; }
   function progress(){ var r=track.getBoundingClientRect(), total=r.height-window.innerHeight; return total>0 ? Math.min(1,Math.max(0,-r.top/total)) : 1; }
   var ticks=0;
   function tick(){
     target = motion ? progress() : 1;
     pos += (target-pos)*0.16; if(Math.abs(target-pos)<0.0005) pos=target;
     var i=Math.round(pos*(N-1)); if(i!==shown) draw(i);
+    stage.style.setProperty('--p', pos.toFixed(3));
     says.forEach(function(s){ s.classList.toggle('off', !(pos>=+s.dataset.from && pos<+s.dataset.to)); });
-    hint.classList.toggle('off', pos>0.03); dot.style.top=(pos*100)+'%';
-    if((ticks++ % 15)===0){ diag.textContent='v4 · '+(set===SETS.wide?'wide':'tall')+' · кадры '+okCount+'/'+N+(failCount?' · ошибок '+failCount:'')+' · прокрутка '+Math.round(pos*100)+'% · движение '+(motion?'вкл':'выкл'+(sysReduce?' (настройка системы)':''))+(lastErr?' · '+lastErr.slice(0,60):''); }
+    cue.classList.toggle('off', pos>0.03); dot.style.top=(pos*100)+'%';
+    if(!diag.hidden && (ticks++ % 15)===0){ diag.textContent='v6 · '+(set===SETS.wide?'wide':'tall')+' · кадры '+okCount+'/'+N+(failCount?' · ошибок '+failCount:'')+(matFail?' · масок нет '+matFail:'')+' · прокрутка '+Math.round(pos*100)+'% · движение '+(motion?'вкл':'выкл'+(sysReduce?' (настройка системы)':''))+(lastErr?' · '+lastErr.slice(0,60):''); }
     requestAnimationFrame(tick);
   }
   applyMotion(); choose(true); window.addEventListener('resize', function(){ choose(false); });
-  [].forEach.call(document.querySelectorAll('.types button'), function(b){ b.addEventListener('click', function(){
-    root.setAttribute('data-type', b.dataset.t);
-    [].forEach.call(document.querySelectorAll('.types button'), function(x){ x.setAttribute('aria-pressed', x===b ? 'true':'false'); }); }); });
-  root.setAttribute('data-type','a');
+  function fontsIn(){ place(); root.classList.add('ready'); }
+  if(document.fonts && document.fonts.load){ document.fonts.load('italic 300 100px "Noto Serif Display"','Малина').then(fontsIn, fontsIn); setTimeout(fontsIn, 2500); } else { fontsIn(); }
   requestAnimationFrame(tick);
 })();
 </script>
