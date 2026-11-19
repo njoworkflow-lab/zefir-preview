@@ -227,7 +227,19 @@
   var wr=$('[data-writer]');
   if(wr){ var ta=$('#wta'), tx=$('#wtext'), nt=$('#wnote'), dflt=tx.textContent, tm;
     if(C.card){ ta.value=C.card; tx.textContent=C.card; }
-    ta.addEventListener('input',function(){ tx.textContent=ta.value.trim()||dflt; nt.classList.add('lift'); clearTimeout(tm); tm=setTimeout(function(){ nt.classList.remove('lift'); },500); });
+    /* lay the note on the card in the photograph: a homography from the note's rectangle to the card's four corners */
+    var sc=nt.closest('[data-card]');
+    if(sc){ var q=sc.dataset.card.split(',').map(function(p){ return p.trim().split(/\s+/).map(Number); });
+      var fit=function(){ var W=sc.clientWidth, H=sc.clientHeight, w=nt.offsetWidth, h=nt.offsetHeight; if(!W||!w) return;
+        var s=[[0,0],[w,0],[w,h],[0,h]], M=[], i, k, r, c;
+        for(i=0;i<4;i++){ var x=s[i][0], y=s[i][1], X=q[i][0]/100*W, Y=q[i][1]/100*H; M.push([x,y,1,0,0,0,-x*X,-y*X,X]); M.push([0,0,0,x,y,1,-x*Y,-y*Y,Y]); }
+        for(c=0;c<8;c++){ var pv=c; for(r=c+1;r<8;r++) if(Math.abs(M[r][c])>Math.abs(M[pv][c])) pv=r; var tmp=M[c]; M[c]=M[pv]; M[pv]=tmp;
+          for(r=0;r<8;r++) if(r!==c){ var f=M[r][c]/M[c][c]; for(k=c;k<9;k++) M[r][k]-=f*M[c][k]; } }
+        var g=M.map(function(row,n){ return row[8]/row[n]; });
+        nt.style.transform='matrix3d('+[g[0],g[3],0,g[6], g[1],g[4],0,g[7], 0,0,1,0, g[2],g[5],0,1].join(',')+')'; nt.classList.add('fit'); };
+      fit(); addEventListener('resize',fit); if('ResizeObserver' in window) new ResizeObserver(fit).observe(sc); }
+    var size=function(){ var n=tx.textContent.length; tx.style.fontSize=(n<=44?31:n<=80?26:n<=120?22:19)+'px'; }; size();
+    ta.addEventListener('input',function(){ tx.textContent=ta.value.trim()||dflt; size(); nt.classList.add('lift'); clearTimeout(tm); tm=setTimeout(function(){ nt.classList.remove('lift'); },500); });
     $('#wsave').addEventListener('click',function(){ if(!ta.value.trim()){ ta.focus(); $('#wok').textContent='Напишите пару слов'; return; } C.card=ta.value.trim(); save(); $('#wok').textContent='Открытка будет в заказе ✓'; }); }
 
   /* ---------- laptop: a box card leans toward the pointer, as if picked up ---------- */

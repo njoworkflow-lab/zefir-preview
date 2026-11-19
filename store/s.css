@@ -827,3 +827,28 @@ button,input,select,textarea{font:inherit;color:inherit}
 @media (min-width:900px){.unwrapsec{grid-template-columns:1.3fr 1fr}}
 
 @media (min-width:900px){.boxband .chips{flex-wrap:wrap;overflow:visible}}
+
+/* the card writer on the photograph: the words are laid on the blank card in perspective (s.js fits the note to
+   the card's four corners, given in data-card as percentages of the picture) */
+.writer2 .scene.photo{aspect-ratio:2304/1720;display:block;background:#cbb7b1;border-radius:var(--r-xl)}
+.writer2 .scene.photo>img{position:absolute;inset:0;width:100%;height:100%;box-shadow:none;border-radius:0}
+.writer2 .scene.photo .note{left:0;top:0;width:340px;height:238px;aspect-ratio:auto;transform-origin:0 0;transform:none;background:none;box-shadow:none;border-radius:0;padding:26px 30px 22px;display:grid;align-content:center;gap:10px;mix-blend-mode:multiply;transition:opacity .35s;opacity:0}
+.writer2 .scene.photo .note.fit{opacity:.92}
+.writer2 .scene.photo .note.fit.lift{opacity:.5}
+.writer2 .scene.photo .note::before{display:none}
+.writer2 .scene.photo .note p{font:italic 300 31px/1.28 var(--serif);color:#4a1026;min-height:0}
+.writer2 .scene.photo .note small{font:400 10px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(74,16,38,.55)}
+
+/* the hall photograph (19 Nov): one picture for every screen; the whole group stays in frame */
+.hallpic img{aspect-ratio:4/3;object-position:50% 52%}
+.bg-hall{background-image:url(img/hall.webp)}
+.band .pic.bg-hall{aspect-ratio:4/3;background-position:50% 52%}
+@media (min-width:900px){.hallpic img{aspect-ratio:16/10.6}.band .pic.bg-hall{aspect-ratio:auto;min-height:520px}}
+/* (the band's own background rule is stronger than a single class: name the pictures with the band) */
+.band .pic.bg-hall{background-image:url(img/hall.webp)}
+.band .pic.bg-corp{background-image:url(img/corp-45.webp)}
+@media (min-width:900px){.band .pic.bg-corp{background-image:url(img/corp.webp)}}
+/* the hall and company photographs keep their own 4:3 shape inside the band, centred, so the whole group of boxes shows */
+.band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:4/3;min-height:0;align-self:center;background-position:50% 50%}
+@media (min-width:900px){.band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:4/3;min-height:0}.band .pic.bg-corp{background-image:url(img/corp.webp)}}
+.band .pic.bg-corp{background-image:url(img/corp.webp)}
