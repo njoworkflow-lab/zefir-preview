@@ -763,3 +763,15 @@ button,input,select,textarea{font:inherit;color:inherit}
 .lpause[aria-pressed="true"] i:last-child{display:none}
 .film.loop::before{background:radial-gradient(ellipse 70% 60% at center,rgba(40,10,20,.62),rgba(40,10,20,.34) 75%)}
 .film .quote,.film .small{text-shadow:0 1px 3px rgba(30,6,14,.5),0 2px 24px rgba(30,6,14,.55)}
+
+
+/* ---- design recheck, 19 Nov night ---- */
+/* the product page lives in its flavour's world: the ground fades from the flavour's tint to paper; no box paper round the gallery */
+.gal{background:transparent;border-radius:0;padding:0;overflow:visible}
+.gal .main{margin:0;border-radius:22px;box-shadow:0 30px 60px -34px rgba(74,16,38,.45)}
+.gal .th{padding:2px}
+.gal .th button{border-radius:12px}
+.whenline:empty{display:none}
+.mini{background:rgba(255,255,255,.55)}
+/* catalogue: the four names share a height so prices and buttons line up */
+@media (min-width:1000px){.vname{min-height:2.05em;display:flex;align-items:flex-end}.vline{min-height:3.2em}}

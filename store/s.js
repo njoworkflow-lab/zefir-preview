@@ -255,7 +255,7 @@
   function verdictOf(w){ if(!w||!w.date) return null; var t=new Date(w.date+'T12:00:00'), e=est(w.city||''), now=new Date(), span=Math.ceil((e.b-now)/864e5), by=new Date(t); by.setDate(by.getDate()-span);
     return {t:t,by:by,late:by<new Date(now.toDateString()),e:e}; }
   function whenText(w,v){ var where=v.e.known?' в '+v.e.city:''; return v.late ? 'К '+dmy(v.t)+where+' можем не успеть — выберите дату позже' : 'Подарок к '+dmy(v.t)+where+': закажите до '+dmy(v.by); }
-  function annWhen(){ var w=whenGet(), v=verdictOf(w); if(!v) return; $$('.ann').forEach(function(a){ a.innerHTML='<b>'+whenText(w,v)+'</b> · <a href="index.html#podarok">изменить</a>'; });
+  function annWhen(){ var w=whenGet(), v=verdictOf(w); if(!v){ var e0=est(localStorage.getItem('zs-city')||''); $$('[data-when-line]').forEach(function(el){ el.innerHTML='Доставка '+(e0.known?'в\u00a0'+e0.city:'по\u00a0России')+': от\u00a0'+rub(e0.pvz)+', '+e0.when+' · <a class="link" style="font-size:inherit;font-weight:400" href="index.html#podarok">нужно к\u00a0дате?</a>'; }); return; } $$('.ann').forEach(function(a){ a.innerHTML='<b>'+whenText(w,v)+'</b> · <a href="index.html#podarok">изменить</a>'; });
     $$('[data-when-line]').forEach(function(el){ el.innerHTML=whenText(w,v)+' · пункт выдачи от '+rub(v.e.pvz)+' · <a class="link" style="font-size:inherit;font-weight:400" href="index.html#podarok">изменить</a>'; }); }
   var pl=$('[data-when]');
   if(pl){ var wd=$('#wdate'), wc=$('#wcity'), vr=$('#verdict'), w0=whenGet()||{};
