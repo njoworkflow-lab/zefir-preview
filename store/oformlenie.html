@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Оформление заказа — Зефирная симфония</title>
 <meta name="description" content="Оформление заказа.">
-<link rel="stylesheet" href="s.css?v=2c2ff3e5">
+<link rel="stylesheet" href="s.css?v=348f1dc2">
 </head>
 <body>
 <p class="ann">Доставка по всей России · три коробки — «Ассорти» в подарок · <a href="akcii.html">подробнее</a></p>
@@ -83,7 +83,7 @@
   <div class="body"></div>
   <div class="foot" hidden><div class="sum"><span>Итого без доставки</span><b>0 ₽</b></div><a class="btn buy full" href="oformlenie.html">Оформить заказ</a><p class="small centre">Оплата картой, СБП или SberPay на странице банка</p></div>
 </aside>
-<script src="s.js?v=2c2ff3e5"></script>
+<script src="s.js?v=348f1dc2"></script>
 <script>
 (function(){
   var C=ZS.C, $=function(i){ return document.getElementById(i); }, city=$('d1');
@@ -106,7 +106,7 @@
   $('co').addEventListener('submit',function(e){ e.preventDefault(); var f=this;
     if(!ZS.paid()){ $('coerr').textContent='В корзине пока ничего нет.'; return; }
     if(!f.checkValidity()){ var bad=f.querySelector(':invalid'); $('coerr').textContent=(bad.type==='checkbox')?'Отметьте оба согласия, чтобы продолжить.':'Заполните поле «'+(f.querySelector('label[for="'+bad.id+'"]')||{}).textContent+'».'; bad.focus(); return; }
-    var c=calc(), o={n:1000+Math.floor(Math.random()*900), name:$('f2').value.trim(), email:$('f3').value.trim(), total:c.sub+c.del, when:c.e.when, gift:$('gift').checked, to:$('g1').value.trim(), boxes:ZS.paid(), lines:$('sumlines').innerHTML, giftline:ZS.paid()>=3};
+    var c=calc(), o={n:1000+Math.floor(Math.random()*900), name:$('f2').value.trim(), email:$('f3').value.trim(), total:c.sub+c.del, when:c.e.when, gift:$('gift').checked, to:$('g1').value.trim(), boxes:ZS.paid(), lines:$('sumlines').innerHTML, giftline:ZS.paid()>=3, city:$('d1').value.trim(), first:Object.keys(C.i)[0]||(C.m.length?'assorti':'malina')};
     try{ localStorage.setItem('zs-order',JSON.stringify(o)); }catch(x){} ZS.clear(); location.href='spasibo.html'; });
 })();
 </script>

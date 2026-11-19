@@ -71,8 +71,8 @@
     var b=$('#cart .body'), f=$('#cart .foot'); if(!b) return; var n=paid(), h='';
     if(!n){ b.innerHTML='<div class="empty"><img src="img/malina-box.webp" alt=""><p class="h3">В корзине пока пусто</p><p class="small">Девять зефиров в коробке, пять вкусов. Начните с&nbsp;малины: её берут чаще всего.</p><a class="btn" href="katalog.html">Выбрать вкус</a></div>'; f.hidden=true; return; }
     f.hidden=false;
-    var dots=[]; for(var k0 in C.i) for(var j0=0;j0<C.i[k0];j0++) dots.push(P[k0].c); C.m.forEach(function(){ dots.push('#E9C3C8'); }); if(n>=GIFT_FROM) dots.push('#C9A27A');
-    h+='<div class="head2"><span class="minibox" aria-hidden="true">'+[0,1,2,3,4,5,6,7,8].map(function(i){ return '<i'+(dots[i]?' class="f" style="background:'+dots[i]+'"':'')+'></i>'; }).join('')+'</span><div><p class="h3">'+boxes(n)+(n>=GIFT_FROM?' и подарок':'')+'</p><p class="small">'+(n>9?'и ещё '+(n-9)+' не поместились в рисунок':'Каждая коробка — девять зефиров')+'</p></div></div>';
+    var ims=[]; for(var k0 in C.i) for(var j0=0;j0<C.i[k0]&&ims.length<3;j0++) ims.push(k0); C.m.forEach(function(){ if(ims.length<3) ims.push('assorti'); });
+    h+='<div class="head2"><span class="cstack" aria-hidden="true">'+ims.reverse().map(function(k){ return '<img src="img/'+k+'-box.webp" alt="">'; }).join('')+'</span><div><p class="h3">'+boxes(n)+(n>=GIFT_FROM?' и «Ассорти» на бис':'')+'</p><p class="small">'+(n>=GIFT_FROM?'Четвёртая коробка — подарок, она уже в заказе':'Каждая коробка — девять зефиров, симфония')+'</p></div></div>';
     for(var k in C.i) h+=line(k,'img/'+k+'-box.webp',P[k].n,'9 шт · 360 г',C.i[k],rub(C.i[k]*PRICE));
     C.m.forEach(function(m,i){ h+=line('mix'+i,'img/assorti-box.webp','Своя коробка',mixtext(m),null,rub(OWN)+'<button class="rmv" type="button" data-q="-1">Убрать</button>'); });
     if(n>=GIFT_FROM) h+='<div class="line gift"><img src="img/assorti-box.webp" alt=""><div><p class="n">Ассорти, в&nbsp;подарок</p><p class="s">Положили сами: за&nbsp;три коробки</p></div><div class="p">0&nbsp;₽</div></div>';
@@ -234,5 +234,75 @@
     ph.addEventListener('pointermove',function(e){ var r=ph.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; ph.style.setProperty('--ry',(x*7).toFixed(2)+'deg'); ph.style.setProperty('--rx',(4-y*6).toFixed(2)+'deg'); });
     ph.addEventListener('pointerleave',function(){ ph.style.removeProperty('--ry'); ph.style.removeProperty('--rx'); }); }); }
 
-  render(); meters();
+
+  ZS.render=render;
+  var MON2=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  function dmy(d){ return d.getDate()+' '+MON2[d.getMonth()]; }
+
+  /* ---------- the quartet: tap a voice, it comes into focus and the page takes its colour ---------- */
+  var qs=$('.quartet');
+  if(qs){ var POS={klubnika:18,yabloko:40,malina:72,smorodina:92}, LINES={yabloko:'Тёплый, пряный, домашний: на яблочном пюре с молотой корицей.',klubnika:'Бархатный и по-настоящему ягодный, с мягкой сладостью.',malina:'Тает, а потом приходит яркая ягодная нота, как от малины прямо с куста.',smorodina:'Глубокий ягодный вкус и сиреневый цвет, который дают сами ягоды.'};
+    function voice(f,fromScale){ qs.dataset.voice=f; qs.style.setProperty('--qg','var(--g-'+f+')'); qs.style.setProperty('--qd','var(--d-'+f+')');
+      $$('.qi',qs).forEach(function(i){ i.classList.toggle('on',i.dataset.f===f); }); $$('.qt',qs).forEach(function(t){ t.setAttribute('aria-selected',String(t.dataset.f===f)); });
+      $('#qname').textContent=P[f].n; $('#qtaste').textContent=P[f].t; $('#qline').textContent=LINES[f]; $('#qlink').href=f+'.html';
+      var ad=$('#qadd'); ad.dataset.id=f; $('[data-add]',ad).dataset.add=f; if(!fromScale) $('#qscale').value=POS[f]; render(); }
+    $('.qtabs',qs).addEventListener('click',function(e){ var t=e.target.closest('.qt'); if(t) voice(t.dataset.f); });
+    $('#qscale').addEventListener('input',function(){ var v=+this.value, best='malina', d=999; for(var k in POS){ if(Math.abs(POS[k]-v)<d){ d=Math.abs(POS[k]-v); best=k; } } if(best!==qs.dataset.voice) voice(best,true); });
+    voice('malina'); }
+
+  /* ---------- «когда вручить»: the day and the city decide the order-by date; it follows the visitor ---------- */
+  function whenGet(){ try{ return JSON.parse(localStorage.getItem('zs-when')||'null'); }catch(e){ return null; } }
+  function verdictOf(w){ if(!w||!w.date) return null; var t=new Date(w.date+'T12:00:00'), e=est(w.city||''), now=new Date(), span=Math.ceil((e.b-now)/864e5), by=new Date(t); by.setDate(by.getDate()-span);
+    return {t:t,by:by,late:by<new Date(now.toDateString()),e:e}; }
+  function whenText(w,v){ var where=v.e.known?' в '+v.e.city:''; return v.late ? 'К '+dmy(v.t)+where+' можем не успеть — выберите дату позже' : 'Подарок к '+dmy(v.t)+where+': закажите до '+dmy(v.by); }
+  function annWhen(){ var w=whenGet(), v=verdictOf(w); if(!v) return; $$('.ann').forEach(function(a){ a.innerHTML='<b>'+whenText(w,v)+'</b> · <a href="index.html#podarok">изменить</a>'; });
+    $$('[data-when-line]').forEach(function(el){ el.innerHTML=whenText(w,v)+' · пункт выдачи от '+rub(v.e.pvz)+' · <a class="link" style="font-size:inherit;font-weight:400" href="index.html#podarok">изменить</a>'; }); }
+  var pl=$('[data-when]');
+  if(pl){ var wd=$('#wdate'), wc=$('#wcity'), vr=$('#verdict'), w0=whenGet()||{};
+    function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+    var today=new Date(); wd.min=iso(today); if(w0.date) wd.value=w0.date; wc.value=w0.city||localStorage.getItem('zs-city')||'';
+    function go(){ var w={date:wd.value,city:wc.value.trim()}; if(w.city) try{ localStorage.setItem('zs-city',w.city); }catch(x){}
+      var v=verdictOf(w); if(!v){ vr.innerHTML='<span class="small">Выберите день — и мы скажем, до какого числа заказать.</span>'; return; }
+      try{ localStorage.setItem('zs-when',JSON.stringify(w)); }catch(x){}
+      vr.innerHTML = v.late ? '<b class="no">Можем не успеть</b><span class="small">К '+dmy(v.t)+' посылка'+(v.e.known?' в '+v.e.city:'')+' может не доехать: мы передаём заказ в СДЭК в течение пяти дней. Выберите дату позже.</span>'
+        : '<b>Закажите до '+dmy(v.by)+'</b><span class="small">Привезём к '+dmy(v.t)+(v.e.known?' в '+v.e.city:'')+' · пункт выдачи СДЭК от '+rub(v.e.pvz)+', курьер от '+rub(v.e.cur)+'</span>';
+      annWhen(); document.dispatchEvent(new CustomEvent('zs:city')); }
+    $('#occ').addEventListener('click',function(e){ var b=e.target.closest('[data-occ]'); if(!b) return; $$('#occ .chip').forEach(function(c){ c.setAttribute('aria-pressed',String(c===b)); });
+      var y=today.getFullYear(), d; if(b.dataset.occ==='ny') d=new Date(y,11,31); else if(b.dataset.occ==='m8'){ d=new Date(y,2,8); if(d<today) d=new Date(y+1,2,8); } else if(b.dataset.occ==='any'){ d=new Date(today); d.setDate(d.getDate()+14); } else { wd.focus(); if(wd.showPicker) try{ wd.showPicker(); }catch(x){} return; }
+      wd.value=iso(d); go(); });
+    wd.addEventListener('change',go); wc.addEventListener('input',go); go(); }
+  annWhen();
+
+  /* ---------- the encore stack: three boxes from your cart, then «Ассорти» lands on top ---------- */
+  function stacks(){ var n=paid(), order=[]; for(var k in C.i) for(var j=0;j<C.i[k];j++) order.push(k); C.m.forEach(function(){ order.push('assorti'); });
+    $$('[data-stack]').forEach(function(st){ var sb=$$('.sb',st); for(var i=0;i<3;i++){ sb[i].classList.toggle('f',n>i); if(order[i]) sb[i].src='img/'+order[i]+'-box.webp'; } sb[3].classList.toggle('f',n>=GIFT_FROM);
+      var t=$('[data-mt]',st.parentNode); if(t) t.textContent = n>=GIFT_FROM ? '«Ассорти» уже лежит в вашей корзине' : 'У вас '+n+' из 3'; }); }
+  document.addEventListener('zs:cart',stacks);
+
+  /* ---------- unwrap by hand: drag the sleeve (or use the arrow keys) ---------- */
+  $$('[data-unwrap]').forEach(function(u){ var uw=$('.uw',u), rg=$('input[type=range]',u), closing=u.hasAttribute('data-close'), k=closing?1:0, x0=0, k0=0, down=false, done=false;
+    function setK(v){ k=Math.max(0,Math.min(1,v)); u.style.setProperty('--k',k.toFixed(3)); rg.value=Math.round(k*100); if(closing&&k<.04&&!done){ done=true; document.dispatchEvent(new CustomEvent('zs:closed')); if(navigator.vibrate&&!RM) try{ navigator.vibrate(12); }catch(e){} } }
+    setK(k);
+    u.addEventListener('pointerdown',function(e){ down=true; x0=e.clientX; k0=k; u.classList.add('drag'); u.setPointerCapture(e.pointerId); });
+    u.addEventListener('pointermove',function(e){ if(!down) return; setK(k0-(e.clientX-x0)/(uw.offsetWidth*.96)); });
+    function up(){ if(!down) return; down=false; u.classList.remove('drag'); setK(k>.5?1:0); }
+    u.addEventListener('pointerup',up); u.addEventListener('pointercancel',up);
+    rg.addEventListener('input',function(){ setK(this.value/100); }); });
+
+  /* ---------- catalogue: the inside of each voice, and compare two ---------- */
+  $$('.voice .inside').forEach(function(b){ b.addEventListener('click',function(){ var v=b.closest('.voice'), on=!v.classList.contains('inside'); v.classList.toggle('inside',on); b.setAttribute('aria-pressed',String(on)); }); });
+  var cb=$('#cmpbar');
+  if(cb&&window.CMP){ var sel=[];
+    document.addEventListener('change',function(e){ var c=e.target.closest('[data-cmp]'); if(!c) return; var f=c.dataset.cmp;
+      if(c.checked){ sel.push(f); if(sel.length>2){ var old=sel.shift(); var oc=$('[data-cmp="'+old+'"]'); if(oc) oc.checked=false; } } else sel=sel.filter(function(x){ return x!==f; });
+      cb.hidden=!sel.length; $('#cmpn').textContent = sel.length<2 ? 'Выберите ещё один вкус' : CMP[sel[0]].n+' и '+CMP[sel[1]].n; $('#cmpgo').disabled=sel.length<2; });
+    $('#cmpgo').addEventListener('click',function(){ var v=$('#cmpview'); v.hidden=false; v.innerHTML=sel.map(function(f){ var c=CMP[f]; return '<div class="c v-'+f+'"><img src="'+c.img+'" alt="'+c.n+' внутри"><b>'+c.n+'</b><p>'+c.line+'</p><p><b style="font:500 13px/1.3 var(--sans);color:var(--ink)">Состав:</b> '+c.ing+'</p><button class="btn buy" type="button" data-add="'+f+'">В корзину — 750 ₽</button></div>'; }).join(''); v.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); }); }
+
+  /* ---------- corporate: slide the number of people ---------- */
+  var ppl=$('#ppl');
+  if(ppl){ function crowd(){ var n=+ppl.value; $('#pplv').textContent=n; $('#ppls').textContent=rub(n*750)+' без доставки'; var b=$('#pplb'); b.innerHTML=new Array(Math.min(n,200)).fill('<i></i>').join('');
+      $('#pplp').textContent = n<=30 ? 'Можно оплатить на сайте: «Ассорти» в подарок к заказу от трёх коробок.' : 'От 30 коробок — по счёту, с менеджером. Скидки для компаний — по договорённости.'; }
+    ppl.addEventListener('input',crowd); crowd(); }
+
+  render(); meters(); stacks();
 })();

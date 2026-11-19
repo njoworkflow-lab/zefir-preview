@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Соберите свою коробку — Зефирная симфония</title>
 <meta name="description" content="Соберите коробку из девяти зефиров: малина, чёрная смородина, клубника, яблоко с корицей.">
-<link rel="stylesheet" href="s.css?v=2c2ff3e5">
+<link rel="stylesheet" href="s.css?v=348f1dc2">
 </head>
 <body>
 <p class="ann">Доставка по всей России · три коробки — «Ассорти» в подарок · <a href="akcii.html">подробнее</a></p>
@@ -21,12 +21,12 @@
   <div class="byo" style="padding:18px 0 70px">
     <div class="stage"><div class="bx"><div class="dr"><img src="img/drawer.webp" alt="Открытая коробка сверху"><canvas id="bc" role="img" aria-label="Ваша коробка: девять мест"></canvas></div></div></div>
     <div class="ctl">
-      <h1 class="h1 split">Соберите <i>свою</i> коробку</h1>
+      <h1 class="h1">Соберите свою коробку</h1>
       <p class="lead" style="font-size:17px">Девять мест — ваши вкусы. Хоть все малиновые, хоть по два каждого. Нажмите на зефир в коробке, чтобы убрать его.</p>
       <div class="count9"><span>Выбрано</span><b id="cn9" aria-live="polite">0 из 9</b></div>
       <div class="bar" style="margin-top:-6px"><i id="b9" style="width:0"></i></div>
       <div class="rows"><div class="r" data-f="0"><img src="img/malina-sq.webp" alt=""><p class="n">Малина<small>Яркая ягодная кислинка</small></p><div class="step"><button type="button" data-d="-1" aria-label="Убрать «Малина»">−</button><output>0</output><button type="button" data-d="1" aria-label="Добавить «Малина»">+</button></div></div><div class="r" data-f="1"><img src="img/smorodina-sq.webp" alt=""><p class="n">Чёрная смородина<small>Нежная, из спелых ягод</small></p><div class="step"><button type="button" data-d="-1" aria-label="Убрать «Чёрная смородина»">−</button><output>0</output><button type="button" data-d="1" aria-label="Добавить «Чёрная смородина»">+</button></div></div><div class="r" data-f="2"><img src="img/klubnika-sq.webp" alt=""><p class="n">Клубника<small>Мягкая ягодная сладость</small></p><div class="step"><button type="button" data-d="-1" aria-label="Убрать «Клубника»">−</button><output>0</output><button type="button" data-d="1" aria-label="Добавить «Клубника»">+</button></div></div><div class="r" data-f="3"><img src="img/yabloko-sq.webp" alt=""><p class="n">Яблоко с корицей<small>Тепло и пряность</small></p><div class="step"><button type="button" data-d="-1" aria-label="Убрать «Яблоко с корицей»">−</button><output>0</output><button type="button" data-d="1" aria-label="Добавить «Яблоко с корицей»">+</button></div></div></div>
-      <div style="display:flex;gap:22px"><button class="link" type="button" id="rnd">Заполнить случайно</button><button class="link" type="button" id="clr">Очистить</button></div>
+      <div class="chips presets" id="presets" role="group" aria-label="Готовые сочетания"><button class="chip" type="button" data-preset="as">Как «Ассорти»</button><button class="chip" type="button" data-preset="half">Малина и клубника</button><button class="chip" type="button" data-preset="mono">Всё малина</button><button class="chip" type="button" id="rnd">Случайно</button><button class="chip" type="button" id="clr">Очистить</button></div>
       <p class="price" data-example>750 ₽<small>9 шт · 360 г</small></p>
       <button class="btn buy full" type="button" id="byoadd" disabled>Добавьте ещё 9</button>
       <div class="mini"><div data-prog><p class="pt"></p><div class="bar"><i></i></div></div></div>
@@ -60,7 +60,7 @@
   <div class="body"></div>
   <div class="foot" hidden><div class="sum"><span>Итого без доставки</span><b>0 ₽</b></div><a class="btn buy full" href="oformlenie.html">Оформить заказ</a><p class="small centre">Оплата картой, СБП или SberPay на странице банка</p></div>
 </aside>
-<script src="s.js?v=2c2ff3e5"></script>
+<script src="s.js?v=348f1dc2"></script>
 <script>
 (function(){
   var cv=document.getElementById('bc'), cx=cv.getContext('2d'), FL=ZS.FL, slots=[null,null,null,null,null,null,null,null,null], t0=[], wim={}, busy=true;
@@ -78,7 +78,7 @@
   function n(){ return slots.filter(function(s){ return s!==null; }).length; }
   function ui(){ var k=n(); document.getElementById('cn9').textContent=k+' из 9'; document.getElementById('b9').style.width=(k/9*100)+'%';
     [].forEach.call(document.querySelectorAll('.rows .r'),function(r){ var f=+r.dataset.f; r.querySelector('output').textContent=slots.filter(function(s){ return s===f; }).length; });
-    btn.disabled=k<9; btn.textContent=k<9?'Добавьте ещё '+(9-k):'В корзину — 750 ₽'; busy=true; }
+    btn.disabled=k<9&&!(lastMix&&k===0); btn.textContent=(lastMix&&k===0)?'Ещё такую же — 750 ₽':(k<9?'Добавьте ещё '+(9-k):'В корзину — 750 ₽'); busy=true; }
   function put(f){ var i=slots.indexOf(null); if(i<0) return; slots[i]=f; t0[i]=performance.now(); ui(); }
   function take(f){ for(var i=8;i>=0;i--) if(slots[i]===f){ slots[i]=null; ui(); return; } }
   document.querySelector('.rows').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; var f=+b.closest('.r').dataset.f; if(+b.dataset.d>0) put(f); else take(f); });
@@ -86,7 +86,10 @@
     for(var i=0;i<9;i++){ var g=cell(i); if(x>=g[0]&&x<g[0]+g[2]&&y>=g[1]&&y<g[1]+g[3]){ slots[i]=null; ui(); } } });
   document.getElementById('rnd').addEventListener('click',function(){ for(var i=0;i<9;i++) if(slots[i]===null){ slots[i]=Math.floor(Math.random()*4); t0[i]=performance.now()+i*60; } ui(); });
   document.getElementById('clr').addEventListener('click',function(){ slots=slots.map(function(){ return null; }); ui(); });
-  btn.addEventListener('click',function(){ if(n()<9) return; var m=[0,0,0,0]; slots.forEach(function(s){ m[s]++; }); ZS.addMix(m); slots=slots.map(function(){ return null; }); ui(); ZS.openCart(); });
+  var PRE={as:[0,0,0,2,2,1,1,3,3],half:[0,0,0,0,0,2,2,2,2],mono:[0,0,0,0,0,0,0,0,0]};
+  document.getElementById('presets').addEventListener('click',function(e){ var c=e.target.closest('[data-preset]'); if(!c) return; var now=performance.now(); PRE[c.dataset.preset].forEach(function(f,i){ slots[i]=f; t0[i]=now+i*70; }); ui(); });
+  var lastMix=null;
+  btn.addEventListener('click',function(){ if(lastMix&&n()===0){ ZS.addMix(lastMix.slice()); ZS.openCart(); return; } if(n()<9) return; var m=[0,0,0,0]; slots.forEach(function(s){ m[s]++; }); ZS.addMix(m); lastMix=m; slots=slots.map(function(){ return null; }); ui(); btn.disabled=false; btn.textContent='Ещё такую же — 750 ₽'; ZS.openCart(); });
   addEventListener('resize',function(){ busy=true; }); ui();
 })();
 </script>
