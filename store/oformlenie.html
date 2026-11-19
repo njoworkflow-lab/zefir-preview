@@ -25,7 +25,7 @@
       <div class="tot"><span>Итого</span><b id="s3"></b></div></aside>
     <form id="co" novalidate style="display:grid;gap:34px">
       <h1 class="h1" style="font-size:clamp(30px,7vw,40px)">Оформление заказа</h1>
-      <fieldset class="fs"><legend>Покупатель</legend>
+      <fieldset class="fs"><legend><span class="num">1</span>Покупатель</legend>
         <div class="fld"><label for="f1">Телефон</label><input id="f1" type="tel" required autocomplete="tel" placeholder="+7"></div>
         <div class="two"><div class="fld"><label for="f2">Имя</label><input id="f2" required autocomplete="given-name"></div><div class="fld"><label for="f3">Эл. почта — для чека и трек-номера</label><input id="f3" type="email" required autocomplete="email"></div></div>
         <label class="chk"><input type="checkbox" id="gift"><span><b style="font-weight:500">Это подарок</b> — подпишем открытку и не положим чек с ценой</span></label>
@@ -34,14 +34,14 @@
           <div class="fld"><label for="g3">Текст открытки</label><textarea id="g3" maxlength="200" placeholder="Напишем от руки"></textarea></div>
         </div>
       </fieldset>
-      <fieldset class="fs"><legend>Доставка</legend>
+      <fieldset class="fs"><legend><span class="num">2</span>Доставка</legend>
         <div class="fld"><label for="d1">Город</label><input id="d1" required list="cities" autocomplete="address-level2"><datalist id="cities"><option>Москва</option><option>Санкт-Петербург</option><option>Пенза</option><option>Казань</option><option>Самара</option><option>Екатеринбург</option></datalist></div>
         <label class="opt"><input type="radio" name="dv" value="pvz" checked><div><b>Пункт выдачи СДЭК</b><br><span id="dv1"></span></div><b id="dp1"></b></label>
         <div id="pvzbox" class="fld"><label for="d2">Пункт выдачи</label><select id="d2" required data-example><option value="">Выберите пункт</option><option>ул. Ленина, 12 — ежедневно 9–21</option><option>пр. Победы, 48 — ежедневно 10–22</option><option>ул. Садовая, 5 — пн–сб 10–20</option></select><span class="small">В магазине здесь будет карта пунктов.</span></div>
         <label class="opt"><input type="radio" name="dv" value="cur"><div><b>Курьер до двери</b><br><span id="dv2"></span></div><b id="dp2"></b></label>
         <div id="curbox" hidden style="display:grid;gap:14px"><div class="fld"><label for="d3">Улица и дом</label><input id="d3" autocomplete="address-line1"></div><div class="two"><div class="fld"><label for="d4">Квартира или офис</label><input id="d4" autocomplete="address-line2"></div><div class="fld"><label for="d5">Комментарий курьеру</label><input id="d5"></div></div></div>
       </fieldset>
-      <fieldset class="fs"><legend>Оплата</legend>
+      <fieldset class="fs"><legend><span class="num">3</span>Оплата</legend>
         <label class="opt"><input type="radio" name="pay" checked><div><b>Картой онлайн</b><br><span>Мир, Visa, Mastercard</span></div></label>
         <label class="opt"><input type="radio" name="pay"><div><b>СБП</b><br><span>Через приложение вашего банка</span></div></label>
         <label class="opt"><input type="radio" name="pay"><div><b>SberPay</b></div></label>
