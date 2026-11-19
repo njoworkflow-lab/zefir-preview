@@ -197,5 +197,42 @@
       path.style.strokeDashoffset=(len*(1-p)).toFixed(1); var pt=base.getPointAtLength(len*p); dot.setAttribute('cx',pt.x.toFixed(1)); dot.setAttribute('cy',pt.y.toFixed(1));
       requestAnimationFrame(loop); })(); });
 
+
+  /* ---------- the piping thread: one line through the home, drawn by the scroll, a rosette at every section ---------- */
+  var hs=$('#hs'), th=$('#thread');
+  if(hs&&th){ var base=$('path.base',th), draw=$('path.draw',th), kg=$('.knots',th), L=1, knots=[], NS='http://www.w3.org/2000/svg';
+    function lay(){ var r=hs.getBoundingClientRect(), W=r.width, H=hs.scrollHeight, wide=innerWidth>=900, gx=wide?Math.max(30,(W-1240)/2+14):9, sw=wide?16:4;
+      th.setAttribute('width',W); th.setAttribute('height',H); th.setAttribute('viewBox','0 0 '+W+' '+H);
+      var pts=[[gx,0]]; $$('[data-knot]',hs).forEach(function(el,i){ var b=el.getBoundingClientRect(), y=b.top-r.top+(el.classList.contains('boxscene')||el.id==='dostavka'?40:24); pts.push([gx+(i%2?sw:-sw), y]); });
+      var d='M'+pts[0][0]+' '+pts[0][1];
+      for(var i=1;i<pts.length;i++){ var a=pts[i-1], b=pts[i], my=(a[1]+b[1])/2; d+=' C'+a[0]+' '+my+' '+b[0]+' '+my+' '+b[0]+' '+b[1]; }
+      base.setAttribute('d',d); draw.setAttribute('d',d); L=draw.getTotalLength(); draw.style.strokeDasharray=L; kg.innerHTML=''; knots=[];
+      pts.slice(1).forEach(function(q){ var u=document.createElementNS(NS,'use'); u.setAttribute('href','#ros'); u.setAttribute('x',q[0]-13); u.setAttribute('y',q[1]-13); u.setAttribute('width',26); u.setAttribute('height',26); u.setAttribute('class','knot'); u.style.color='#B97C85'; kg.appendChild(u); knots.push({el:u,y:q[1]}); }); }
+    lay(); addEventListener('resize',lay); setTimeout(lay,1500); addEventListener('load',lay);
+    (function loop(){ var r=hs.getBoundingClientRect(), y=innerHeight*.62-r.top, H=hs.scrollHeight;
+      var f=RM?1:Math.max(0,Math.min(1,y/H)); draw.style.strokeDashoffset=(L*(1-f)).toFixed(1);
+      knots.forEach(function(k){ k.el.classList.toggle('on', RM||k.y<y); }); requestAnimationFrame(loop); })(); }
+
+  /* ---------- the five notes: tap a note, its flavour steps forward ---------- */
+  $$('[data-note]').forEach(function(n){ n.addEventListener('click',function(){ var c=$('.card[data-card="'+n.dataset.note+'"]'); if(!c) return;
+    $$('.card.hl').forEach(function(x){ x.classList.remove('hl'); }); c.classList.add('hl'); c.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'}); setTimeout(function(){ c.classList.remove('hl'); },2600); }); });
+
+  /* ---------- the walk from the berry to the box: the scroll moves it sideways ---------- */
+  var wk=$('#put'), wt=$('#wtrack'), wp=$('#wprog');
+  if(wk&&wt&&!RM){ (function loop(){ var r=wk.getBoundingClientRect(), span=Math.max(1,r.height-innerHeight), p=Math.max(0,Math.min(1,-r.top/span)), max=Math.max(0,wt.scrollWidth-innerWidth+40);
+      wt.style.transform='translate3d('+(-p*max).toFixed(1)+'px,0,0)'; wp.style.width=(p*100).toFixed(1)+'%'; requestAnimationFrame(loop); })(); }
+
+  /* ---------- the card writer: your words appear on the card in the box ---------- */
+  var wr=$('[data-writer]');
+  if(wr){ var ta=$('#wta'), tx=$('#wtext'), nt=$('#wnote'), dflt=tx.textContent, tm;
+    if(C.card){ ta.value=C.card; tx.textContent=C.card; }
+    ta.addEventListener('input',function(){ tx.textContent=ta.value.trim()||dflt; nt.classList.add('lift'); clearTimeout(tm); tm=setTimeout(function(){ nt.classList.remove('lift'); },500); });
+    $('#wsave').addEventListener('click',function(){ if(!ta.value.trim()){ ta.focus(); $('#wok').textContent='Напишите пару слов'; return; } C.card=ta.value.trim(); save(); $('#wok').textContent='Открытка будет в заказе ✓'; }); }
+
+  /* ---------- laptop: a box card leans toward the pointer, as if picked up ---------- */
+  if(matchMedia('(hover:hover)').matches&&!RM){ $$('.card .ph').forEach(function(ph){
+    ph.addEventListener('pointermove',function(e){ var r=ph.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; ph.style.setProperty('--ry',(x*7).toFixed(2)+'deg'); ph.style.setProperty('--rx',(4-y*6).toFixed(2)+'deg'); });
+    ph.addEventListener('pointerleave',function(){ ph.style.removeProperty('--ry'); ph.style.removeProperty('--rx'); }); }); }
+
   render(); meters();
 })();

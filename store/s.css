@@ -464,3 +464,127 @@ button,input,select,textarea{font:inherit;color:inherit}
   .tile img{transform:none}
   .boxscene{height:auto}.boxscene .stk{position:static;height:auto;padding:60px 0}
 }
+
+/* ======================================================================
+   Pass 3: the box is the frame.
+   Everything is cut from the real packaging: its rose paper (img/paper.webp, from the sleeve),
+   its blind-embossed berry (img/berry-*.png, the die-line masks of the real artwork),
+   its champagne foil, and its die-cut window. A piping thread joins the home page from the intro to the footer.
+   ====================================================================== */
+:root{ --box:#D69B99; --box2:#C98C8C; --foil:linear-gradient(112deg,#F6E0CA 0%,#E2B996 26%,#FFF3E6 46%,#D6A983 64%,#F2D6BC 84%,#E4BF9E 100%); --cream:#FFF4EA }
+.foil{background:var(--foil);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+/* box paper, with the berry pressed into it: a light edge above, a shadow below, like the sleeve */
+.paper{position:relative;background:var(--box) url(img/paper.webp) 0 0/300px;color:var(--ink);isolation:isolate;overflow:hidden}
+.emb{position:absolute;pointer-events:none;z-index:0;background:rgba(255,236,232,.42);-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;filter:drop-shadow(-1px -1px 0 rgba(255,240,236,.35)) drop-shadow(1.5px 2px 1.5px rgba(110,40,55,.38))}
+.emb.c{--m:url(img/berry-corner.png);left:-2%;bottom:-3%;width:46%;aspect-ratio:640/481}
+.emb.e{--m:url(img/berry-edge.png);right:-1%;top:12%;height:66%;aspect-ratio:272/640}
+.emb.soft{background:rgba(255,236,232,.22)}
+.paper > :not(.emb){position:relative;z-index:1}
+
+/* product cards are little boxes: rose paper, a die-cut window, the name in foil under it */
+.card .ph{background:var(--box) url(img/paper.webp) 0 0/240px;aspect-ratio:4/5.2;border-radius:10px;padding:8% 8% 0;display:grid;grid-template-rows:1fr auto;box-shadow:0 1px 1px rgba(74,16,38,.08),0 18px 36px -22px rgba(74,16,38,.5)}
+.card .ph::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 0%,rgba(255,240,236,.28),transparent 60%);pointer-events:none;z-index:1}
+.card .win{position:relative;border-radius:8px;overflow:hidden;background:var(--rose);box-shadow:inset 0 0 0 1px rgba(90,26,44,.18),inset 0 3px 8px rgba(90,26,44,.35)}
+.card .win::after{content:"";position:absolute;inset:0;border-radius:8px;box-shadow:inset 0 2px 7px rgba(70,16,30,.4),inset 0 -1px 0 rgba(255,240,236,.35);pointer-events:none}
+.card .sl{height:100%}
+.card .lid{display:grid;place-items:center;height:clamp(44px,15%,64px);font:italic 400 clamp(15px,3.9vw,21px)/1.1 var(--serif);letter-spacing:.005em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px}
+.card .ph .emb.c{width:62%;left:-10%;bottom:-6%;opacity:.8}
+.card .dots{bottom:calc(clamp(44px,15%,64px) + 10px)}
+.card .add{bottom:calc(clamp(44px,15%,64px) + 8px);right:calc(8% + 8px)}
+.card .badge{left:calc(8% + 8px);top:calc(8% + 8px)}
+.card.arch .ph{border-radius:10px}
+.card .nm{font-size:18px}
+.card .pr b{font:300 21px/1 var(--serif);font-weight:300}
+@media (hover:hover){.card{perspective:900px}.card .ph{transform-style:preserve-3d;transition:transform .7s var(--ease),box-shadow .7s var(--ease)}
+  .card:hover .ph{transform:translateY(-6px) rotateX(var(--rx,4deg)) rotateY(var(--ry,0deg));box-shadow:0 1px 1px rgba(74,16,38,.08),0 34px 50px -24px rgba(74,16,38,.55)}}
+
+/* the five notes: five flavours on a five-line staff, the brand's symphony */
+.staff{position:relative;width:min(560px,100%);height:96px;margin:6px auto 0}
+.staff .ln{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--rose2) 12%,var(--rose2) 88%,transparent)}
+.staff .nt{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:0;padding:0;cursor:pointer;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.85),transparent 45%),var(--c);box-shadow:0 4px 10px -4px rgba(74,16,38,.5),inset 0 0 0 1px rgba(74,16,38,.12);transition:transform .5s var(--ease)}
+.staff .nt::after{content:"";position:absolute;right:2px;bottom:12px;width:1.5px;height:42px;background:var(--ink);opacity:.55;transform-origin:bottom}
+.staff .nt:hover,.staff .nt:focus-visible{transform:scale(1.18)}
+.staff .nt span{position:absolute;left:50%;top:38px;transform:translateX(-50%);font:400 12px/1.2 var(--sans);color:var(--ink2);white-space:nowrap;opacity:0;transition:opacity .3s}
+.staff .nt:hover span,.staff .nt:focus-visible span{opacity:1}
+.card.hl .ph{box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--ink),0 18px 36px -22px rgba(74,16,38,.5)}
+
+/* the piping thread: one line from the intro to the footer, drawn by the scroll */
+.home-shop{position:relative}
+.thread{position:absolute;left:0;top:0;width:100%;pointer-events:none;z-index:0;overflow:visible}
+.thread path.base{fill:none;stroke:var(--rose);stroke-width:1.4}
+.thread path.draw{fill:none;stroke:var(--rose2);stroke-width:2;stroke-linecap:round}
+.thread .knot{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.3);transition:opacity .6s var(--soft),transform .8s var(--ease)}
+.thread .knot.on{opacity:1;transform:none}
+.home-shop > section,.home-shop > nav{position:relative;z-index:1}
+
+/* from the berry to the box: a horizontal walk pinned for a screen and a half */
+.walk{position:relative;height:260vh;height:260svh}
+.walk .stk{position:sticky;top:64px;height:calc(100svh - 64px);overflow:hidden;display:grid;align-content:center;gap:24px}
+.walk .head{margin-bottom:0}
+.walk .track{display:flex;gap:18px;padding:0 var(--gx);will-change:transform}
+.walk .stn{flex:0 0 min(74vw,340px);display:grid;gap:12px;align-content:start}
+.walk .stn .fr{aspect-ratio:3/4;border-radius:999px 999px 18px 18px;overflow:hidden;background:var(--rose);box-shadow:var(--sh)}
+.walk .stn img{width:100%;height:100%;object-fit:cover}
+.walk .stn .num{font-size:22px}
+.walk .stn h3{font:400 22px/1.2 var(--serif)}
+.walk .stn p{font-size:15px;color:var(--ink2);max-width:32ch}
+.walk .prog{height:2px;margin:0 var(--gx);background:var(--line);border-radius:2px;overflow:hidden}.walk .prog i{display:block;height:100%;width:0;background:var(--ink)}
+@media (min-width:900px){.walk .stk{top:76px;height:calc(100vh - 76px)}.walk .track{padding-left:max(40px,calc((100vw - var(--max))/2 + 40px));gap:34px}.walk .stn{flex-basis:360px}.walk .prog{max-width:var(--max);margin:0 auto;width:calc(100% - 80px)}}
+
+/* the card writer: your words on a little card tucked into the box */
+.writer{display:grid;gap:26px;align-items:center;padding:40px 22px}
+.writer .scene{position:relative;aspect-ratio:1;max-width:460px;width:100%;margin:0 auto;border-radius:24px;background:url(img/ground.webp) center/cover;display:grid;place-items:center;overflow:hidden}
+.writer .scene img{width:72%;box-shadow:16px 20px 42px rgba(92,30,46,.3)}
+.writer .note{position:absolute;left:50%;top:52%;width:58%;aspect-ratio:1.45;transform:translate(-50%,-50%) rotate(-4deg);background:var(--cream);border-radius:3px;box-shadow:0 2px 3px rgba(74,16,38,.16),0 18px 30px -12px rgba(74,16,38,.45);padding:7% 8%;display:grid;align-content:center;gap:8px;transition:transform .8s var(--ease)}
+.writer .note::before{content:"";position:absolute;right:7%;top:9%;width:20%;aspect-ratio:640/481;background:var(--box);-webkit-mask:url(img/berry-corner.png) center/contain no-repeat;mask:url(img/berry-corner.png) center/contain no-repeat;opacity:.55}
+.writer .note p{font:italic 400 clamp(15px,4.2vw,21px)/1.35 var(--serif);color:var(--ink);word-break:break-word;min-height:2.7em}
+.writer .note small{font:400 11px/1 var(--sans);letter-spacing:.06em;color:var(--ink2)}
+.writer .note.lift{transform:translate(-50%,-56%) rotate(-1deg)}
+.writer textarea{width:100%;min-height:96px;padding:14px 18px;border:1px solid var(--rose2);border-radius:var(--r-sm);background:#fff;font:italic 400 18px/1.4 var(--serif);resize:vertical}
+.writer .ctl{display:grid;gap:14px;max-width:480px}
+@media (min-width:900px){.writer{grid-template-columns:1fr 1fr;padding:64px clamp(40px,6vw,90px)}}
+
+/* reviews as postcards, stamped in Penza */
+.revs .rev{background:var(--cream);border-radius:4px;position:relative;padding:30px 26px 24px;box-shadow:0 2px 3px rgba(74,16,38,.1),0 22px 40px -22px rgba(74,16,38,.45);transform:rotate(var(--r,-1.4deg));transition:transform .6s var(--ease)}
+.revs .rev:nth-child(2n){--r:1.2deg}.revs .rev:nth-child(3n){--r:-.6deg}
+.revs .rev:hover{transform:rotate(0) translateY(-4px)}
+.rev .pm{position:absolute;right:16px;top:14px;width:74px;height:74px;opacity:.7;transform:rotate(-12deg)}
+.rev .pm text{font:500 8.4px var(--sans);letter-spacing:.14em;fill:var(--wine2)}
+.rev .pm circle{fill:none;stroke:var(--wine2);stroke-width:1.1}
+.rev q{padding-right:52px}
+.rev q::before{content:none}
+.rev .who{border-top:1px dashed var(--rose2);padding-top:10px}
+
+/* the offer: four little boxes, the fourth tied with a gold ribbon when the third is in the cart */
+.meter i{border-radius:5px;background:rgba(255,245,239,.1)}
+.meter i.f{background:var(--box) url(img/paper.webp) 0 0/120px;box-shadow:0 8px 16px -8px rgba(0,0,0,.5)}
+.meter svg.bow{position:absolute;inset:-14px -10px -6px;width:calc(100% + 20px);height:calc(100% + 20px);overflow:visible}
+.meter svg.bow path{fill:none;stroke:url(#gold);stroke-width:4;stroke-linecap:round;stroke-dasharray:140;stroke-dashoffset:140;transition:stroke-dashoffset 1.2s var(--ease) .2s}
+.meter i.g.f svg.bow path{stroke-dashoffset:0}
+.meter i.g::before,.meter i.g::after{content:none}
+
+/* a rosette, the zefir seen from above, used as the thread's knots and the footer seal */
+.ros{width:28px;height:28px;color:var(--rose2)}
+.ft .seal{display:flex;justify-content:center;margin:-6px 0 22px}
+.ft .seal svg{width:54px;height:54px;color:var(--rose2)}
+.ft{background:var(--paper2) url(img/paper.webp) 0 0/300px;background-blend-mode:soft-light}
+
+/* the gallery sits in a box frame too */
+.gal .main{border-radius:12px;padding:0;outline:clamp(10px,3vw,22px) solid var(--box);outline-offset:-1px;margin:clamp(10px,3vw,22px);box-shadow:0 0 0 clamp(10px,3vw,22px) var(--box),0 30px 60px -30px rgba(74,16,38,.6)}
+.gal{background:var(--box) url(img/paper.webp) 0 0/300px;border-radius:18px;padding:0 0 14px;position:relative;overflow:hidden}
+.gal .main{margin:clamp(14px,4vw,28px) clamp(14px,4vw,28px) 0;outline:0;box-shadow:inset 0 0 0 1px rgba(90,26,44,.2),0 3px 10px rgba(70,16,30,.3)}
+.gal .th{padding:0 clamp(14px,4vw,28px)}
+.gal .lid{text-align:center;font:italic 400 clamp(20px,5vw,30px)/1 var(--serif);padding:14px 0 4px}
+@media (min-width:960px){.gal{grid-template-columns:1fr;}.gal .th{flex-direction:row;order:0}.gal .th button{width:64px;height:80px}}
+@media (prefers-reduced-motion:reduce){.walk{height:auto}.walk .stk{position:static;height:auto;padding:60px 0}.walk .track{overflow-x:auto;transform:none!important}.thread .knot{opacity:1;transform:none}}
+/* pass 3 fixes */
+.card .lid,.gal .lid{position:relative;z-index:2;display:block;text-align:center;line-height:clamp(44px,15%,64px);height:auto;filter:drop-shadow(0 1px 0 rgba(96,30,48,.45)) drop-shadow(0 0 6px rgba(120,40,60,.25))}
+.gal .lid{line-height:1.2;padding:16px 0 6px}
+.walk .stn{flex-basis:min(62vw,300px)}
+.walk .stn .fr{aspect-ratio:4/5;max-height:40svh}
+.walk .stk{gap:16px}
+@media (max-width:899px){.walk .head .lead{display:none}.walk .head{gap:8px}.walk .stn p{font-size:14px}}
+.writer .note{width:66%}
+.writer .note p{font-size:clamp(13px,3.5vw,19px);min-height:2.6em}
+.writer .note small{font-size:9.5px}
+@media (max-width:899px){.walk .stk{align-content:start;padding-top:22px}}
