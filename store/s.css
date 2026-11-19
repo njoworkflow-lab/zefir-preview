@@ -898,3 +898,7 @@ figure.wide img{width:100%;height:100%;object-fit:cover;display:block}
 .film.loop::before{background:linear-gradient(rgba(40,10,20,.46),rgba(40,10,20,.62))}
 /* «Соберите коробку» on a phone: an inset rounded picture like every other, not edge to edge */
 @media (max-width:959px){.byo .stage.photo{margin:0;border-radius:var(--r-xl)}.byo .stage.photo .bq{top:-9vw}}
+
+/* the builder's stage is the tray seen from straight above (19 Nov, third version): square on every screen */
+.byo .stage.photo{background:#cdb9b3}
+@media (max-width:959px){.byo .stage.photo{aspect-ratio:1/.86;height:auto;max-height:46svh;margin:0 auto;width:100%}.byo .stage.photo .bq{top:-7%;left:0;width:100%}}

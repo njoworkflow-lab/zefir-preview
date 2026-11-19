@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Соберите свою коробку — Зефирная симфония</title>
 <meta name="description" content="Соберите коробку из девяти зефиров: малина, чёрная смородина, клубника, яблоко с корицей.">
-<link rel="stylesheet" href="s.css?v=3b5ef534">
+<link rel="stylesheet" href="s.css?v=ffe31f7b">
 </head>
 <body>
 <p class="ann">Доставка по всей России · три коробки — «Ассорти» в подарок · <a href="akcii.html">подробнее</a></p>
@@ -19,7 +19,7 @@
 <div class="wrap">
   <p class="crumbs"><a href="index.html">Главная</a><span>/</span><a href="katalog.html">Каталог</a><span>/</span>Своя коробка</p>
   <div class="byo" style="padding:18px 0 70px">
-    <div class="stage photo"><div class="bq"><img src="img/byo-empty.webp" alt="Коробка «Зефирная симфония» выдвинута из футляра: девять свободных мест"><canvas id="bc" role="img" aria-label="Ваша коробка: девять мест"></canvas></div></div>
+    <div class="stage photo"><div class="bq"><img src="img/byo-empty.webp" alt="Коробка сверху: девять свободных мест"><canvas id="bc" role="img" aria-label="Ваша коробка: девять мест"></canvas></div></div>
     <div class="ctl">
       <h1 class="h1">Соберите свою коробку</h1>
       <p class="lead" style="font-size:17px">Девять мест — ваши вкусы. Хоть все малиновые, хоть по два каждого. Нажмите на зефир в коробке, чтобы убрать его.</p>
@@ -60,23 +60,23 @@
   <div class="body"></div>
   <div class="foot" hidden><div class="sum"><span>Итого без доставки</span><b>0 ₽</b></div><a class="btn buy full" href="oformlenie.html">Оформить заказ</a><p class="small centre">Оплата картой, СБП или SberPay на странице банка</p></div>
 </aside>
-<script src="s.js?v=3b5ef534"></script>
+<script src="s.js?v=ffe31f7b"></script>
 <script>
 (function(){
   var cv=document.getElementById('bc'), cx=cv.getContext('2d'), FL=ZS.FL, slots=[null,null,null,null,null,null,null,null,null], t0=[], wim={}, busy=true;
-  var B={"window": [[0.198, 0.111], [0.78, 0.182], [0.741, 0.765], [0.097, 0.686]], "places": [[0.262, 0.345], [0.455, 0.372], [0.648, 0.398], [0.247, 0.525], [0.44, 0.552], [0.635, 0.58], [0.232, 0.7], [0.425, 0.728], [0.62, 0.755]], "scale": [0.186, 0.186, 0.186, 0.195, 0.195, 0.195, 0.204, 0.204, 0.204], "foot": [0.5, 0.7], "wide": 0.66, "flavours": ["malina", "smorodina", "klubnika", "yabloko"]}, btn=document.getElementById('byoadd');
-  /* the pieces: nine cut-out photographs per flavour (a 3x3 sheet); each is laid on its place on the tray's floor */
+  var B={"cell": 260, "size": 1000, "places": [[0.2784, 0.2784], [0.4977, 0.2784], [0.717, 0.2784], [0.2784, 0.4977], [0.4977, 0.4977], [0.717, 0.4977], [0.2784, 0.717], [0.4977, 0.717], [0.717, 0.717]], "radius": 0.1096, "at": {"malina": [[148, 148], [368, 148], [587, 148], [148, 368], [368, 368], [587, 368], [148, 587], [368, 587], [587, 587]], "smorodina": [[148, 148], [368, 148], [587, 148], [148, 368], [368, 368], [587, 368], [148, 587], [368, 587], [587, 587]], "klubnika": [[148, 148], [368, 148], [587, 148], [148, 368], [368, 368], [587, 368], [148, 587], [368, 587], [587, 587]], "yabloko": [[148, 148], [368, 148], [587, 148], [148, 368], [368, 368], [587, 368], [148, 587], [368, 587], [587, 587]]}, "flavours": ["malina", "smorodina", "klubnika", "yabloko"]}, btn=document.getElementById('byoadd');
+  /* the pieces: every flavour is a photograph of the same tray from the same place; a piece is its own place of that
+     photograph, laid over the empty tray (sheet: nine places, 3x3; byo.json says where each goes) */
   FL.forEach(function(f){ var im=new Image(); im.onload=function(){ im._ok=1; busy=true; }; im.src='img/byo-'+f+'.webp'; wim[f]=im; });
   function draw(now){ var S=Math.round(cv.getBoundingClientRect().width*Math.min(devicePixelRatio||1,2)); if(!S) return; if(cv.width!==S){ cv.width=cv.height=S; }
-    cx.clearRect(0,0,S,S); cx.save(); cx.beginPath(); B.window.forEach(function(p,k){ cx[k?'lineTo':'moveTo'](p[0]*S,p[1]*S); }); cx.closePath(); cx.clip(); var any=false;
-    for(var i=0;i<9;i++){ var f=slots[i], px=B.places[i][0]*S, py=B.places[i][1]*S, pw=B.scale[i]*S;
-      if(f===null){ cx.save(); cx.translate(px,py-pw*.1); cx.scale(1,.62); cx.beginPath(); cx.arc(0,0,pw*.36,0,7); cx.setLineDash([S*.006,S*.009]); cx.lineWidth=Math.max(1,S*.002); cx.strokeStyle='rgba(74,16,38,.22)'; cx.stroke(); cx.restore(); continue; }
-      var im=wim[FL[f]], a=Math.max(0,Math.min(1,(now-(t0[i]||0))/420)); if(a<1) any=true; a=a*a*(3-2*a); if(!(im&&im._ok)) { any=true; continue; }
-      /* the soft shadow a piece throws on the tray's floor, away from the light */
-      cx.save(); cx.globalAlpha=a; cx.translate(px+pw*.1,py-pw*.02); cx.scale(1,.5); var g=cx.createRadialGradient(0,0,pw*.1,0,0,pw*.62); g.addColorStop(0,'rgba(74,16,38,.34)'); g.addColorStop(1,'rgba(74,16,38,0)'); cx.fillStyle=g; cx.beginPath(); cx.arc(0,0,pw*.62,0,7); cx.fill(); cx.restore();
-      var C=im.naturalWidth/3, w=pw/B.wide, x=px-w*B.foot[0], y=py-w*B.foot[1]-(1-a)*S*.035;
-      cx.globalAlpha=a; cx.drawImage(im,(i%3)*C,((i-i%3)/3)*C,C,C,x,y,w,w); cx.globalAlpha=1; }
-    cx.restore(); busy=any; }
+    cx.clearRect(0,0,S,S); var any=false, k=S/B.size, C=B.cell;
+    for(var i=0;i<9;i++){ var f=slots[i], px=B.places[i][0]*S, py=B.places[i][1]*S;
+      if(f===null){ cx.beginPath(); cx.arc(px,py,B.radius*S*.62,0,7); cx.setLineDash([S*.008,S*.012]); cx.lineWidth=Math.max(1,S*.0022); cx.strokeStyle='rgba(74,16,38,.2)'; cx.stroke(); cx.setLineDash([]); continue; }
+      var im=wim[FL[f]], at=B.at[FL[f]]&&B.at[FL[f]][i], a=Math.max(0,Math.min(1,(now-(t0[i]||0))/420)); if(a<1) any=true; a=a*a*(3-2*a);
+      if(!(im&&im._ok&&at)){ any=true; continue; }
+      var z=1+(1-a)*.06, w=C*k*z;
+      cx.globalAlpha=a; cx.drawImage(im,(i%3)*C,((i-i%3)/3)*C,C,C,at[0]*k-(w-C*k)/2,at[1]*k-(w-C*k)/2,w,w); cx.globalAlpha=1; }
+    busy=any; }
   (function loop(now){ if(busy) draw(now); requestAnimationFrame(loop); })(performance.now());
   function n(){ return slots.filter(function(s){ return s!==null; }).length; }
   function ui(){ var k=n(); document.getElementById('cn9').textContent=k+' из 9'; document.getElementById('b9').style.width=(k/9*100)+'%';
@@ -86,8 +86,8 @@
   function take(f){ for(var i=8;i>=0;i--) if(slots[i]===f){ slots[i]=null; ui(); return; } }
   document.querySelector('.rows').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; var f=+b.closest('.r').dataset.f; if(+b.dataset.d>0) put(f); else take(f); });
   cv.addEventListener('click',function(e){ var r=cv.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height, best=-1, d=1;
-    for(var i=0;i<9;i++){ var dx=x-B.places[i][0], dy=y-(B.places[i][1]-B.scale[i]*.3), q=Math.sqrt(dx*dx+dy*dy); if(q<d){ d=q; best=i; } }
-    if(best>=0&&d<.11&&slots[best]!==null){ slots[best]=null; ui(); } });
+    for(var i=0;i<9;i++){ var dx=x-B.places[i][0], dy=y-B.places[i][1], q=Math.sqrt(dx*dx+dy*dy); if(q<d){ d=q; best=i; } }
+    if(best>=0&&d<B.radius*1.15&&slots[best]!==null){ slots[best]=null; ui(); } });
   document.getElementById('rnd').addEventListener('click',function(){ for(var i=0;i<9;i++) if(slots[i]===null){ slots[i]=Math.floor(Math.random()*4); t0[i]=performance.now()+i*60; } ui(); });
   document.getElementById('clr').addEventListener('click',function(){ slots=slots.map(function(){ return null; }); ui(); });
   var PRE={as:[0,0,0,2,2,1,1,3,3],half:[0,0,0,0,0,2,2,2,2],mono:[0,0,0,0,0,0,0,0,0]};
