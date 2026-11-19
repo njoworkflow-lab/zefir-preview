@@ -254,13 +254,16 @@
 
   /* ---------- the quartet: tap a voice, it comes into focus and the page takes its colour ---------- */
   var qs=$('.quartet');
-  if(qs){ var POS={klubnika:18,yabloko:40,malina:72,smorodina:92}, LINES={yabloko:'Тёплый, пряный, домашний: на яблочном пюре с молотой корицей.',klubnika:'Бархатный и по-настоящему ягодный, с мягкой сладостью.',malina:'Тает, а потом приходит яркая ягодная нота, как от малины прямо с куста.',smorodina:'Глубокий ягодный вкус и сиреневый цвет, который дают сами ягоды.'};
+  if(qs){ var POS={klubnika:18,yabloko:40,malina:72,smorodina:92}, CX={klubnika:18.9,yabloko:39.6,malina:61.8,smorodina:82.5}, ORD=['klubnika','yabloko','malina','smorodina'], LINES={yabloko:'Тёплый, пряный, домашний: на яблочном пюре с молотой корицей.',klubnika:'Бархатный и по-настоящему ягодный, с мягкой сладостью.',malina:'Тает, а потом приходит яркая ягодная нота, как от малины прямо с куста.',smorodina:'Глубокий ягодный вкус и сиреневый цвет, который дают сами ягоды.'};
     function voice(f,fromScale){ qs.dataset.voice=f; qs.style.setProperty('--qg','var(--g-'+f+')'); qs.style.setProperty('--qd','var(--d-'+f+')');
-      $$('.qi',qs).forEach(function(i){ i.classList.toggle('on',i.dataset.f===f); }); $$('.qt',qs).forEach(function(t){ t.setAttribute('aria-selected',String(t.dataset.f===f)); });
+      if(!fromScale) qs.style.setProperty('--cx',CX[f]); $$('.qt',qs).forEach(function(t){ t.setAttribute('aria-selected',String(t.dataset.f===f)); });
       $('#qname').textContent=P[f].n; $('#qtaste').textContent=P[f].t; $('#qline').textContent=LINES[f]; $('#qlink').href=f+'.html';
       var ad=$('#qadd'); ad.dataset.id=f; $('[data-add]',ad).dataset.add=f; if(!fromScale) $('#qscale').value=POS[f]; render(); }
     $('.qtabs',qs).addEventListener('click',function(e){ var t=e.target.closest('.qt'); if(t) voice(t.dataset.f); });
-    $('#qscale').addEventListener('input',function(){ var v=+this.value, best='malina', d=999; for(var k in POS){ if(Math.abs(POS[k]-v)<d){ d=Math.abs(POS[k]-v); best=k; } } if(best!==qs.dataset.voice) voice(best,true); });
+    /* dragging the taste scale pans along the row; letting go settles on the nearest voice */
+    function pan(v){ var i, a, b, c=CX[ORD[0]]; if(v>=POS[ORD[3]]) c=CX[ORD[3]]; else for(i=0;i<3;i++){ a=ORD[i]; b=ORD[i+1]; if(v>=POS[a]&&v<=POS[b]){ c=CX[a]+(CX[b]-CX[a])*(v-POS[a])/(POS[b]-POS[a]); break; } } qs.style.setProperty('--cx',c.toFixed(2)); }
+    $('#qscale').addEventListener('input',function(){ var v=+this.value, best='malina', d=999; for(var k in POS){ if(Math.abs(POS[k]-v)<d){ d=Math.abs(POS[k]-v); best=k; } } qs.classList.add('pan'); pan(v); if(best!==qs.dataset.voice) voice(best,true); });
+    $('#qscale').addEventListener('change',function(){ qs.classList.remove('pan'); var f=qs.dataset.voice; this.value=POS[f]; qs.style.setProperty('--cx',CX[f]); });
     voice('malina'); }
 
   /* ---------- «когда вручить»: the day and the city decide the order-by date; it follows the visitor ---------- */

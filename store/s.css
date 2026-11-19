@@ -852,3 +852,11 @@ button,input,select,textarea{font:inherit;color:inherit}
 .band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:4/3;min-height:0;align-self:center;background-position:50% 50%}
 @media (min-width:900px){.band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:4/3;min-height:0}.band .pic.bg-corp{background-image:url(img/corp.webp)}}
 .band .pic.bg-corp{background-image:url(img/corp.webp)}
+
+/* the quartet as one photograph (19 Nov): four pieces in a row on one set; the view glides along the row to the
+   chosen voice, and follows the finger while the taste scale is dragged */
+.qwin{position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:22px;background:#b98a8f}
+.qrow{position:absolute;top:0;left:50%;height:100%;width:auto;max-width:none;transform:translate3d(calc(var(--cx,61.8) * -1%),0,0);transition:transform 1s var(--ease);will-change:transform}
+.quartet.pan .qrow{transition:transform .12s linear}
+@media (min-width:900px){.qwin{aspect-ratio:1/1.08}}
+.qrow{height:114%;top:-8%}
