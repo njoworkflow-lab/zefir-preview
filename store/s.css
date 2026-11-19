@@ -793,7 +793,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .tile .fr{border-radius:22px}
 
 /* design recheck 2: pictures that change crop with the screen; reviews without stamps; thank-you in the hall */
-.bg-hall{background-image:url(img/hall-45.webp)}.bg-corp{background-image:url(img/corp-45.webp)}
+.bg-hall{background-image:url(img/hall.webp)}.bg-corp{background-image:url(img/corp.webp)}
 .band .pic.bg-hall,.band .pic.bg-corp{min-height:0;aspect-ratio:4/5}
 @media (min-width:900px){.bg-hall{background-image:url(img/hall.webp)}.bg-corp{background-image:url(img/corp.webp)}.band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:auto;min-height:580px}}
 .rev .pm{display:none}.rev q{padding-right:0}
@@ -846,7 +846,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 @media (min-width:900px){.hallpic img{aspect-ratio:16/10.6}.band .pic.bg-hall{aspect-ratio:auto;min-height:520px}}
 /* (the band's own background rule is stronger than a single class: name the pictures with the band) */
 .band .pic.bg-hall{background-image:url(img/hall.webp)}
-.band .pic.bg-corp{background-image:url(img/corp-45.webp)}
+.band .pic.bg-corp{background-image:url(img/corp.webp)}
 @media (min-width:900px){.band .pic.bg-corp{background-image:url(img/corp.webp)}}
 /* the hall and company photographs keep their own 4:3 shape inside the band, centred, so the whole group of boxes shows */
 .band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:4/3;min-height:0;align-self:center;background-position:50% 50%}
@@ -890,3 +890,11 @@ figure.wide img{width:100%;height:100%;object-fit:cover;display:block}
 .qwin{touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
 .qwin:active{cursor:grabbing}
 .qrow{-webkit-user-drag:none;pointer-events:none}
+
+/* audit, 19 Nov */
+/* the box scene on a laptop: a larger picture, held in the middle of its screen */
+@media (min-width:900px){.boxscene .stk{align-content:center}.boxband{grid-template-columns:1.55fr 1fr;gap:60px;max-width:1340px;align-items:center}}
+/* the founder's words over the loop: a deeper veil so the white letters hold on light footage */
+.film.loop::before{background:linear-gradient(rgba(40,10,20,.46),rgba(40,10,20,.62))}
+/* «Соберите коробку» on a phone: an inset rounded picture like every other, not edge to edge */
+@media (max-width:959px){.byo .stage.photo{margin:0;border-radius:var(--r-xl)}.byo .stage.photo .bq{top:-9vw}}
