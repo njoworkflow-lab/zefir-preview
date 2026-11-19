@@ -264,6 +264,13 @@
     function pan(v){ var i, a, b, c=CX[ORD[0]]; if(v>=POS[ORD[3]]) c=CX[ORD[3]]; else for(i=0;i<3;i++){ a=ORD[i]; b=ORD[i+1]; if(v>=POS[a]&&v<=POS[b]){ c=CX[a]+(CX[b]-CX[a])*(v-POS[a])/(POS[b]-POS[a]); break; } } qs.style.setProperty('--cx',c.toFixed(2)); }
     $('#qscale').addEventListener('input',function(){ var v=+this.value, best='malina', d=999; for(var k in POS){ if(Math.abs(POS[k]-v)<d){ d=Math.abs(POS[k]-v); best=k; } } qs.classList.add('pan'); pan(v); if(best!==qs.dataset.voice) voice(best,true); });
     $('#qscale').addEventListener('change',function(){ qs.classList.remove('pan'); var f=qs.dataset.voice; this.value=POS[f]; qs.style.setProperty('--cx',CX[f]); });
+    var qw=$('.qwin',qs);
+    if(qw){ var qd=false, qx=0, qc=0, qmoved=false;
+      var nearest=function(c){ var best=ORD[0], d=999; ORD.forEach(function(k){ if(Math.abs(CX[k]-c)<d){ d=Math.abs(CX[k]-c); best=k; } }); return best; };
+      qw.addEventListener('pointerdown',function(e){ qd=true; qmoved=false; qx=e.clientX; qc=parseFloat(getComputedStyle(qs).getPropertyValue('--cx'))||CX[qs.dataset.voice]; qs.classList.add('pan'); qw.setPointerCapture(e.pointerId); });
+      qw.addEventListener('pointermove',function(e){ if(!qd) return; var dx=e.clientX-qx; if(Math.abs(dx)>6) qmoved=true; var row=$('.qrow',qw), c=Math.max(CX[ORD[0]],Math.min(CX[ORD[3]],qc-dx/row.offsetWidth*100)); qs.style.setProperty('--cx',c.toFixed(2)); var f=nearest(c); if(f!==qs.dataset.voice) voice(f,true); });
+      var qup=function(){ if(!qd) return; qd=false; qs.classList.remove('pan'); var f=qs.dataset.voice; $('#qscale').value=POS[f]; qs.style.setProperty('--cx',CX[f]); };
+      qw.addEventListener('pointerup',qup); qw.addEventListener('pointercancel',qup); }
     voice('malina'); }
 
   /* ---------- «когда вручить»: the day and the city decide the order-by date; it follows the visitor ---------- */
@@ -299,6 +306,8 @@
   $$('[data-unwrap]').forEach(function(u){ var uw=$('.take',u), rg=$('input[type=range]',u), closing=u.hasAttribute('data-close'), k=closing?1:0, x0=0, k0=0, down=false, done=false;
     function setK(v){ k=Math.max(0,Math.min(1,v)); uw.style.setProperty('--k',k.toFixed(3)); rg.value=Math.round((closing?1-k:k)*100); if(closing&&k<.04&&!done){ done=true; document.dispatchEvent(new CustomEvent('zs:closed')); if(navigator.vibrate&&!RM) try{ navigator.vibrate(12); }catch(e){} } }
     setK(k);
+    if(!closing&&!RM&&'IntersectionObserver' in window){ var hio=new IntersectionObserver(function(es){ if(!es[0].isIntersecting) return; hio.disconnect();
+      setTimeout(function(){ if(u.classList.contains('used')) return; setK(.22); setTimeout(function(){ if(!u.classList.contains('used')) setK(0); },900); },500); },{threshold:.6}); hio.observe(u); }
     u.addEventListener('pointerdown',function(e){ if(e.target===rg) return; down=true; x0=e.clientX; k0=k; u.classList.add('drag','used'); u.setPointerCapture(e.pointerId); });
     u.addEventListener('pointermove',function(e){ if(!down) return; setK(k0+(e.clientX-x0)/(uw.offsetWidth*.45)); });
     function up(){ if(!down) return; down=false; u.classList.remove('drag'); setK(k>.5?1:0); }
