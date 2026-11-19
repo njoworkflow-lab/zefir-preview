@@ -873,3 +873,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 .turn canvas{opacity:0}.turn.ready canvas{opacity:1}.turn.ready>img{opacity:0}
 .turn .grip{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:46px;height:46px;border-radius:50%;background:rgba(255,249,246,.92);display:grid;place-items:center;font:400 18px/1 var(--sans);color:var(--ink);box-shadow:0 8px 18px -8px rgba(74,16,38,.6);transition:opacity .4s;pointer-events:none}
 .turn.used .grip{opacity:0}
+
+/* «Соберите коробку» on the photograph of the real box (19 Nov): the empty tray, and a canvas of cut-out pieces over it */
+.byo .stage.photo{background:#cbb7b1;display:block;overflow:hidden;aspect-ratio:1}
+.byo .stage.photo .bq{position:absolute;left:0;top:0;width:100%;aspect-ratio:1}
+.byo .stage.photo .bq img,.byo .stage.photo .bq canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.byo .stage.photo canvas{cursor:pointer}
+@media (max-width:959px){.byo .stage.photo{aspect-ratio:auto;height:42svh}.byo .stage.photo .bq{width:100%;left:0;top:-8vw}}
