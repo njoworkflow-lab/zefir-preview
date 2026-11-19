@@ -239,7 +239,10 @@
         var g=M.map(function(row,n){ return row[8]/row[n]; });
         nt.style.transform='matrix3d('+[g[0],g[3],0,g[6], g[1],g[4],0,g[7], 0,0,1,0, g[2],g[5],0,1].join(',')+')'; nt.classList.add('fit'); };
       fit(); addEventListener('resize',fit); if('ResizeObserver' in window) new ResizeObserver(fit).observe(sc); }
-    var size=function(){ var n=tx.textContent.length; tx.style.fontSize=(n<=44?31:n<=80?26:n<=120?22:19)+'px'; }; size();
+    var size=function(){ var n=tx.textContent.length; tx.style.fontSize=(n<=44?46:n<=80?38:n<=120?32:27)+'px'; }; size();
+    /* the card answers the chosen occasion: its own words for New Year, 8 March, a birthday, or no reason at all (owner, 19 Nov evening) */
+    var OCC={ny:'С Новым годом! Пусть он будет тёплым и сладким.', m8:'С 8 Марта! Весны, цветов и нежности.', bd:'С днём рождения, мама! Пусть будет нежно.', any:'Просто так. Потому что ты есть.'};
+    document.addEventListener('zs:occ',function(e){ var m=OCC[e.detail]; if(!m) return; dflt=m; ta.placeholder=m; if(!ta.value.trim()){ nt.classList.add('lift'); setTimeout(function(){ tx.textContent=m; size(); nt.classList.remove('lift'); },260); } });
     ta.addEventListener('input',function(){ tx.textContent=ta.value.trim()||dflt; size(); nt.classList.add('lift'); clearTimeout(tm); tm=setTimeout(function(){ nt.classList.remove('lift'); },500); });
     $('#wsave').addEventListener('click',function(){ if(!ta.value.trim()){ ta.focus(); $('#wok').textContent='Напишите пару слов'; return; } C.card=ta.value.trim(); save(); $('#wok').textContent='Открытка будет в заказе ✓'; }); }
 
@@ -292,6 +295,7 @@
         : '<b>Закажите до '+dmy(v.by)+'</b><span class="small">Привезём к '+dmy(v.t)+(v.e.known?' в '+v.e.city:'')+' · пункт выдачи СДЭК от '+rub(v.e.pvz)+', курьер от '+rub(v.e.cur)+'</span>';
       annWhen(); document.dispatchEvent(new CustomEvent('zs:city')); }
     $('#occ').addEventListener('click',function(e){ var b=e.target.closest('[data-occ]'); if(!b) return; $$('#occ .chip').forEach(function(c){ c.setAttribute('aria-pressed',String(c===b)); });
+      document.dispatchEvent(new CustomEvent('zs:occ',{detail:b.dataset.occ}));
       var y=today.getFullYear(), d; if(b.dataset.occ==='ny') d=new Date(y,11,31); else if(b.dataset.occ==='m8'){ d=new Date(y,2,8); if(d<today) d=new Date(y+1,2,8); } else if(b.dataset.occ==='any'){ d=new Date(today); d.setDate(d.getDate()+14); } else { wd.focus(); if(wd.showPicker) try{ wd.showPicker(); }catch(x){} return; }
       wd.value=iso(d); go(); });
     wd.addEventListener('change',go); wc.addEventListener('input',go); go(); }
