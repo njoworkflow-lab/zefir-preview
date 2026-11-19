@@ -305,6 +305,18 @@
     u.addEventListener('pointerup',up); u.addEventListener('pointercancel',up);
     rg.addEventListener('input',function(){ setK(closing?1-this.value/100:this.value/100); }); });
 
+  /* ---------- the turning view: drag (or arrow keys on the hidden range) scrubs the frames of a clip ---------- */
+  $$('[data-turn]').forEach(function(u){ var n=+u.dataset.n, base=u.dataset.turn, cv=$('canvas',u), cx=cv.getContext('2d'), rg=$('input[type=range]',u), fr=[], cur=1, want=1, got=0, down=false, x0=0, f0=1, started=false;
+    function pad(i){ return String(i).padStart(3,'0'); }
+    function show(i){ i=Math.max(1,Math.min(n,Math.round(i))); want=i; var im=fr[i]; if(im&&im._ok){ cx.drawImage(im,0,0,cv.width,cv.height); cur=i; rg.value=i; u.classList.add('ready'); } }
+    function load(){ if(started) return; started=true; for(var i=1;i<=n;i++){ (function(i){ var im=new Image(); im.onload=function(){ im._ok=1; got++; if(i===want) show(i); if(got===n&&!RM&&!u.classList.contains('used')) hint(); }; im.src=base+pad(i)+'.webp'; fr[i]=im; })(i); } }
+    function hint(){ var t0=performance.now(); (function step(now){ if(u.classList.contains('used')) return; var p=Math.min(1,(now-t0)/2600), e=Math.sin(p*Math.PI); show(1+e*(n-1)*.45); if(p<1) requestAnimationFrame(step); })(t0); }
+    if('IntersectionObserver' in window){ var io=new IntersectionObserver(function(es){ if(es[0].isIntersecting){ load(); io.disconnect(); } },{rootMargin:'600px'}); io.observe(u); } else load();
+    u.addEventListener('pointerdown',function(e){ if(e.target===rg) return; load(); down=true; x0=e.clientX; f0=cur; u.classList.add('used'); u.setPointerCapture(e.pointerId); });
+    u.addEventListener('pointermove',function(e){ if(!down) return; show(f0+(e.clientX-x0)/u.offsetWidth*(n-1)*1.15); });
+    function up(){ down=false; } u.addEventListener('pointerup',up); u.addEventListener('pointercancel',up);
+    rg.addEventListener('input',function(){ load(); u.classList.add('used'); show(+this.value); }); });
+
   /* ---------- catalogue: the inside of each voice, and compare two ---------- */
   $$('.voice .inside').forEach(function(b){ b.addEventListener('click',function(){ var v=b.closest('.voice'), on=!v.classList.contains('inside'); v.classList.toggle('inside',on); b.setAttribute('aria-pressed',String(on)); }); });
   var cb=$('#cmpbar');
