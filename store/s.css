@@ -211,7 +211,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .boxscene{position:relative;height:210vh;height:210svh}
 .boxscene .stk{position:sticky;top:64px;height:calc(100vh - 64px);height:calc(100svh - 64px);display:grid;align-content:center;padding:10px 0}
 .boxband{display:grid;gap:18px;align-items:center;max-width:var(--max);margin:0 auto;padding:0 var(--gx)}
-.boxwrap{position:relative;background:url(img/ground.webp?v=953bb4b5) center/cover;border-radius:var(--r-xl);aspect-ratio:1;max-height:46svh;width:100%;margin:0 auto;display:grid;place-items:center;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(74,16,38,.05)}
+.boxwrap{position:relative;background:url(img/ground.webp?v=1cfca462) center/cover;border-radius:var(--r-xl);aspect-ratio:1;max-height:46svh;width:100%;margin:0 auto;display:grid;place-items:center;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(74,16,38,.05)}
 .boxwrap .hint{position:absolute;left:0;right:0;bottom:14px;text-align:center;font:500 12.5px/1 var(--sans);letter-spacing:.06em;color:var(--ink);opacity:calc(1 - var(--k,0) * 2.5);transition:opacity .3s}
 .bx{position:relative;width:74%;aspect-ratio:1}
 .bx .dr,.bx .sv{position:absolute;inset:0;border-radius:3px}
@@ -379,7 +379,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 /* build a box */
 .byo{display:grid;gap:28px;align-items:start}
 @media (min-width:960px){.byo{grid-template-columns:1.05fr 1fr;gap:60px}.byo .ctl{position:sticky;top:100px}.byo .stage{position:sticky;top:100px}}
-.byo .stage{background:url(img/ground.webp?v=953bb4b5) center/cover;aspect-ratio:1;display:grid;place-items:center;border-radius:var(--r-xl)}
+.byo .stage{background:url(img/ground.webp?v=1cfca462) center/cover;aspect-ratio:1;display:grid;place-items:center;border-radius:var(--r-xl)}
 .byo .bx{width:82%}
 .ctl{display:grid;gap:18px}
 .rows{display:grid}
@@ -467,22 +467,22 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 /* ======================================================================
    Pass 3: the box is the frame.
-   Everything is cut from the real packaging: its rose paper (img/paper.webp?v=953bb4b5, from the sleeve),
-   its blind-embossed berry (img/berry-*.png?v=953bb4b5, the die-line masks of the real artwork),
+   Everything is cut from the real packaging: its rose paper (img/paper.webp?v=1cfca462, from the sleeve),
+   its blind-embossed berry (img/berry-*.png?v=1cfca462, the die-line masks of the real artwork),
    its champagne foil, and its die-cut window. A piping thread joins the home page from the intro to the footer.
    ====================================================================== */
 :root{ --box:#D69B99; --box2:#C98C8C; --foil:linear-gradient(112deg,#F6E0CA 0%,#E2B996 26%,#FFF3E6 46%,#D6A983 64%,#F2D6BC 84%,#E4BF9E 100%); --cream:#FFF4EA }
 .foil{background:var(--foil);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 /* box paper, with the berry pressed into it: a light edge above, a shadow below, like the sleeve */
-.paper{position:relative;background:var(--box) url(img/paper.webp?v=953bb4b5) 0 0/300px;color:var(--ink);isolation:isolate;overflow:hidden}
+.paper{position:relative;background:var(--box) url(img/paper.webp?v=1cfca462) 0 0/300px;color:var(--ink);isolation:isolate;overflow:hidden}
 .emb{position:absolute;pointer-events:none;z-index:0;background:rgba(255,236,232,.42);-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;filter:drop-shadow(-1px -1px 0 rgba(255,240,236,.35)) drop-shadow(1.5px 2px 1.5px rgba(110,40,55,.38))}
-.emb.c{--m:url(img/berry-corner.png?v=953bb4b5);left:-2%;bottom:-3%;width:46%;aspect-ratio:640/481}
-.emb.e{--m:url(img/berry-edge.png?v=953bb4b5);right:-1%;top:12%;height:66%;aspect-ratio:272/640}
+.emb.c{--m:url(img/berry-corner.png?v=1cfca462);left:-2%;bottom:-3%;width:46%;aspect-ratio:640/481}
+.emb.e{--m:url(img/berry-edge.png?v=1cfca462);right:-1%;top:12%;height:66%;aspect-ratio:272/640}
 .emb.soft{background:rgba(255,236,232,.22)}
 .paper > :not(.emb){position:relative;z-index:1}
 
 /* product cards are little boxes: rose paper, a die-cut window, the name in foil under it */
-.card .ph{background:var(--box) url(img/paper.webp?v=953bb4b5) 0 0/240px;aspect-ratio:4/5.2;border-radius:10px;padding:8% 8% 0;display:grid;grid-template-rows:1fr auto;box-shadow:0 1px 1px rgba(74,16,38,.08),0 18px 36px -22px rgba(74,16,38,.5)}
+.card .ph{background:var(--box) url(img/paper.webp?v=1cfca462) 0 0/240px;aspect-ratio:4/5.2;border-radius:10px;padding:8% 8% 0;display:grid;grid-template-rows:1fr auto;box-shadow:0 1px 1px rgba(74,16,38,.08),0 18px 36px -22px rgba(74,16,38,.5)}
 .card .ph::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 0%,rgba(255,240,236,.28),transparent 60%);pointer-events:none;z-index:1}
 .card .win{position:relative;border-radius:8px;overflow:hidden;background:var(--rose);box-shadow:inset 0 0 0 1px rgba(90,26,44,.18),inset 0 3px 8px rgba(90,26,44,.35)}
 .card .win::after{content:"";position:absolute;inset:0;border-radius:8px;box-shadow:inset 0 2px 7px rgba(70,16,30,.4),inset 0 -1px 0 rgba(255,240,236,.35);pointer-events:none}
@@ -533,10 +533,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 /* the card writer: your words on a little card tucked into the box */
 .writer{display:grid;gap:26px;align-items:center;padding:40px 22px}
-.writer .scene{position:relative;aspect-ratio:1;max-width:460px;width:100%;margin:0 auto;border-radius:24px;background:url(img/ground.webp?v=953bb4b5) center/cover;display:grid;place-items:center;overflow:hidden}
+.writer .scene{position:relative;aspect-ratio:1;max-width:460px;width:100%;margin:0 auto;border-radius:24px;background:url(img/ground.webp?v=1cfca462) center/cover;display:grid;place-items:center;overflow:hidden}
 .writer .scene img{width:72%;box-shadow:16px 20px 42px rgba(92,30,46,.3)}
 .writer .note{position:absolute;left:50%;top:52%;width:58%;aspect-ratio:1.45;transform:translate(-50%,-50%) rotate(-4deg);background:var(--cream);border-radius:3px;box-shadow:0 2px 3px rgba(74,16,38,.16),0 18px 30px -12px rgba(74,16,38,.45);padding:7% 8%;display:grid;align-content:center;gap:8px;transition:transform .8s var(--ease)}
-.writer .note::before{content:"";position:absolute;right:7%;top:9%;width:20%;aspect-ratio:640/481;background:var(--box);-webkit-mask:url(img/berry-corner.png?v=953bb4b5) center/contain no-repeat;mask:url(img/berry-corner.png?v=953bb4b5) center/contain no-repeat;opacity:.55}
+.writer .note::before{content:"";position:absolute;right:7%;top:9%;width:20%;aspect-ratio:640/481;background:var(--box);-webkit-mask:url(img/berry-corner.png?v=1cfca462) center/contain no-repeat;mask:url(img/berry-corner.png?v=1cfca462) center/contain no-repeat;opacity:.55}
 .writer .note p{font:italic 400 clamp(15px,4.2vw,21px)/1.35 var(--serif);color:var(--ink);word-break:break-word;min-height:2.7em}
 .writer .note small{font:400 11px/1 var(--sans);letter-spacing:.06em;color:var(--ink2)}
 .writer .note.lift{transform:translate(-50%,-56%) rotate(-1deg)}
@@ -557,7 +557,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 /* the offer: four little boxes, the fourth tied with a gold ribbon when the third is in the cart */
 .meter i{border-radius:5px;background:rgba(255,245,239,.1)}
-.meter i.f{background:var(--box) url(img/paper.webp?v=953bb4b5) 0 0/120px;box-shadow:0 8px 16px -8px rgba(0,0,0,.5)}
+.meter i.f{background:var(--box) url(img/paper.webp?v=1cfca462) 0 0/120px;box-shadow:0 8px 16px -8px rgba(0,0,0,.5)}
 .meter svg.bow{position:absolute;inset:-14px -10px -6px;width:calc(100% + 20px);height:calc(100% + 20px);overflow:visible}
 .meter svg.bow path{fill:none;stroke:url(#gold);stroke-width:4;stroke-linecap:round;stroke-dasharray:140;stroke-dashoffset:140;transition:stroke-dashoffset 1.2s var(--ease) .2s}
 .meter i.g.f svg.bow path{stroke-dashoffset:0}
@@ -567,11 +567,11 @@ button,input,select,textarea{font:inherit;color:inherit}
 .ros{width:28px;height:28px;color:var(--rose2)}
 .ft .seal{display:flex;justify-content:center;margin:-6px 0 22px}
 .ft .seal svg{width:54px;height:54px;color:var(--rose2)}
-.ft{background:var(--paper2) url(img/paper.webp?v=953bb4b5) 0 0/300px;background-blend-mode:soft-light}
+.ft{background:var(--paper2) url(img/paper.webp?v=1cfca462) 0 0/300px;background-blend-mode:soft-light}
 
 /* the gallery sits in a box frame too */
 .gal .main{border-radius:12px;padding:0;outline:clamp(10px,3vw,22px) solid var(--box);outline-offset:-1px;margin:clamp(10px,3vw,22px);box-shadow:0 0 0 clamp(10px,3vw,22px) var(--box),0 30px 60px -30px rgba(74,16,38,.6)}
-.gal{background:var(--box) url(img/paper.webp?v=953bb4b5) 0 0/300px;border-radius:18px;padding:0 0 14px;position:relative;overflow:hidden}
+.gal{background:var(--box) url(img/paper.webp?v=1cfca462) 0 0/300px;border-radius:18px;padding:0 0 14px;position:relative;overflow:hidden}
 .gal .main{margin:clamp(14px,4vw,28px) clamp(14px,4vw,28px) 0;outline:0;box-shadow:inset 0 0 0 1px rgba(90,26,44,.2),0 3px 10px rgba(70,16,30,.3)}
 .gal .th{padding:0 clamp(14px,4vw,28px)}
 .gal .lid{text-align:center;font:italic 400 clamp(20px,5vw,30px)/1 var(--serif);padding:14px 0 4px}
@@ -674,7 +674,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .verdict b{font:300 24px/1.2 var(--serif)}
 .verdict .no{color:#9B1C2E}
 .writer2{display:grid;gap:12px;align-content:start}
-.writer2 .scene{position:relative;aspect-ratio:1.3;border-radius:22px;background:url(img/ground.webp?v=953bb4b5) center/cover;display:grid;place-items:center;overflow:hidden}
+.writer2 .scene{position:relative;aspect-ratio:1.3;border-radius:22px;background:url(img/ground.webp?v=1cfca462) center/cover;display:grid;place-items:center;overflow:hidden}
 .writer2 .scene img{width:62%;box-shadow:16px 20px 42px rgba(92,30,46,.3)}
 .writer2 .note{position:absolute;left:50%;top:52%;width:52%;aspect-ratio:1.45;transform:translate(-50%,-50%) rotate(-4deg);background:var(--cream);border-radius:3px;box-shadow:0 2px 3px rgba(74,16,38,.16),0 18px 30px -12px rgba(74,16,38,.45);padding:6% 7%;display:grid;align-content:center;gap:6px;transition:transform .8s var(--ease)}
 .writer2 .note p{font:italic 300 clamp(13px,3.4vw,18px)/1.35 var(--serif);word-break:break-word}
@@ -719,7 +719,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 /* unwrap by hand: the sleeve follows your finger */
 .unwrapsec{display:grid;gap:26px;align-items:center}
 @media (min-width:900px){.unwrapsec{grid-template-columns:1fr 1fr;gap:64px}}
-.unwrap{position:relative;background:url(img/ground.webp?v=953bb4b5) center/cover;border-radius:26px;aspect-ratio:1;display:grid;place-items:center;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
+.unwrap{position:relative;background:url(img/ground.webp?v=1cfca462) center/cover;border-radius:26px;aspect-ratio:1;display:grid;place-items:center;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
 .unwrap:active{cursor:grabbing}
 .uw{position:relative;width:76%;aspect-ratio:1}
 .uw img{position:absolute;inset:0;width:100%;height:100%;border-radius:3px;-webkit-user-drag:none}
@@ -736,7 +736,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .crowdin input{width:100%;accent-color:var(--ink);height:44px}
 .crowdn{font-size:16px}.crowdn b{font:300 34px/1 var(--serif)}
 .boxes{display:flex;flex-wrap:wrap;gap:4px;min-height:24px}
-.boxes i{width:16px;height:16px;border-radius:3px;background:var(--box) url(img/paper.webp?v=953bb4b5) 0 0/60px;animation:pop .4s var(--ease) both}
+.boxes i{width:16px;height:16px;border-radius:3px;background:var(--box) url(img/paper.webp?v=1cfca462) 0 0/60px;animation:pop .4s var(--ease) both}
 
 /* builder: on a phone the box stays in view while you fill it */
 @media (max-width:959px){.byo .stage{position:sticky;top:64px;z-index:3;aspect-ratio:auto;height:40svh;border-radius:0 0 26px 26px;margin:0 calc(var(--gx) * -1)}.byo .bx{width:auto;height:88%}}
@@ -792,9 +792,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 .tile .fr{border-radius:22px}
 
 /* design recheck 2: pictures that change crop with the screen; reviews without stamps; thank-you in the hall */
-.bg-hall{background-image:url(img/hall.webp?v=953bb4b5)}.bg-corp{background-image:url(img/corp.webp?v=953bb4b5)}
+.bg-hall{background-image:url(img/hall.webp?v=1cfca462)}.bg-corp{background-image:url(img/corp.webp?v=1cfca462)}
 .band .pic.bg-hall,.band .pic.bg-corp{min-height:0;aspect-ratio:4/5}
-@media (min-width:900px){.bg-hall{background-image:url(img/hall.webp?v=953bb4b5)}.bg-corp{background-image:url(img/corp.webp?v=953bb4b5)}.band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:auto;min-height:580px}}
+@media (min-width:900px){.bg-hall{background-image:url(img/hall.webp?v=1cfca462)}.bg-corp{background-image:url(img/corp.webp?v=1cfca462)}.band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:auto;min-height:580px}}
 .rev .pm{display:none}.rev q{padding-right:0}
 .revs .rev{transform:none;border-radius:18px;background:#fff}
 .revs .rev:hover{transform:translateY(-3px)}
@@ -840,17 +840,17 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 /* the hall photograph (19 Nov): one picture for every screen; the whole group stays in frame */
 .hallpic img{aspect-ratio:4/3;object-position:50% 52%}
-.bg-hall{background-image:url(img/hall.webp?v=953bb4b5)}
+.bg-hall{background-image:url(img/hall.webp?v=1cfca462)}
 .band .pic.bg-hall{aspect-ratio:4/3;background-position:50% 52%}
 @media (min-width:900px){.hallpic img{aspect-ratio:16/10.6}.band .pic.bg-hall{aspect-ratio:auto;min-height:520px}}
 /* (the band's own background rule is stronger than a single class: name the pictures with the band) */
-.band .pic.bg-hall{background-image:url(img/hall.webp?v=953bb4b5)}
-.band .pic.bg-corp{background-image:url(img/corp.webp?v=953bb4b5)}
-@media (min-width:900px){.band .pic.bg-corp{background-image:url(img/corp.webp?v=953bb4b5)}}
+.band .pic.bg-hall{background-image:url(img/hall.webp?v=1cfca462)}
+.band .pic.bg-corp{background-image:url(img/corp.webp?v=1cfca462)}
+@media (min-width:900px){.band .pic.bg-corp{background-image:url(img/corp.webp?v=1cfca462)}}
 /* the hall and company photographs keep their own 4:3 shape inside the band, centred, so the whole group of boxes shows */
 .band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:4/3;min-height:0;align-self:center;background-position:50% 50%}
-@media (min-width:900px){.band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:4/3;min-height:0}.band .pic.bg-corp{background-image:url(img/corp.webp?v=953bb4b5)}}
-.band .pic.bg-corp{background-image:url(img/corp.webp?v=953bb4b5)}
+@media (min-width:900px){.band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:4/3;min-height:0}.band .pic.bg-corp{background-image:url(img/corp.webp?v=1cfca462)}}
+.band .pic.bg-corp{background-image:url(img/corp.webp?v=1cfca462)}
 
 /* the quartet as one photograph (19 Nov): four pieces in a row on one set; the view glides along the row to the
    chosen voice, and follows the finger while the taste scale is dragged */
