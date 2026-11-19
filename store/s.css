@@ -457,12 +457,13 @@ button,input,select,textarea{font:inherit;color:inherit}
 .split .w{display:inline-block;opacity:0;transform:translateY(.45em);transition:opacity .9s var(--soft),transform 1s var(--ease);transition-delay:calc(var(--i,0) * 55ms)}
 .split.on .w{opacity:1;transform:none}
 .no-motion .rv,.no-motion .split .w{opacity:1;transform:none;transition:none}
+/* "Reduce motion" on the visitor's device: the site stays alive (the box still opens with the scroll, things fade in,
+   the loops play and can be paused), but nothing flies, slides in from afar or tilts. Owner, 19 Nov. */
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;transition-delay:0s!important}
-  .rv,.split .w{opacity:1;transform:none}
+  .rv,.split .w{transform:none}
   .tile img{transform:none}
-  .boxscene{height:auto}.boxscene .stk{position:static;height:auto;padding:60px 0}
+}
 }
 
 /* ======================================================================
@@ -784,3 +785,20 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hallin .meter{justify-content:flex-start;margin:0}
 .hallin .meter i{width:34px;height:34px;border-radius:5px}.hallin .meter i.g{width:40px;height:40px}.hallin .meter b{line-height:36px;font-size:22px}
 @media (min-width:900px){.hallin{grid-template-columns:1.25fr 1fr;padding:16px;gap:44px}.hallpic img{aspect-ratio:16/10}.halltx{padding:20px 28px 20px 0}}
+
+/* living tiles: small loops from the real footage inside the About steps */
+.tile .fr{position:relative}
+.tile .fr .loopv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tile .fr .lpause{right:8px;bottom:8px;width:30px;height:30px}
+.tile .fr{border-radius:22px}
+
+/* design recheck 2: pictures that change crop with the screen; reviews without stamps; thank-you in the hall */
+.bg-hall{background-image:url(img/hall-45.webp)}.bg-corp{background-image:url(img/corp-45.webp)}
+.band .pic.bg-hall,.band .pic.bg-corp{min-height:0;aspect-ratio:4/5}
+@media (min-width:900px){.bg-hall{background-image:url(img/hall.webp)}.bg-corp{background-image:url(img/corp.webp)}.band .pic.bg-hall,.band .pic.bg-corp{aspect-ratio:auto;min-height:580px}}
+.rev .pm{display:none}.rev q{padding-right:0}
+.revs .rev{transform:none;border-radius:18px;background:#fff}
+.revs .rev:hover{transform:translateY(-3px)}
+.pnl.wine .steps span{color:rgba(255,245,239,.82)}
+.pnl.wine .steps li::before{background:rgba(255,245,239,.14);color:var(--on)}
+.band .pic.arch{border-radius:calc(var(--r-xl) - 8px);min-height:360px}
