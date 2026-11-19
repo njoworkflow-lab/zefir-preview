@@ -55,7 +55,7 @@
   function pulse(){ setTimeout(function(){ $$('.cnt').forEach(function(x){ x.classList.add('bump'); setTimeout(function(){ x.classList.remove('bump'); },420); }); }, RM?0:620); }
   /* a small round picture of the flavour travels from the button to the cart, on a soft curve */
   function fly(from,id){ if(RM) return; var to=$$('.hd .cnt').filter(function(x){ return x.offsetParent; })[0]; if(!to||!from) return;
-    var a=from.getBoundingClientRect(), b=to.getBoundingClientRect(), d=document.createElement('i'); d.className='fly'; d.style.backgroundImage='url(img/'+(id&&id.indexOf('mix')<0?id:'assorti')+'-sq.webp?v=e8fb21ad)';
+    var a=from.getBoundingClientRect(), b=to.getBoundingClientRect(), d=document.createElement('i'); d.className='fly'; d.style.backgroundImage='url(img/'+(id&&id.indexOf('mix')<0?id:'assorti')+'-sq.webp?v=953bb4b5)';
     d.style.left=(a.left+a.width/2-23)+'px'; d.style.top=(a.top+a.height/2-23)+'px'; document.body.appendChild(d);
     var dx=b.left+b.width/2-(a.left+a.width/2), dy=b.top+b.height/2-(a.top+a.height/2);
     if(!d.animate){ d.remove(); return; }
@@ -69,13 +69,13 @@
       '</div><div class="p">'+sum+'</div></div>'; }
   function cart(){
     var b=$('#cart .body'), f=$('#cart .foot'); if(!b) return; var n=paid(), h='';
-    if(!n){ b.innerHTML='<div class="empty"><img src="img/own-box.webp?v=e8fb21ad" alt=""><p class="h3">В корзине пока пусто</p><p class="small">Коробка ждёт: девять мест, пять вкусов на&nbsp;выбор.</p><a class="btn" href="katalog.html">Выбрать вкус</a></div>'; f.hidden=true; return; }
+    if(!n){ b.innerHTML='<div class="empty"><img src="img/own-box.webp?v=953bb4b5" alt=""><p class="h3">В корзине пока пусто</p><p class="small">Коробка ждёт: девять мест, пять вкусов на&nbsp;выбор.</p><a class="btn" href="katalog.html">Выбрать вкус</a></div>'; f.hidden=true; return; }
     f.hidden=false;
     var ims=[]; for(var k0 in C.i) for(var j0=0;j0<C.i[k0]&&ims.length<3;j0++) ims.push(k0); C.m.forEach(function(){ if(ims.length<3) ims.push('assorti'); });
-    h+='<div class="head2"><span class="cstack" aria-hidden="true">'+ims.reverse().map(function(k){ return '<img src="img/'+k+'-box.webp?v=e8fb21ad" alt="">'; }).join('')+'</span><div><p class="h3">'+boxes(n)+(n>=GIFT_FROM?' и «Ассорти» на бис':'')+'</p><p class="small">'+(n>=GIFT_FROM?'Четвёртая коробка — подарок, она уже в заказе':'Каждая коробка — девять зефиров, симфония')+'</p></div></div>';
-    for(var k in C.i) h+=line(k,'img/'+k+'-box.webp?v=e8fb21ad',P[k].n,'9 шт · 360 г',C.i[k],rub(C.i[k]*PRICE));
-    C.m.forEach(function(m,i){ h+=line('mix'+i,'img/assorti-box.webp?v=e8fb21ad','Своя коробка',mixtext(m),null,rub(OWN)+'<button class="rmv" type="button" data-q="-1">Убрать</button>'); });
-    if(n>=GIFT_FROM) h+='<div class="line gift"><img src="img/assorti-box.webp?v=e8fb21ad" alt=""><div><p class="n">Ассорти, в&nbsp;подарок</p><p class="s">Положили сами: за&nbsp;три коробки</p></div><div class="p">0&nbsp;₽</div></div>';
+    h+='<div class="head2"><span class="cstack" aria-hidden="true">'+ims.reverse().map(function(k){ return '<img src="img/'+k+'-box.webp?v=953bb4b5" alt="">'; }).join('')+'</span><div><p class="h3">'+boxes(n)+(n>=GIFT_FROM?' и «Ассорти» на бис':'')+'</p><p class="small">'+(n>=GIFT_FROM?'Четвёртая коробка — подарок, она уже в заказе':'Каждая коробка — девять зефиров, симфония')+'</p></div></div>';
+    for(var k in C.i) h+=line(k,'img/'+k+'-box.webp?v=953bb4b5',P[k].n,'9 шт · 360 г',C.i[k],rub(C.i[k]*PRICE));
+    C.m.forEach(function(m,i){ h+=line('mix'+i,'img/assorti-box.webp?v=953bb4b5','Своя коробка',mixtext(m),null,rub(OWN)+'<button class="rmv" type="button" data-q="-1">Убрать</button>'); });
+    if(n>=GIFT_FROM) h+='<div class="line gift"><img src="img/assorti-box.webp?v=953bb4b5" alt=""><div><p class="n">Ассорти, в&nbsp;подарок</p><p class="s">Положили сами: за&nbsp;три коробки</p></div><div class="p">0&nbsp;₽</div></div>';
     h+='<div class="prog" data-prog><p class="pt"></p><div class="bar"><i></i></div></div>';
     h+='<details class="note-box"'+(C.card?' open':'')+'><summary class="link" style="list-style:none">Добавить открытку с&nbsp;вашими словами</summary><textarea id="cardtext" maxlength="200" placeholder="Например: «С&nbsp;Новым годом, мама!»">'+(C.card||'')+'</textarea><p class="small">Напишем от&nbsp;руки и&nbsp;вложим в&nbsp;коробку. Бесплатно.</p></details>';
     var e=est(localStorage.getItem('zs-city')||'');
@@ -130,7 +130,7 @@
     im.onload=function(){ box.appendChild(im); if(now){ while(box.children.length>1) box.removeChild(box.firstChild); return; }
       requestAnimationFrame(function(){ requestAnimationFrame(function(){ im.classList.remove('in'); }); });
       setTimeout(function(){ while(box.children.length>1) box.removeChild(box.firstChild); },560); };
-    im.src='img/take-'+f+'.webp?v=e8fb21ad'; }
+    im.src='img/take-'+f+'.webp?v=953bb4b5'; }
   window.zsTake=zsTake;
   var tk=$('#tk');
   if(tk){ var sel='malina', shut=0, shutTo=0, scene=tk.closest('.boxscene'), wrapb=tk.parentNode;
@@ -140,7 +140,7 @@
     $('#bxpick').addEventListener('click',function(e){ var b=e.target.closest('.chip'); if(b) pick(b.dataset.f); });
     $('#bxadd').addEventListener('click',function(){ var t=this; fly(tk,sel); add(sel,1); pulse(); shutTo=1; t.classList.add('done'); t.textContent='В корзине ✓';
       setTimeout(function(){ t.classList.remove('done'); t.textContent='В корзину — 750 ₽'; },1700); });
-    var warm=function(){ ['smorodina','klubnika','yabloko','assorti'].forEach(function(f){ (new Image()).src='img/take-'+f+'.webp?v=e8fb21ad'; }); };
+    var warm=function(){ ['smorodina','klubnika','yabloko','assorti'].forEach(function(f){ (new Image()).src='img/take-'+f+'.webp?v=953bb4b5'; }); };
     if('requestIdleCallback' in window) requestIdleCallback(warm,{timeout:4000}); else setTimeout(warm,2500);
     var lastK=-1, sm=0;
     (function loop(){ var r=scene.getBoundingClientRect(), vh=innerHeight, span=Math.max(1,r.height-vh), p=Math.max(0,Math.min(1,-r.top/span));
@@ -152,7 +152,7 @@
 
   /* ---------- the film band: plays only when asked ---------- */
   $$('[data-film]').forEach(function(b){ b.addEventListener('click',function(){ var m=document.createElement('div'); m.className='modal'; m.setAttribute('role','dialog'); m.setAttribute('aria-label','Как мы готовим зефир');
-    var tall=innerWidth<innerHeight; m.innerHTML='<video controls playsinline autoplay src="../home/v/film-'+(tall?'t':'w')+'.mp4?v=e8fb21ad" poster="../home/v/poster-'+(tall?'t':'w')+'.jpg?v=e8fb21ad"></video><button class="x" type="button" aria-label="Закрыть">×</button>';
+    var tall=innerWidth<innerHeight; m.innerHTML='<video controls playsinline autoplay src="../home/v/film-'+(tall?'t':'w')+'.mp4?v=953bb4b5" poster="../home/v/poster-'+(tall?'t':'w')+'.jpg?v=953bb4b5"></video><button class="x" type="button" aria-label="Закрыть">×</button>';
     document.body.appendChild(m); var x=$('.x',m); x.focus(); function cl(){ m.remove(); b.focus(); document.removeEventListener('keydown',k); } function k(e){ if(e.key==='Escape') cl(); }
     x.addEventListener('click',cl); document.addEventListener('keydown',k); }); });
 
@@ -173,7 +173,7 @@
 
   /* ---------- the gift meter: three boxes fill as you add, the fourth ties itself ---------- */
   function meters(){ var n=paid(); var order=[]; for(var q in C.i) for(var j=0;j<C.i[q];j++) order.push(q); C.m.forEach(function(){ order.push('assorti'); });
-    $$('[data-meter]').forEach(function(m){ var is=$$('i',m); is.forEach(function(x,i){ x.classList.toggle('f', i<3 ? n>i : n>=GIFT_FROM); if(i<3) x.style.backgroundImage=order[i]?'url(img/'+order[i]+'-box.webp?v=e8fb21ad)':''; });
+    $$('[data-meter]').forEach(function(m){ var is=$$('i',m); is.forEach(function(x,i){ x.classList.toggle('f', i<3 ? n>i : n>=GIFT_FROM); if(i<3) x.style.backgroundImage=order[i]?'url(img/'+order[i]+'-box.webp?v=953bb4b5)':''; });
     var t=$('.mt',m.parentNode); if(t) t.innerHTML = n>=GIFT_FROM ? '«Ассорти» уже ждёт вас в&nbsp;корзине' : (n ? 'Ещё '+boxes(GIFT_FROM-n)+' — и четвёртая ваша' : 'Добавьте три любые коробки'); }); }
   document.addEventListener('zs:cart',meters);
 
@@ -186,7 +186,7 @@
       if(ans.t&&ans.w) show(); });
     function show(){ var f=ans.t, why={malina:'Вы любите, когда сладкое немного кислит: малина тает, а потом даёт яркую ягодную ноту.', smorodina:'Глубокий ягодный вкус и сиреневый цвет: смородина для тех, кто ценит оттенки.', klubnika:'Мягкая, бархатная сладость без резких нот: клубника нравится всем.', yabloko:'Тёплый, пряный и домашний: яблоко с корицей — вкус к чаю в холодный вечер.'}[f], gift=ans.w==='gift'||ans.w==='team';
       if(ans.w==='team'){ f='assorti'; why='Для компании лучше всего «Ассорти»: четыре вкуса, каждому найдётся свой.'; }
-      var r=$('.res',tp); r.hidden=false; r.innerHTML='<img src="img/'+f+'-1.webp?v=e8fb21ad" alt=""><div style="display:grid;gap:8px"><p class="small">Ваш вкус</p><p class="h3">'+P[f].n+'</p><p class="small">'+why+(gift&&ans.w!=='team'?' В подарок положим открытку с вашими словами.':'')+'</p><div class="buyrow" style="margin-top:4px"><button class="btn buy" type="button" data-add="'+f+'">В корзину</button><a class="link" href="'+f+'.html">Подробнее</a></div></div>'; }
+      var r=$('.res',tp); r.hidden=false; r.innerHTML='<img src="img/'+f+'-1.webp?v=953bb4b5" alt=""><div style="display:grid;gap:8px"><p class="small">Ваш вкус</p><p class="h3">'+P[f].n+'</p><p class="small">'+why+(gift&&ans.w!=='team'?' В подарок положим открытку с вашими словами.':'')+'</p><div class="buyrow" style="margin-top:4px"><button class="btn buy" type="button" data-add="'+f+'">В корзину</button><a class="link" href="'+f+'.html">Подробнее</a></div></div>'; }
     tp.addEventListener('click',function(e){ var b=e.target.closest('.res [data-add]'); if(b){ setTimeout(function(){ b.textContent='В корзине ✓'; b.classList.add('done'); },10); } }); }
 
   /* ---------- the route: from Penza to your city, the line draws itself as you scroll ---------- */
@@ -303,7 +303,7 @@
 
   /* ---------- the encore stack: three boxes from your cart, then «Ассорти» lands on top ---------- */
   function stacks(){ var n=paid(), order=[]; for(var k in C.i) for(var j=0;j<C.i[k];j++) order.push(k); C.m.forEach(function(){ order.push('assorti'); });
-    $$('[data-stack]').forEach(function(st){ var sb=$$('.sb',st); for(var i=0;i<3;i++){ sb[i].classList.toggle('f',n>i); if(order[i]) sb[i].src='img/'+order[i]+'-box.webp?v=e8fb21ad'; } sb[3].classList.toggle('f',n>=GIFT_FROM);
+    $$('[data-stack]').forEach(function(st){ var sb=$$('.sb',st); for(var i=0;i<3;i++){ sb[i].classList.toggle('f',n>i); if(order[i]) sb[i].src='img/'+order[i]+'-box.webp?v=953bb4b5'; } sb[3].classList.toggle('f',n>=GIFT_FROM);
       var t=$('[data-mt]',st.parentNode); if(t) t.textContent = n>=GIFT_FROM ? '«Ассорти» уже лежит в вашей корзине' : 'У вас '+n+' из 3'; }); }
   document.addEventListener('zs:cart',stacks);
 
