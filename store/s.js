@@ -128,14 +128,14 @@
   if(bx){ var cv=$('canvas',bx), cx=cv.getContext('2d'), wim={}, sel='malina', from=[], to=[], t0=[], busy=true, shut=0, shutTo=0, scene=bx.closest('.boxscene'), wrapb=bx.parentNode;
     var MIX=['malina','klubnika','malina','smorodina','malina','yabloko','klubnika','yabloko','smorodina'], RIP=[0,1,2,1,2,3,2,3,4], XS=[0,.326,.652,1], YS=[0,.319,.65,1];
     for(var i=0;i<9;i++){ from[i]=to[i]='malina'; t0[i]=0; }
-    FL.forEach(function(f){ var im=new Image(); im.onload=function(){ im._ok=1; busy=true; }; im.src='img/win-'+f+'.webp'; wim[f]=im; });
+    FL.forEach(function(f){ var im=new Image(); im.onload=function(){ im._ok=1; busy=true; }; im.src='img/win-'+f+'.webp'; wim[f]=im; var ic=new Image(); ic.onload=function(){ ic._ok=1; busy=true; }; ic.src='img/cell-'+f+'.webp'; wim['c:'+f]=ic; });
     function paint(now){ var S=Math.max(1,Math.min(720,Math.round(cv.getBoundingClientRect().width*Math.min(devicePixelRatio||1,2)))); if(cv.width!==S){ cv.width=cv.height=S; }
       var any=false; for(var i=0;i<9;i++){ var c=i%3, r=(i-c)/3, x=XS[c], y=YS[r], w=XS[c+1]-x, h=YS[r+1]-y, a=Math.max(0,Math.min(1,(now-t0[i])/560)), A=wim[from[i]], B=wim[to[i]];
         if(a<1) any=true; a=a*a*(3-2*a);
         if(A&&A._ok&&a<1){ cx.globalAlpha=1; cx.drawImage(A,x*720,y*720,w*720,h*720,x*S,y*S,w*S,h*S); }
         if(B&&B._ok&&a>0){ cx.globalAlpha=a; cx.drawImage(B,x*720,y*720,w*720,h*720,x*S,y*S,w*S,h*S); } }
       cx.globalAlpha=1; busy=any; }
-    function pick(f){ sel=f; var now=performance.now(); for(var i=0;i<9;i++){ var g=f==='assorti'?MIX[i]:f; if(g!==to[i]){ from[i]=to[i]; to[i]=g; t0[i]=now+RIP[i]*75; } } busy=true; shutTo=0;
+    function pick(f){ sel=f; var now=performance.now(); for(var i=0;i<9;i++){ var g=f==='assorti'?'c:'+MIX[i]:f; if(g!==to[i]){ from[i]=to[i]; to[i]=g; t0[i]=now+RIP[i]*75; } } busy=true; shutTo=0;
       $$('#bxpick .chip').forEach(function(b){ b.setAttribute('aria-pressed',String(b.dataset.f===f)); });
       $('#bxname').textContent=P[f].n; $('#bxnote').textContent=P[f].t; $('#bxlink').href=f+'.html'; }
     $('#bxpick').addEventListener('click',function(e){ var b=e.target.closest('.chip'); if(b) pick(b.dataset.f); });
