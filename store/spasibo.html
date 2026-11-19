@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Спасибо за заказ — Зефирная симфония</title>
 <meta name="description" content="Спасибо за заказ.">
-<link rel="stylesheet" href="s.css?v=8d3f7361">
+<link rel="stylesheet" href="s.css?v=df6be7af">
 </head>
 <body>
 <p class="ann">Доставка по всей России · три коробки — «Ассорти» в подарок · <a href="akcii.html">подробнее</a></p>
@@ -24,8 +24,8 @@
     <ol class="steps" style="grid-template-columns:1fr;gap:14px;margin-top:6px"><li><b>Собираем вручную</b><span>Каждую коробку проверяем и закрываем футляром.</span></li><li><b>Передаём в СДЭК в течение пяти дней</b><span>Трек-номер придёт на почту в тот же день.</span></li><li><b id="ty3">Вы получаете</b><span>В прочной транспортной коробке.</span></li></ol>
   </div>
 </div></div></section>
-<section class="sec tight"><div class="wrap unwrapsec"><div class="unwrap closing" data-unwrap data-close><div class="uw"><img class="ub" id="tybox" src="img/malina-box.webp" alt="Ваша коробка сверху"><img class="us" src="img/sleeve.webp" alt="" draggable="false"><span class="grip" aria-hidden="true">⟷</span></div><input type="range" class="vh" min="0" max="100" value="0" aria-label="Закрыть коробку"></div>
-  <div class="uwtx"><h2 class="h2" id="tyclose">Закройте её сами</h2><p class="lead" id="tyclose2">Сдвиньте футляр — и коробка готова в дорогу.</p></div></div></section>
+<section class="sec tight"><div class="wrap unwrapsec"><div class="unwrap closing" data-unwrap data-close><div class="take" data-uw id="tybox"><div class="tw"><img class="tp" src="img/take-plate.webp" alt="Коробка «Зефирная симфония»: футляр с фольгой и тиснёными ягодами, из него выдвигается коробка с девятью зефирами" draggable="false"><div class="tsh"><img src="img/take-shadow.webp" alt="" draggable="false"></div><div class="ttr"><img class="tt" src="img/take-malina.webp" alt="" data-f="malina" draggable="false"></div><span class="grip" aria-hidden="true">⟷</span></div></div><input type="range" class="vh" min="0" max="100" value="0" aria-label="Закрыть коробку"></div>
+  <div class="uwtx"><h2 class="h2" id="tyclose">Закройте её сами</h2><p class="lead" id="tyclose2">Задвиньте её в футляр — и коробка готова в дорогу.</p></div></div></section>
 <section class="sec"><div class="narrow" style="display:grid;gap:22px">
   <p class="h2 centre" style="font-size:clamp(24px,5.4vw,32px)">Спасибо, что выбрали нас. Надеемся, этот зефир сделает кого-то счастливее — может быть, вас.</p>
   <p class="small centre">Семья «Ванюшкиных сладостей»</p>
@@ -59,14 +59,14 @@
   <div class="body"></div>
   <div class="foot" hidden><div class="sum"><span>Итого без доставки</span><b>0 ₽</b></div><a class="btn buy full" href="oformlenie.html">Оформить заказ</a><p class="small centre">Оплата картой, СБП или SberPay на странице банка</p></div>
 </aside>
-<script src="s.js?v=8d3f7361"></script>
+<script src="s.js?v=df6be7af"></script>
 <script>
 (function(){ var o=null; try{ o=JSON.parse(localStorage.getItem('zs-order')||'null'); }catch(e){}
   var $=function(i){ return document.getElementById(i); }; if(!o){ $('tyorder').hidden=true; return; }
   $('ty').textContent='Спасибо'+(o.name?', '+o.name:'');
   $('ty2').textContent='Заказ № '+o.n+' оплачен. Чек и трек-номер придут на '+o.email+'.';
   $('ty3').textContent=(o.gift&&o.to?o.to+' получит':'Вы получите')+' заказ '+o.when;
-  if(o.first) document.getElementById('tybox').src='img/'+o.first+'-box.webp';
+  if(o.first&&window.zsTake) zsTake(document.getElementById('tybox'),/^(malina|klubnika|smorodina|yabloko)$/.test(o.first)?o.first:'assorti',true);
   document.addEventListener('zs:closed',function(){ $('tyclose').textContent='Коробка закрыта.'; $('tyclose2').textContent=o.city?'Откроют её уже в городе '+o.city+'.':'Откроют её уже там, куда она едет.'; });
   $('tyorder').innerHTML='<p class="h3" style="margin-bottom:8px">Заказ № '+o.n+'</p>'+o.lines+(o.giftline?'<div class="rowp"><span>«Ассорти» в подарок</span><span style="color:var(--ok)">0 ₽</span></div>':'')+'<div class="tot"><span>Оплачено</span><b>'+ZS.rub(o.total)+'</b></div>'; })();
 </script>

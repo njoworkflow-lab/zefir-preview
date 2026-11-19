@@ -124,30 +124,31 @@
     var stick=$('.stick'); if(stick&&'IntersectionObserver' in window) new IntersectionObserver(function(en){ en.forEach(function(x){ var past=!x.isIntersecting&&x.boundingClientRect.top<0; stick.classList.toggle('on',past); stick.toggleAttribute('inert',!past); }); }).observe(buy); }
 
   /* ---------- the box scene on the home: pinned for one screen, the scroll slides the sleeve off ---------- */
-  var bx=$('#bx');
-  if(bx){ var cv=$('canvas',bx), cx=cv.getContext('2d'), wim={}, sel='malina', from=[], to=[], t0=[], busy=true, shut=0, shutTo=0, scene=bx.closest('.boxscene'), wrapb=bx.parentNode;
-    var MIX=['malina','klubnika','malina','smorodina','malina','yabloko','klubnika','yabloko','smorodina'], RIP=[0,1,2,1,2,3,2,3,4], XS=[0,.326,.652,1], YS=[0,.319,.65,1];
-    for(var i=0;i<9;i++){ from[i]=to[i]='malina'; t0[i]=0; }
-    FL.forEach(function(f){ var im=new Image(); im.onload=function(){ im._ok=1; busy=true; }; im.src='img/win-'+f+'.webp'; wim[f]=im; var ic=new Image(); ic.onload=function(){ ic._ok=1; busy=true; }; ic.src='img/cell-'+f+'.webp'; wim['c:'+f]=ic; });
-    function paint(now){ var S=Math.max(1,Math.min(720,Math.round(cv.getBoundingClientRect().width*Math.min(devicePixelRatio||1,2)))); if(cv.width!==S){ cv.width=cv.height=S; }
-      var any=false; for(var i=0;i<9;i++){ var c=i%3, r=(i-c)/3, x=XS[c], y=YS[r], w=XS[c+1]-x, h=YS[r+1]-y, a=Math.max(0,Math.min(1,(now-t0[i])/560)), A=wim[from[i]], B=wim[to[i]];
-        if(a<1) any=true; a=a*a*(3-2*a);
-        if(A&&A._ok&&a<1){ cx.globalAlpha=1; cx.drawImage(A,x*720,y*720,w*720,h*720,x*S,y*S,w*S,h*S); }
-        if(B&&B._ok&&a>0){ cx.globalAlpha=a; cx.drawImage(B,x*720,y*720,w*720,h*720,x*S,y*S,w*S,h*S); } }
-      cx.globalAlpha=1; busy=any; }
-    function pick(f){ sel=f; var now=performance.now(); for(var i=0;i<9;i++){ var g=f==='assorti'?'c:'+MIX[i]:f; if(g!==to[i]){ from[i]=to[i]; to[i]=g; t0[i]=now+RIP[i]*75; } } busy=true; shutTo=0;
+  /* the box take: swap the tray's filling (a cross-fade between two photographs of the same box) */
+  function zsTake(el,f,now){ if(!el) return; var box=$('.ttr',el), cur=box.lastElementChild; if(cur&&cur.dataset.f===f) return;
+    var im=new Image(); im.alt=''; im.draggable=false; im.dataset.f=f; im.className='tt'+(now?'':' in');
+    im.onload=function(){ box.appendChild(im); if(now){ while(box.children.length>1) box.removeChild(box.firstChild); return; }
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ im.classList.remove('in'); }); });
+      setTimeout(function(){ while(box.children.length>1) box.removeChild(box.firstChild); },560); };
+    im.src='img/take-'+f+'.webp'; }
+  window.zsTake=zsTake;
+  var tk=$('#tk');
+  if(tk){ var sel='malina', shut=0, shutTo=0, scene=tk.closest('.boxscene'), wrapb=tk.parentNode;
+    function pick(f){ sel=f; shutTo=0; zsTake(tk,f);
       $$('#bxpick .chip').forEach(function(b){ b.setAttribute('aria-pressed',String(b.dataset.f===f)); });
       $('#bxname').textContent=P[f].n; $('#bxnote').textContent=P[f].t; $('#bxlink').href=f+'.html'; }
     $('#bxpick').addEventListener('click',function(e){ var b=e.target.closest('.chip'); if(b) pick(b.dataset.f); });
-    $('#bxadd').addEventListener('click',function(){ var t=this; fly(bx,sel); add(sel,1); pulse(); shutTo=1; t.classList.add('done'); t.textContent='В корзине ✓';
+    $('#bxadd').addEventListener('click',function(){ var t=this; fly(tk,sel); add(sel,1); pulse(); shutTo=1; t.classList.add('done'); t.textContent='В корзине ✓';
       setTimeout(function(){ t.classList.remove('done'); t.textContent='В корзину — 750 ₽'; },1700); });
+    var warm=function(){ ['smorodina','klubnika','yabloko','assorti'].forEach(function(f){ (new Image()).src='img/take-'+f+'.webp'; }); };
+    if('requestIdleCallback' in window) requestIdleCallback(warm,{timeout:4000}); else setTimeout(warm,2500);
     var lastK=-1, sm=0;
-    (function loop(now){ var r=scene.getBoundingClientRect(), vh=innerHeight, span=Math.max(1,r.height-vh), p=Math.max(0,Math.min(1,-r.top/span));
+    (function loop(){ var r=scene.getBoundingClientRect(), vh=innerHeight, span=Math.max(1,r.height-vh), p=Math.max(0,Math.min(1,-r.top/span));
       if(r.height<vh*1.2){ var r2=wrapb.getBoundingClientRect(); p=Math.max(0,Math.min(1,(vh-r2.top)/(vh*.8))); }
       sm+=(p-sm)*.14; if(sm<.08) shutTo=0;
-      shut+=(shutTo-shut)*.1; var o=Math.max(0,Math.min(1,(sm-.1)/.5)); o=o*o*(3-2*o); var k=o*(1-shut);
-      if(Math.abs(k-lastK)>.0008){ wrapb.style.setProperty('--k',k.toFixed(4)); bx.style.setProperty('--k',k.toFixed(4)); lastK=k; }
-      if(busy) paint(now); requestAnimationFrame(loop); })(performance.now()); }
+      shut+=(shutTo-shut)*.1; var o=Math.max(0,Math.min(1,(sm-.06)/.56)); o=o*o*(3-2*o); var k=o*(1-shut);
+      if(Math.abs(k-lastK)>.0008){ tk.style.setProperty('--k',k.toFixed(4)); lastK=k; }
+      requestAnimationFrame(loop); })(); }
 
   /* ---------- the film band: plays only when asked ---------- */
   $$('[data-film]').forEach(function(b){ b.addEventListener('click',function(){ var m=document.createElement('div'); m.className='modal'; m.setAttribute('role','dialog'); m.setAttribute('aria-label','Как мы готовим зефир');
@@ -280,14 +281,14 @@
   document.addEventListener('zs:cart',stacks);
 
   /* ---------- unwrap by hand: drag the sleeve (or use the arrow keys) ---------- */
-  $$('[data-unwrap]').forEach(function(u){ var uw=$('.uw',u), rg=$('input[type=range]',u), closing=u.hasAttribute('data-close'), k=closing?1:0, x0=0, k0=0, down=false, done=false;
-    function setK(v){ k=Math.max(0,Math.min(1,v)); u.style.setProperty('--k',k.toFixed(3)); rg.value=Math.round(k*100); if(closing&&k<.04&&!done){ done=true; document.dispatchEvent(new CustomEvent('zs:closed')); if(navigator.vibrate&&!RM) try{ navigator.vibrate(12); }catch(e){} } }
+  $$('[data-unwrap]').forEach(function(u){ var uw=$('.take',u), rg=$('input[type=range]',u), closing=u.hasAttribute('data-close'), k=closing?1:0, x0=0, k0=0, down=false, done=false;
+    function setK(v){ k=Math.max(0,Math.min(1,v)); uw.style.setProperty('--k',k.toFixed(3)); rg.value=Math.round((closing?1-k:k)*100); if(closing&&k<.04&&!done){ done=true; document.dispatchEvent(new CustomEvent('zs:closed')); if(navigator.vibrate&&!RM) try{ navigator.vibrate(12); }catch(e){} } }
     setK(k);
-    u.addEventListener('pointerdown',function(e){ down=true; x0=e.clientX; k0=k; u.classList.add('drag'); u.setPointerCapture(e.pointerId); });
-    u.addEventListener('pointermove',function(e){ if(!down) return; setK(k0-(e.clientX-x0)/(uw.offsetWidth*.96)); });
+    u.addEventListener('pointerdown',function(e){ if(e.target===rg) return; down=true; x0=e.clientX; k0=k; u.classList.add('drag','used'); u.setPointerCapture(e.pointerId); });
+    u.addEventListener('pointermove',function(e){ if(!down) return; setK(k0+(e.clientX-x0)/(uw.offsetWidth*.45)); });
     function up(){ if(!down) return; down=false; u.classList.remove('drag'); setK(k>.5?1:0); }
     u.addEventListener('pointerup',up); u.addEventListener('pointercancel',up);
-    rg.addEventListener('input',function(){ setK(this.value/100); }); });
+    rg.addEventListener('input',function(){ setK(closing?1-this.value/100:this.value/100); }); });
 
   /* ---------- catalogue: the inside of each voice, and compare two ---------- */
   $$('.voice .inside').forEach(function(b){ b.addEventListener('click',function(){ var v=b.closest('.voice'), on=!v.classList.contains('inside'); v.classList.toggle('inside',on); b.setAttribute('aria-pressed',String(on)); }); });

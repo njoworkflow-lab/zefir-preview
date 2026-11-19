@@ -802,3 +802,28 @@ button,input,select,textarea{font:inherit;color:inherit}
 .pnl.wine .steps span{color:rgba(255,245,239,.82)}
 .pnl.wine .steps li::before{background:rgba(255,245,239,.14);color:var(--on)}
 .band .pic.arch{border-radius:calc(var(--r-xl) - 8px);min-height:360px}
+
+/* ---------- the box take (19 Nov): a photograph of the real box; the tray slides out of the sleeve.
+   Layers from prototypes/store/boxtake.py: plate (the closed box), the tray's shadow, the tray per flavour.
+   --k: 0 closed, 1 open. On narrow screens the frame is closer and follows the tray. ---------- */
+.take{position:relative;aspect-ratio:5/4;overflow:hidden;border-radius:var(--r-xl);--k:0;background:#cbb7b1;width:100%}
+.take .tw{position:absolute;top:0;left:0;height:100%;aspect-ratio:1800/1208;transform:translate3d(calc(var(--k) * -15.6%),0,0)}
+.take img{position:absolute;inset:0;width:100%;height:100%;display:block;max-width:none;border-radius:0;-webkit-user-drag:none;user-select:none}
+.take .tsh,.take .ttr{position:absolute;inset:0;clip-path:polygon(61.90% 0.00%,100.00% 0.00%,100.00% 100.00%,53.10% 100.00%,53.69% 81.63%,53.91% 74.84%,59.68% 20.83%)}
+.take .tsh{-webkit-mask-image:linear-gradient(90deg,transparent 53.69%,#000 59.33%);mask-image:linear-gradient(90deg,transparent 53.69%,#000 59.33%)}
+.take .tsh img,.take .ttr img{transform:translate3d(calc((var(--k) - 1) * 36.892%),calc((var(--k) - 1) * 7.309%),0);will-change:transform}
+.take .ttr img{transition:opacity .5s var(--ease)}
+.take .ttr img.in{opacity:0}
+@media (min-width:900px){.take{aspect-ratio:1800/1208}.take .tw{transform:none;width:100%}}
+.boxwrap.tkw{background:none;aspect-ratio:auto;max-height:none;max-width:none;box-shadow:none;border-radius:0;overflow:visible;display:block}
+@media (min-width:900px){.boxband{grid-template-columns:1.32fr 1fr;gap:56px}}
+.unwrap{background:none;aspect-ratio:auto;border-radius:var(--r-xl);display:block}
+.unwrap .tsh img,.unwrap .ttr img,.unwrap .tw{transition:transform .5s var(--ease)}
+.unwrap .ttr img{transition:transform .5s var(--ease),opacity .5s var(--ease)}
+.unwrap.drag .tsh img,.unwrap.drag .ttr img,.unwrap.drag .tw{transition:none}
+.take .grip{position:absolute;left:calc(57.4% + var(--k) * 36.892%);top:calc(54% + var(--k) * 7.309%);transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:rgba(255,249,246,.92);display:grid;place-items:center;font:400 18px/1 var(--sans);color:var(--ink);box-shadow:0 8px 18px -8px rgba(74,16,38,.6);transition:left .5s var(--ease),top .5s var(--ease),opacity .4s;pointer-events:none}
+.unwrap.drag .grip{transition:opacity .4s}
+.unwrap.used .grip{opacity:0}
+@media (min-width:900px){.unwrapsec{grid-template-columns:1.3fr 1fr}}
+
+@media (min-width:900px){.boxband .chips{flex-wrap:wrap;overflow:visible}}
