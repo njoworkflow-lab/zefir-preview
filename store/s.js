@@ -304,5 +304,15 @@
       $('#pplp').textContent = n<=30 ? 'Можно оплатить на сайте: «Ассорти» в подарок к заказу от трёх коробок.' : 'От 30 коробок — по счёту, с менеджером. Скидки для компаний — по договорённости.'; }
     ppl.addEventListener('input',crowd); crowd(); }
 
+
+  /* ---------- loops: always playing, muted; only on screen; a still for reduced motion and data-saver ---------- */
+  var saver=!!(navigator.connection&&navigator.connection.saveData);
+  $$('.loopv').forEach(function(v){ var b=v.parentNode.querySelector('.lpause'), user=false;
+    if(RM||saver){ v.removeAttribute('autoplay'); if(b) b.hidden=true; return; }
+    v.src=(innerWidth<innerHeight&&v.dataset.t)?v.dataset.t:v.dataset.w; v.muted=true;
+    function play(){ var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); }
+    if('IntersectionObserver' in window) new IntersectionObserver(function(en){ en.forEach(function(x){ if(user) return; if(x.isIntersecting) play(); else v.pause(); }); },{rootMargin:'200px'}).observe(v); else play();
+    if(b) b.addEventListener('click',function(){ if(v.paused){ user=false; play(); } else { user=true; v.pause(); } b.setAttribute('aria-pressed',String(user)); b.setAttribute('aria-label',user?'Продолжить':'Пауза'); }); });
+
   render(); meters(); stacks();
 })();

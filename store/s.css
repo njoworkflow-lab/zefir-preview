@@ -749,3 +749,15 @@ button,input,select,textarea{font:inherit;color:inherit}
 .whenline{background:var(--paper2);border-radius:14px;padding:12px 14px}
 .ann b{font-weight:500}
 .ft::before{content:none}.ft .seal{display:none}.ft{margin-top:40px;border-top:1px solid var(--line)}
+
+
+/* always-playing loops from the real footage (owner, 19 Nov): muted, no play button, a quiet pause mark, a still for reduced motion */
+.film.loop{background-color:#1d0910}
+.loopv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.film.loop::before{z-index:1}
+.film.loop > div{z-index:2}
+.lpause{position:absolute;right:14px;bottom:14px;z-index:3;width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,245,239,.16);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:flex;gap:4px;align-items:center;justify-content:center;cursor:pointer;opacity:.6;transition:opacity .3s}
+.lpause:hover,.lpause:focus-visible{opacity:1}
+.lpause i{width:3px;height:12px;border-radius:1px;background:var(--on)}
+.lpause[aria-pressed="true"] i:first-child{width:0;height:0;background:none;border-left:10px solid var(--on);border-top:6px solid transparent;border-bottom:6px solid transparent;border-radius:0}
+.lpause[aria-pressed="true"] i:last-child{display:none}
