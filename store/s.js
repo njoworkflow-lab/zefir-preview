@@ -5,7 +5,7 @@
   var P={ malina:{n:'Малина',t:'Яркая ягодная кислинка',c:'#E7A6B2'}, smorodina:{n:'Чёрная смородина',t:'Нежная, из спелых ягод',c:'#BBA6D6'},
           klubnika:{n:'Клубника',t:'Мягкая ягодная сладость',c:'#F0B9BE'}, yabloko:{n:'Яблоко с корицей',t:'Тепло и пряность',c:'#EADCC4'},
           assorti:{n:'Ассорти',t:'Четыре вкуса в одной коробке',c:'#E9C3C8'} };
-  var FL=['malina','smorodina','klubnika','yabloko'], PRICE=750, OWN=750, GIFT_FROM=3, RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var FL=['malina','smorodina','klubnika','yabloko'], PRICE=750, OWN=900, GIFT_FROM=3, RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
   function rub(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' ₽'; }
   function plural(n,a,b,c){ var m=n%10, h=n%100; return (m===1&&h!==11)?a:(m>=2&&m<=4&&(h<12||h>14))?b:c; }
   function boxes(n){ return n+' '+plural(n,'коробка','коробки','коробок'); }
@@ -37,7 +37,7 @@
       text:applied?(free?'Доставка за\u00a0наш счёт':'Скидка '+rub(D)):''}; }
   function setPromo(code){ C.promo=String(code||'').trim().toUpperCase().replace(/\s+/g,''); if(!C.promo) delete C.promo; save(); return promo(); }
   function add(id,q){ set(id,(C.i[id]||0)+(q||1)); }
-  window.ZS={C:C,P:P,FL:FL,add:add,set:set,save:save,paid:paid,subtotal:subtotal,rub:rub,boxes:boxes,promo:promo,setPromo:setPromo,openCart:function(){ open('cart'); },
+  window.ZS={C:C,P:P,FL:FL,PRICE:PRICE,OWN:OWN,add:add,set:set,save:save,paid:paid,subtotal:subtotal,rub:rub,boxes:boxes,promo:promo,setPromo:setPromo,openCart:function(){ open('cart'); },
     addMix:function(mix){ C.m.push(mix); save(); }, clear:function(){ C.i={}; C.m=[]; C.card=''; delete C.promo; save(); }, est:est, plural:plural};
 
   function render(){
