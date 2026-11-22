@@ -215,7 +215,7 @@
     var tick = setInterval(function () { pct = Math.min(92, pct + (92 - pct) * 0.12); barI.style.width = pct + '%'; p.textContent = Math.round(pct) + '% · обычно около 20 секунд.'; }, 700);
     S.ctl = new AbortController();
     cancel.addEventListener('click', function () { S.ctl.abort(); clearInterval(tick); S.step = 4; render(); });
-    var done = function (image, note) { clearInterval(tick); barI.style.width = '100%'; result(image, note); };
+    var done = function (image, note) { clearInterval(tick); barI.style.width = '100%'; card(image).then(function (c) { result(c, note); }, function () { result(image, note); }); };
     if (!D.api) {
       var s = sceneById(S.scene); setTimeout(function () { done(s.sample, 'Пробная версия без сервера: показан пример из наших проб с придуманными людьми.'); }, calm ? 300 : 2600); return;
     }
@@ -224,6 +224,34 @@
       if (!j.ok) { clearInterval(tick); failed(j.reason); return; }
       done(j.image);
     }).catch(function (e) { if (e.name !== 'AbortError') { clearInterval(tick); failed('error'); } });
+  }
+  /* The keepsake card (owner, 22 Nov: watermark sample 3, «Открытка»): the picture sits on a cream card with the brand
+     line under it, and the three sheaves stay inside the picture, so a crop of the card still carries the brand.
+     Built here in the page for the trial; in the real store the server makes the card before the picture leaves it. */
+  function loadImg(src) { return new Promise(function (ok, no) { var i = new Image(); i.onload = function () { ok(i); }; i.onerror = no; i.src = src; }); }
+  function tinted(img, w, color) {
+    var h = Math.round(img.naturalHeight * w / img.naturalWidth), c = document.createElement('canvas'); c.width = w; c.height = h;
+    var x = c.getContext('2d'); x.drawImage(img, 0, 0, w, h); x.globalCompositeOperation = 'source-in'; x.fillStyle = color; x.fillRect(0, 0, w, h); return c;
+  }
+  function card(image) {
+    if (!D.wm) return Promise.resolve(image);
+    var font = document.fonts && document.fonts.load ? document.fonts.load('400 20px Jost').catch(function () {}) : null;
+    return Promise.all([loadImg(image), loadImg(D.wm.logo), loadImg(D.wm.sheaves), font]).then(function (r) {
+      var pic = r[0], W = pic.naturalWidth, H = pic.naturalHeight, m = Math.round(W * 0.045), foot = Math.round(W * 0.17);
+      var c = document.createElement('canvas'); c.width = W + 2 * m; c.height = H + m + foot; var x = c.getContext('2d');
+      x.fillStyle = '#f7f0e9'; x.fillRect(0, 0, c.width, c.height); x.drawImage(pic, m, m);
+      var sh = tinted(r[2], Math.round(W * 0.085), '#fffaf6'), gap = Math.round(W * 0.04);
+      x.save(); x.globalAlpha = 0.55; x.shadowColor = 'rgba(20,10,10,.4)'; x.shadowBlur = W * 0.006; x.shadowOffsetY = 2;
+      x.drawImage(sh, m + W - sh.width - gap, m + H - sh.height - gap); x.restore();
+      var ink = '#70343e', lg = tinted(r[1], Math.round(W * 0.25), ink), cy = H + m + foot / 2, edge = Math.round(W * 0.02);
+      x.drawImage(lg, m + edge, Math.round(cy - lg.height / 2));
+      var size = Math.round(W * 0.0165), sp = size * 0.22, s = D.wm.site, tw = 0, i;
+      x.font = '400 ' + size + 'px Jost, sans-serif'; x.fillStyle = ink; x.globalAlpha = 0.85; x.textBaseline = 'middle';
+      for (i = 0; i < s.length; i++) tw += x.measureText(s[i]).width + sp;
+      var tx = m + W - edge - (tw - sp);
+      for (i = 0; i < s.length; i++) { x.fillText(s[i], tx, cy); tx += x.measureText(s[i]).width + sp; }
+      return c.toDataURL('image/jpeg', 0.9);
+    });
   }
   function failed(reason) {
     body.innerHTML = '';
