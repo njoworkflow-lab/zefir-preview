@@ -205,7 +205,7 @@
       i.addEventListener('change', function () { S[c[0]] = i.checked; check(); });
       l.appendChild(i); l.appendChild(el('span', null, c[1])); body.appendChild(l);
     });
-    body.appendChild(el('p', 'mv-fine', 'Фото нужны только для этой картинки и не сохраняются. Картинку создаёт нейросеть. Черновик: тексты согласий утвердит юрист.'));
+    body.appendChild(el('p', 'mv-fine', 'Фото нужны только для этой картинки и не сохраняются. Картинку создаёт нейросеть. Три кадра в день. Черновик: тексты согласий утвердит юрист.'));
   }
   function generate() {
     S.step = 5; body.innerHTML = ''; stepN.textContent = ''; prev.hidden = true; next.hidden = true;
@@ -228,7 +228,7 @@
   function failed(reason) {
     body.innerHTML = '';
     body.appendChild(el('h2', null, 'Не получилось'));
-    var why = { 'visitor-limit': 'На сегодня ваши кадры закончились — приходите завтра.', 'pilot-limit': 'На сегодня проба закончилась — приходите завтра.', 'none-available': 'Сейчас все художники заняты. Попробуйте через минуту.', 'too-large': 'Фото слишком большие. Попробуйте меньше фото.', 'refused': 'Эти фото мы не можем использовать. Попробуйте другие — обычные семейные фото.', 'check-unavailable': 'Проверка фото сейчас недоступна. Попробуйте через минуту.' }[reason] || 'Что-то пошло не так. Попробуйте ещё раз.';
+    var why = { 'visitor-limit': 'Три кадра на сегодня уже собраны — приходите завтра.', 'pilot-limit': 'На сегодня проба закончилась — приходите завтра.', 'none-available': 'Сейчас все художники заняты. Попробуйте через минуту.', 'too-large': 'Фото слишком большие. Попробуйте меньше фото.', 'refused': 'Эти фото мы не можем использовать. Попробуйте другие — обычные семейные фото.', 'check-unavailable': 'Проверка фото сейчас недоступна. Попробуйте через минуту.' }[reason] || 'Что-то пошло не так. Попробуйте ещё раз.';
     body.appendChild(el('p', 'mv-note', why));
     var again = btn('btn', 'Ещё раз'); again.addEventListener('click', generate); body.appendChild(again);
   }
@@ -258,7 +258,6 @@
   function openDlg(e) { if (e) e.preventDefault(); if (S.step > 4 && !S.image) S.step = 1; render(); dlg.showModal(); }
   openers.forEach(function (o) {
     o.addEventListener('click', function (e) {
-      if (o.tagName === 'A' && !/index\.html/.test(location.pathname) && !/\/$/.test(location.pathname)) return;   // other pages: go home first
       openDlg(e);
     });
   });

@@ -17,9 +17,28 @@
   function paid(){ var n=0; for(var k in C.i) n+=C.i[k]; return n+C.m.length; }
   function subtotal(){ var s=0; for(var k in C.i) s+=C.i[k]*PRICE; return s+C.m.length*OWN; }
   function set(id,q){ if(q<=0) delete C.i[id]; else C.i[id]=Math.min(q,99); save(); }
+  /* ---------- promo codes (owner and team, 22 Nov: "no place to apply a promo code") ----------
+     The three kinds from the brief, §05. The codes here are EXAMPLES for the preview; real ones come from the admin
+     panel. The sums follow store-logic/cart_reference.py: a product code discounts its own lines; a cart code needs
+     N paid items (the gift never counts) and discounts the goods; a delivery code makes delivery free; the gift stays 0. */
+  var PROMOS={'СИМФОНИЯ10':{type:'cart_percent',value:10,min_items:2},'МАЛИНА100':{type:'product_fixed',sku:'malina',value:100},'ДОСТАВКА':{type:'free_delivery'}};
+  function promo(delivery){ var code=C.promo||'', r=PROMOS[code], S=subtotal(), n=paid(), D=0, free=false, applied=null, why='';
+    if(code&&!r) why='Такого промокода нет. Проверьте написание.';
+    if(r){
+      if(r.type==='product_percent'||r.type==='product_fixed'){ var q=C.i[r.sku]||0, sum=q*PRICE;
+        if(q) D=r.type==='product_percent'?Math.round(sum*r.value)/100:Math.min(r.value*q,sum);
+        applied=q>0; if(!applied) why='Этот промокод — на «'+P[r.sku].n+'». Добавьте её в\u00a0корзину.'; }
+      else if(r.type==='cart_percent'||r.type==='cart_fixed'){ var need=r.min_items||2;
+        if(n>=need){ D=r.type==='cart_percent'?Math.round(S*r.value)/100:Math.min(r.value,S); applied=true; }
+        else { applied=false; why='Этот промокод действует от\u00a0'+boxes(need).replace('коробки','коробок')+'.'; } }
+      else if(r.type==='free_delivery'){ free=true; applied=true; } }
+    var del=delivery||0;
+    return {code:code,known:!!r,applied:applied,D:D,free:free&&applied,DC:(free?0:del),goods:S-D,total:S-D+(free?0:del),why:why,
+      text:applied?(free?'Доставка за\u00a0наш счёт':'Скидка '+rub(D)):''}; }
+  function setPromo(code){ C.promo=String(code||'').trim().toUpperCase().replace(/\s+/g,''); if(!C.promo) delete C.promo; save(); return promo(); }
   function add(id,q){ set(id,(C.i[id]||0)+(q||1)); }
-  window.ZS={C:C,P:P,FL:FL,add:add,set:set,save:save,paid:paid,subtotal:subtotal,rub:rub,boxes:boxes,openCart:function(){ open('cart'); },
-    addMix:function(mix){ C.m.push(mix); save(); }, clear:function(){ C.i={}; C.m=[]; C.card=''; save(); }, est:est, plural:plural};
+  window.ZS={C:C,P:P,FL:FL,add:add,set:set,save:save,paid:paid,subtotal:subtotal,rub:rub,boxes:boxes,promo:promo,setPromo:setPromo,openCart:function(){ open('cart'); },
+    addMix:function(mix){ C.m.push(mix); save(); }, clear:function(){ C.i={}; C.m=[]; C.card=''; delete C.promo; save(); }, est:est, plural:plural};
 
   function render(){
     var n=paid();
@@ -55,7 +74,7 @@
   function pulse(){ setTimeout(function(){ $$('.cnt').forEach(function(x){ x.classList.add('bump'); setTimeout(function(){ x.classList.remove('bump'); },420); }); }, RM?0:620); }
   /* a small round picture of the flavour travels from the button to the cart, on a soft curve */
   function fly(from,id){ if(RM) return; var to=$$('.hd .cnt').filter(function(x){ return x.offsetParent; })[0]; if(!to||!from) return;
-    var a=from.getBoundingClientRect(), b=to.getBoundingClientRect(), d=document.createElement('i'); d.className='fly'; d.style.backgroundImage='url(img/'+(id&&id.indexOf('mix')<0?id:'assorti')+'-sq.webp?v=c1bef8dc)';
+    var a=from.getBoundingClientRect(), b=to.getBoundingClientRect(), d=document.createElement('i'); d.className='fly'; d.style.backgroundImage='url(img/'+(id&&id.indexOf('mix')<0?id:'assorti')+'-sq.webp?v=0e6555a1)';
     d.style.left=(a.left+a.width/2-23)+'px'; d.style.top=(a.top+a.height/2-23)+'px'; document.body.appendChild(d);
     var dx=b.left+b.width/2-(a.left+a.width/2), dy=b.top+b.height/2-(a.top+a.height/2);
     if(!d.animate){ d.remove(); return; }
@@ -69,20 +88,24 @@
       '</div><div class="p">'+sum+'</div></div>'; }
   function cart(){
     var b=$('#cart .body'), f=$('#cart .foot'); if(!b) return; var n=paid(), h='';
-    if(!n){ b.innerHTML='<div class="empty"><img src="img/own-box.webp?v=c1bef8dc" alt=""><p class="h3">В корзине пока пусто</p><p class="small">Коробка ждёт: девять мест, пять вкусов на&nbsp;выбор.</p><a class="btn" href="katalog.html">Выбрать вкус</a></div>'; f.hidden=true; return; }
+    if(!n){ b.innerHTML='<div class="empty"><img src="img/own-box.webp?v=0e6555a1" alt=""><p class="h3">В корзине пока пусто</p><p class="small">Коробка ждёт: девять мест, пять вкусов на&nbsp;выбор.</p><a class="btn" href="katalog.html">Выбрать вкус</a></div>'; f.hidden=true; return; }
     f.hidden=false;
     var ims=[]; for(var k0 in C.i) for(var j0=0;j0<C.i[k0]&&ims.length<3;j0++) ims.push(k0); C.m.forEach(function(){ if(ims.length<3) ims.push('assorti'); });
-    h+='<div class="head2"><span class="cstack" aria-hidden="true">'+ims.reverse().map(function(k){ return '<img src="img/'+k+'-box.webp?v=c1bef8dc" alt="">'; }).join('')+'</span><div><p class="h3">'+boxes(n)+(n>=GIFT_FROM?' и «Ассорти» на бис':'')+'</p><p class="small">'+(n>=GIFT_FROM?'Четвёртая коробка — подарок, она уже в заказе':'Каждая коробка — девять зефиров, симфония')+'</p></div></div>';
-    for(var k in C.i) h+=line(k,'img/'+k+'-box.webp?v=c1bef8dc',P[k].n,'9 шт · 360 г',C.i[k],rub(C.i[k]*PRICE));
-    C.m.forEach(function(m,i){ h+=line('mix'+i,'img/assorti-box.webp?v=c1bef8dc','Своя коробка',mixtext(m),null,rub(OWN)+'<button class="rmv" type="button" data-q="-1">Убрать</button>'); });
-    if(n>=GIFT_FROM) h+='<div class="line gift"><img src="img/assorti-box.webp?v=c1bef8dc" alt=""><div><p class="n">Ассорти, в&nbsp;подарок</p><p class="s">Положили сами: за&nbsp;три коробки</p></div><div class="p">0&nbsp;₽</div></div>';
+    h+='<div class="head2"><span class="cstack" aria-hidden="true">'+ims.reverse().map(function(k){ return '<img src="img/'+k+'-box.webp?v=0e6555a1" alt="">'; }).join('')+'</span><div><p class="h3">'+boxes(n)+(n>=GIFT_FROM?' и «Ассорти» на бис':'')+'</p><p class="small">'+(n>=GIFT_FROM?'Четвёртая коробка — подарок, она уже в заказе':'Каждая коробка — девять зефиров, симфония')+'</p></div></div>';
+    for(var k in C.i) h+=line(k,'img/'+k+'-box.webp?v=0e6555a1',P[k].n,'9 шт · 360 г',C.i[k],rub(C.i[k]*PRICE));
+    C.m.forEach(function(m,i){ h+=line('mix'+i,'img/assorti-box.webp?v=0e6555a1','Своя коробка',mixtext(m),null,rub(OWN)+'<button class="rmv" type="button" data-q="-1">Убрать</button>'); });
+    if(n>=GIFT_FROM) h+='<div class="line gift"><img src="img/assorti-box.webp?v=0e6555a1" alt=""><div><p class="n">Ассорти, в&nbsp;подарок</p><p class="s">Положили сами: за&nbsp;три коробки</p></div><div class="p">0&nbsp;₽</div></div>';
     h+='<div class="prog" data-prog><p class="pt"></p><div class="bar"><i></i></div></div>';
     h+='<details class="note-box"'+(C.card?' open':'')+'><summary class="link" style="list-style:none">Добавить открытку с&nbsp;вашими словами</summary><textarea id="cardtext" maxlength="200" placeholder="Например: «С&nbsp;Новым годом, мама!»">'+(C.card||'')+'</textarea><p class="small">Напишем от&nbsp;руки и&nbsp;вложим в&nbsp;коробку. Бесплатно.</p></details>';
+    var pr=promo();
+    h+='<div class="promo"><label class="small" for="cpromo">Промокод</label><div class="promo-row"><input id="cpromo" autocomplete="off" autocapitalize="characters" spellcheck="false" value="'+(C.promo||'').replace(/"/g,'')+'"><button class="btn" type="button" id="cpromob">'+(C.promo?'Обновить':'Применить')+'</button></div><p class="small promo-msg'+(pr.applied?' ok':'')+'" id="cpromom" aria-live="polite">'+(pr.applied?pr.text+' · <button class="link" type="button" id="cpromox" style="font-size:inherit">убрать</button>':pr.why)+'</p></div>';
     var e=est(localStorage.getItem('zs-city')||'');
     h+='<p class="small" style="margin-top:16px">Доставка '+(e.known?'в&nbsp;'+e.city+': ':'по&nbsp;России: ')+'от&nbsp;'+rub(e.pvz)+', '+e.when+'. Точная цена — при&nbsp;оформлении.</p>';
     b.innerHTML=h; $$('[data-prog]',b).forEach(prog);
     var ta=$('#cardtext'); if(ta) ta.addEventListener('input',function(){ C.card=ta.value; try{ localStorage.setItem('zs-cart',JSON.stringify(C)); }catch(e){} });
-    $('.sum b',f).textContent=rub(subtotal());
+    var pb=$('#cpromob'), pi=$('#cpromo'); if(pb){ pb.addEventListener('click',function(){ setPromo(pi.value); }); pi.addEventListener('keydown',function(ev){ if(ev.key==='Enter'){ ev.preventDefault(); setPromo(pi.value); } }); }
+    var px=$('#cpromox'); if(px) px.addEventListener('click',function(){ setPromo(''); });
+    $('.sum b',f).innerHTML=(pr.D?'<s class="was">'+rub(subtotal())+'</s> ':'')+rub(pr.goods);
   }
   function mixtext(m){ var o=[]; FL.forEach(function(k,i){ if(m[i]) o.push(P[k].n.toLowerCase().replace('чёрная ','')+' '+m[i]); }); return o.join(', '); }
   ZS.mixtext=mixtext;
@@ -130,7 +153,7 @@
     im.onload=function(){ box.appendChild(im); if(now){ while(box.children.length>1) box.removeChild(box.firstChild); return; }
       requestAnimationFrame(function(){ requestAnimationFrame(function(){ im.classList.remove('in'); }); });
       setTimeout(function(){ while(box.children.length>1) box.removeChild(box.firstChild); },560); };
-    im.src='img/take-'+f+'.webp?v=c1bef8dc'; }
+    im.src='img/take-'+f+'.webp?v=0e6555a1'; }
   window.zsTake=zsTake;
   var tk=$('#tk');
   if(tk){ var sel='malina', shut=0, shutTo=0, scene=tk.closest('.boxscene'), wrapb=tk.parentNode;
@@ -140,7 +163,7 @@
     $('#bxpick').addEventListener('click',function(e){ var b=e.target.closest('.chip'); if(b) pick(b.dataset.f); });
     $('#bxadd').addEventListener('click',function(){ var t=this; fly(tk,sel); add(sel,1); pulse(); shutTo=1; t.classList.add('done'); t.textContent='В корзине ✓';
       setTimeout(function(){ t.classList.remove('done'); t.textContent='В корзину — 750 ₽'; },1700); });
-    var warm=function(){ ['smorodina','klubnika','yabloko','assorti'].forEach(function(f){ (new Image()).src='img/take-'+f+'.webp?v=c1bef8dc'; }); };
+    var warm=function(){ ['smorodina','klubnika','yabloko','assorti'].forEach(function(f){ (new Image()).src='img/take-'+f+'.webp?v=0e6555a1'; }); };
     if('requestIdleCallback' in window) requestIdleCallback(warm,{timeout:4000}); else setTimeout(warm,2500);
     var lastK=-1, sm=0;
     (function loop(){ var r=scene.getBoundingClientRect(), vh=innerHeight, span=Math.max(1,r.height-vh), p=Math.max(0,Math.min(1,-r.top/span));
@@ -152,7 +175,7 @@
 
   /* ---------- the film band: plays only when asked ---------- */
   $$('[data-film]').forEach(function(b){ b.addEventListener('click',function(){ var m=document.createElement('div'); m.className='modal'; m.setAttribute('role','dialog'); m.setAttribute('aria-label','Как мы готовим зефир');
-    var tall=innerWidth<innerHeight; m.innerHTML='<video controls playsinline autoplay src="../home/v/film-'+(tall?'t':'w')+'.mp4?v=c1bef8dc" poster="../home/v/poster-'+(tall?'t':'w')+'.jpg?v=c1bef8dc"></video><button class="x" type="button" aria-label="Закрыть">×</button>';
+    var tall=innerWidth<innerHeight; m.innerHTML='<video controls playsinline autoplay src="../home/v/film-'+(tall?'t':'w')+'.mp4?v=0e6555a1" poster="../home/v/poster-'+(tall?'t':'w')+'.jpg?v=0e6555a1"></video><button class="x" type="button" aria-label="Закрыть">×</button>';
     document.body.appendChild(m); var x=$('.x',m); x.focus(); function cl(){ m.remove(); b.focus(); document.removeEventListener('keydown',k); } function k(e){ if(e.key==='Escape') cl(); }
     x.addEventListener('click',cl); document.addEventListener('keydown',k); }); });
 
@@ -173,7 +196,7 @@
 
   /* ---------- the gift meter: three boxes fill as you add, the fourth ties itself ---------- */
   function meters(){ var n=paid(); var order=[]; for(var q in C.i) for(var j=0;j<C.i[q];j++) order.push(q); C.m.forEach(function(){ order.push('assorti'); });
-    $$('[data-meter]').forEach(function(m){ var is=$$('i',m); is.forEach(function(x,i){ x.classList.toggle('f', i<3 ? n>i : n>=GIFT_FROM); if(i<3) x.style.backgroundImage=order[i]?'url(img/'+order[i]+'-box.webp?v=c1bef8dc)':''; });
+    $$('[data-meter]').forEach(function(m){ var is=$$('i',m); is.forEach(function(x,i){ x.classList.toggle('f', i<3 ? n>i : n>=GIFT_FROM); if(i<3) x.style.backgroundImage=order[i]?'url(img/'+order[i]+'-box.webp?v=0e6555a1)':''; });
     var t=$('.mt',m.parentNode); if(t) t.innerHTML = n>=GIFT_FROM ? '«Ассорти» уже ждёт вас в&nbsp;корзине' : (n ? 'Ещё '+boxes(GIFT_FROM-n)+' — и четвёртая ваша' : 'Добавьте три любые коробки'); }); }
   document.addEventListener('zs:cart',meters);
 
@@ -186,7 +209,7 @@
       if(ans.t&&ans.w) show(); });
     function show(){ var f=ans.t, why={malina:'Вы любите, когда сладкое немного кислит: малина тает, а потом даёт яркую ягодную ноту.', smorodina:'Глубокий ягодный вкус и сиреневый цвет: смородина для тех, кто ценит оттенки.', klubnika:'Мягкая, бархатная сладость без резких нот: клубника нравится всем.', yabloko:'Тёплый, пряный и домашний: яблоко с корицей — вкус к чаю в холодный вечер.'}[f], gift=ans.w==='gift'||ans.w==='team';
       if(ans.w==='team'){ f='assorti'; why='Для компании лучше всего «Ассорти»: четыре вкуса, каждому найдётся свой.'; }
-      var r=$('.res',tp); r.hidden=false; r.innerHTML='<img src="img/'+f+'-1.webp?v=c1bef8dc" alt=""><div style="display:grid;gap:8px"><p class="small">Ваш вкус</p><p class="h3">'+P[f].n+'</p><p class="small">'+why+(gift&&ans.w!=='team'?' В подарок положим открытку с вашими словами.':'')+'</p><div class="buyrow" style="margin-top:4px"><button class="btn buy" type="button" data-add="'+f+'">В корзину</button><a class="link" href="'+f+'.html">Подробнее</a></div></div>'; }
+      var r=$('.res',tp); r.hidden=false; r.innerHTML='<img src="img/'+f+'-1.webp?v=0e6555a1" alt=""><div style="display:grid;gap:8px"><p class="small">Ваш вкус</p><p class="h3">'+P[f].n+'</p><p class="small">'+why+(gift&&ans.w!=='team'?' В подарок положим открытку с вашими словами.':'')+'</p><div class="buyrow" style="margin-top:4px"><button class="btn buy" type="button" data-add="'+f+'">В корзину</button><a class="link" href="'+f+'.html">Подробнее</a></div></div>'; }
     tp.addEventListener('click',function(e){ var b=e.target.closest('.res [data-add]'); if(b){ setTimeout(function(){ b.textContent='В корзине ✓'; b.classList.add('done'); },10); } }); }
 
   /* ---------- the route: from Penza to your city, the line draws itself as you scroll ---------- */
@@ -303,7 +326,7 @@
 
   /* ---------- the encore stack: three boxes from your cart, then «Ассорти» lands on top ---------- */
   function stacks(){ var n=paid(), order=[]; for(var k in C.i) for(var j=0;j<C.i[k];j++) order.push(k); C.m.forEach(function(){ order.push('assorti'); });
-    $$('[data-stack]').forEach(function(st){ var sb=$$('.sb',st); for(var i=0;i<3;i++){ sb[i].classList.toggle('f',n>i); if(order[i]) sb[i].src='img/'+order[i]+'-box.webp?v=c1bef8dc'; } sb[3].classList.toggle('f',n>=GIFT_FROM);
+    $$('[data-stack]').forEach(function(st){ var sb=$$('.sb',st); for(var i=0;i<3;i++){ sb[i].classList.toggle('f',n>i); if(order[i]) sb[i].src='img/'+order[i]+'-box.webp?v=0e6555a1'; } sb[3].classList.toggle('f',n>=GIFT_FROM);
       var t=$('[data-mt]',st.parentNode); if(t) t.textContent = n>=GIFT_FROM ? '«Ассорти» уже лежит в вашей корзине' : 'У вас '+n+' из 3'; }); }
   document.addEventListener('zs:cart',stacks);
 
@@ -344,13 +367,19 @@
      So: a loop starts loading well before it scrolls into view; play is asked again whenever the browser has enough
      data, whenever it stalls or pauses on its own, when the tab comes back, and on the first touch (some phones only
      allow playing after one); the pause mark is the only thing that keeps a loop still. */
-  var loops=[];
+  var loops=[], queue=[], busy=false;
+  function pump(){ if(busy||!queue.length) return; busy=true; queue.shift()(); }
   $$('.loopv').forEach(function(v){ var b=v.parentNode.querySelector('.lpause'), L={v:v,user:false,on:false}; loops.push(L);
     if(saver){ v.removeAttribute('autoplay'); if(b) b.hidden=true; L.user=true; return; }
     v.muted=true; v.defaultMuted=true; v.playsInline=true; v.loop=true; v.setAttribute('disableremoteplayback','');
     var src=(innerWidth<innerHeight&&v.dataset.t)?v.dataset.t:v.dataset.w, loaded=false;
-    function load(){ if(loaded) return; loaded=true; v.preload='auto'; v.src=src; v.load(); }
-    function play(){ if(L.user||!L.on) return; load(); if(!v.paused&&!v.ended) return; var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); }
+    /* Six films on one page used to download all at once and share the connection, so the first one started late.
+       Now one film downloads at a time: the film on screen jumps the queue, the others follow when it can play. */
+    function start(){ if(loaded) return; loaded=true; v.preload='auto'; v.src=src; v.load();
+      var done=false, next=function(){ if(done) return; done=true; busy=false; pump(); };
+      ['canplaythrough','error'].forEach(function(ev){ v.addEventListener(ev,next,{once:true}); }); setTimeout(next,6000); }
+    function load(now){ if(loaded) return; if(now){ start(); return; } if(queue.indexOf(start)<0) queue.push(start); pump(); }
+    function play(){ if(L.user||!L.on) return; load(true); if(!v.paused&&!v.ended) return; var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); }
     L.play=play;
     if('IntersectionObserver' in window){
       new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting) load(); }); },{rootMargin:'1400px 0px'}).observe(v);
