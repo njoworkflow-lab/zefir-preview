@@ -394,4 +394,10 @@
   setInterval(wake,2500);
 
   render(); meters(); stacks();
+  /* the cookie notice (brief §04; text from the cookie policy draft, §4.1): once, until «Понятно» */
+  (function(){ if(/(?:^|; )zefir_cookie_ok=1/.test(document.cookie)) return;
+    var b=document.createElement('div'); b.className='cookiebar'; b.setAttribute('role','region'); b.setAttribute('aria-label','Файлы cookie');
+    b.innerHTML='<p>Сайт использует файлы cookie и\u00a0Яндекс Метрику. Подробнее\u00a0— в\u00a0<a href="cookie.html">политике cookie</a>.</p><button class="btn" type="button">Понятно</button>';
+    b.querySelector('button').addEventListener('click',function(){ document.cookie='zefir_cookie_ok=1; max-age=31536000; path=/; SameSite=Lax'; b.remove(); });
+    document.body.appendChild(b); })();
 })();
