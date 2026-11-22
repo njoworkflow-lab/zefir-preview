@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build" content="22.11 · 22:18 UTC">
+<meta name="build" content="22.11 · 22:48 UTC">
 <title>Оформление заказа — Зефирная симфония</title>
 <meta name="description" content="Оформление заказа.">
-<link rel="stylesheet" href="s.css?v=8eb3291d">
-<link rel="stylesheet" href="m.css?v=8eb3291d">
+<link rel="stylesheet" href="s.css?v=a42242b4">
+<link rel="stylesheet" href="m.css?v=a42242b4">
 </head>
 <body>
 <p class="ann">Доставка по всей России · три коробки — «Ассорти» в подарок · <a href="akcii.html">подробнее</a></p>
@@ -29,8 +29,11 @@
     <form id="co" novalidate style="display:grid;gap:34px">
       <h1 class="h1" style="font-size:clamp(30px,7vw,40px)">Оформление заказа</h1>
       <fieldset class="fs"><legend><span class="num">1</span>Покупатель</legend>
+        <p class="small" style="margin:0">Уже покупали у нас? <a href="voiti.html">Войти</a></p>
         <div class="fld"><label for="f1">Телефон</label><input id="f1" type="tel" required autocomplete="tel" placeholder="+7"></div>
-        <div class="two"><div class="fld"><label for="f2">Имя</label><input id="f2" required autocomplete="given-name"></div><div class="fld"><label for="f3">Электронная почта — для чека и трек-номера</label><input id="f3" type="email" required autocomplete="email"></div></div>
+        <div class="two"><div class="fld"><label for="f2">Имя</label><input id="f2" required autocomplete="given-name"></div><div class="fld"><label for="f2b">Фамилия</label><input id="f2b" required autocomplete="family-name"></div></div>
+        <div class="fld"><label for="f3">Электронная почта — для чека и трек-номера</label><input id="f3" type="email" required autocomplete="email"></div>
+        <label class="chk"><input type="checkbox" id="acct"><span><b style="font-weight:500">Создать аккаунт</b> — ссылку для пароля пришлём на почту. В кабинете видно заказы и трек-номер</span></label>
         <label class="chk"><input type="checkbox" id="gift"><span><b style="font-weight:500">Это подарок</b> — подпишем открытку и не будем вкладывать чек с ценой</span></label>
         <div id="giftbox" hidden style="display:grid;gap:14px">
           <div class="two"><div class="fld"><label for="g1">Имя получателя</label><input id="g1"></div><div class="fld"><label for="g2">Телефон получателя</label><input id="g2" type="tel"></div></div>
@@ -51,7 +54,8 @@
           <ul class="pvz-list" id="pvzlist" hidden aria-label="Пункты выдачи СДЭК"></ul>
         </div>
         <label class="opt"><input type="radio" name="dv" value="cur"><div><b>Курьер до двери</b><br><span id="dv2"></span></div><b id="dp2"></b></label>
-        <div id="curbox" hidden style="display:grid;gap:14px"><div class="fld"><label for="d3">Улица и дом</label><input id="d3" autocomplete="address-line1"></div><div class="two"><div class="fld"><label for="d4">Квартира или офис</label><input id="d4" autocomplete="address-line2"></div><div class="fld"><label for="d5">Комментарий курьеру</label><input id="d5"></div></div></div>
+        <div id="curbox" hidden style="display:grid;gap:14px"><div class="two"><div class="fld"><label for="d3">Улица</label><input id="d3" autocomplete="address-line1"></div><div class="fld"><label for="d3b">Дом</label><input id="d3b" autocomplete="address-line2"></div></div><div class="fld"><label for="d4">Квартира или офис</label><input id="d4"></div></div>
+        <div class="fld"><label for="d5">Комментарий к заказу — по желанию</label><input id="d5" placeholder="Например, позвонить за час"></div>
       </fieldset>
       <fieldset class="fs"><legend><span class="num">3</span>Оплата</legend>
         <label class="opt"><input type="radio" name="pay" checked><div><b>Картой онлайн</b><br><span>Мир, Visa, Mastercard</span></div></label>
@@ -74,7 +78,7 @@
   <div class="cols">
     <div class="brand"><span class="logo" role="img" aria-label="Зефирная симфония"></span><p class="small">Зефир ручной работы из Пензы. Семейное дело «Ванюшкины сладости».</p></div>
     <details><summary>Магазин</summary><ul><li><a href="katalog.html">Каталог</a></li><li><a href="sobrat.html">Соберите коробку</a></li><li><a href="akcii.html">Акции</a></li><li><a href="podarki-kompaniyam.html">Подарки компаниям</a><a href="index.html#vremya" data-mv-open>Время вместе</a></li></ul></details>
-    <details><summary>Покупателям</summary><ul><li><a href="dostavka.html">Доставка и оплата</a></li><li><a href="voprosy.html">Вопросы и ответы</a></li><li><a href="vozvrat.html">Возврат и обмен</a></li><li><a href="kontakty.html">Контакты</a></li></ul></details>
+    <details><summary>Покупателям</summary><ul><li><a href="voiti.html">Личный кабинет</a></li><li><a href="dostavka.html">Доставка и оплата</a></li><li><a href="voprosy.html">Вопросы и ответы</a></li><li><a href="vozvrat.html">Возврат и обмен</a></li><li><a href="kontakty.html">Контакты</a></li></ul></details>
     <details><summary>Компания</summary><ul><li><a href="o-nas.html">О нас</a></li><li><a href="rekvizity.html">Реквизиты</a></li><li><a href="oferta.html">Оферта</a></li><li><a href="politika.html">Политика обработки персональных данных</a></li><li><a href="soglasie.html">Согласие на обработку данных</a></li><li><a href="usloviya.html">Условия доставки и оплаты</a></li><li><a href="cookie.html">Политика cookie</a></li></ul></details>
     <details class="ctc" open><summary>Связаться</summary><ul><li><a href="tel:+79085204642">+7 908 520-46-42</a></li><li><a href="mailto:zefir@vanslad.ru">zefir@vanslad.ru</a></li><li><a href="https://t.me/+79085204642" rel="noopener" target="_blank">Telegram</a> и Max: тот же номер</li><li class="small">Пн–Пт, 9:00–18:00 по Москве</li><li class="soc"><a class="socb" href="https://vk.ru/httpsvanslad.ruvanslad" rel="noopener" target="_blank" aria-label="«Ванюшкины сладости» во ВКонтакте"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M6 0h12a6 6 0 0 1 6 6v12a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V6a6 6 0 0 1 6-6Zm.79 7.3H4.05c.13 6.24 3.25 9.99 8.72 9.99h.31v-3.57c2.01.2 3.53 1.67 4.14 3.57h2.84c-.78-2.84-2.83-4.41-4.11-5.01 1.28-.74 3.08-2.54 3.51-4.98h-2.58c-.56 1.98-2.22 3.78-3.8 3.95V7.3H10.5v6.92c-1.6-.4-3.62-2.34-3.71-6.92Z"/></svg></a></li></ul></details>
   </div>
@@ -87,7 +91,7 @@
     <a href="katalog.html">Каталог</a>
     <div class="flv"><a href="malina.html"><img src="img/malina-sq.webp?v=8d1d03b8" alt="" loading="lazy">Малина</a><a href="smorodina.html"><img src="img/smorodina-sq.webp?v=8d1d03b8" alt="" loading="lazy">Чёрная смородина</a><a href="klubnika.html"><img src="img/klubnika-sq.webp?v=8d1d03b8" alt="" loading="lazy">Клубника</a><a href="yabloko.html"><img src="img/yabloko-sq.webp?v=8d1d03b8" alt="" loading="lazy">Яблоко с корицей</a><a href="assorti.html"><img src="img/assorti-sq.webp?v=8d1d03b8" alt="" loading="lazy">Ассорти</a><a href="sobrat.html"><img src="img/own-sq.webp?v=8d1d03b8" alt="" loading="lazy">Своя коробка</a></div>
     <hr><a href="sobrat.html">Соберите коробку</a><a href="akcii.html">Акции</a><a href="podarki-kompaniyam.html">Подарки компаниям</a><a href="index.html#vremya" data-mv-open>Время вместе</a><a href="o-nas.html">О нас</a>
-    <hr><div class="sub"><a href="dostavka.html">Доставка и оплата</a><a href="voprosy.html">Вопросы и ответы</a><a href="kontakty.html">Контакты</a><a href="tel:+79085204642">+7 908 520-46-42</a></div>
+    <hr><div class="sub"><a href="voiti.html">Войти в кабинет</a><a href="dostavka.html">Доставка и оплата</a><a href="voprosy.html">Вопросы и ответы</a><a href="kontakty.html">Контакты</a><a href="tel:+79085204642">+7 908 520-46-42</a></div>
   </nav>
 </aside>
 <aside class="panel right cart" id="cart" aria-label="Корзина" hidden>
@@ -95,7 +99,7 @@
   <div class="body"></div>
   <div class="foot" hidden><div class="sum"><span>Итого без доставки</span><b>0 ₽</b></div><a class="btn buy full" href="oformlenie.html">Оформить заказ</a><p class="small centre">Оплата картой, СБП или SberPay на странице банка</p><p class="small centre cartdocs"><a href="oferta.html">Оферта</a> · <a href="politika.html">Политика конфиденциальности</a> · <a href="vozvrat.html">Возврат</a></p></div>
 </aside>
-<script src="s.js?v=8eb3291d"></script>
+<script src="s.js?v=a42242b4"></script>
 <script>
 (function(){
   var C=ZS.C, $=function(i){ return document.getElementById(i); }, city=$('d1');
@@ -115,7 +119,7 @@
     return {sub:sub,del:del,e:e,tot:tot,pr:pr}; }
   if(innerWidth>=960) $('sumd').open=true;
   city.addEventListener('input',function(){ try{ localStorage.setItem('zs-city',city.value.trim()); }catch(x){} calc(); });
-  [].forEach.call(document.querySelectorAll('[name=dv]'),function(r){ r.addEventListener('change',function(){ var c=dv()==='cur'; $('curbox').hidden=!c; $('pvzbox').hidden=c; $('d2').required=!c; $('d3').required=c; calc(); }); });
+  [].forEach.call(document.querySelectorAll('[name=dv]'),function(r){ r.addEventListener('change',function(){ var c=dv()==='cur'; $('curbox').hidden=!c; $('pvzbox').hidden=c; $('d2').required=!c; $('d3').required=c; $('d3b').required=c; calc(); }); });
   $('gift').addEventListener('change',function(){ $('giftbox').hidden=!this.checked; if(this.checked&&C.card) $('g3').value=C.card; });
   $('promob').addEventListener('click',function(){ ZS.setPromo($('promo').value); calc(); });
   $('promo').addEventListener('keydown',function(ev){ if(ev.key==='Enter'){ ev.preventDefault(); ZS.setPromo($('promo').value); calc(); } });
@@ -169,6 +173,6 @@
     try{ localStorage.setItem('zs-order',JSON.stringify(o)); }catch(x){} ZS.clear(); location.href='spasibo.html'; });
 })();
 </script>
-<script src="mvdata.js?v=8eb3291d"></script><script src="m.js?v=8eb3291d"></script>
+<script src="mvdata.js?v=a42242b4"></script><script src="m.js?v=a42242b4"></script>
 </body>
 </html>
