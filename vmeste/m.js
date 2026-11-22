@@ -66,6 +66,7 @@
       api('/greet', { text: base, mood: tone }, ctl.signal).then(function (j) {
         if (j.reason === 'code') { store('mvcode', ''); askCode(fetchList); return; }
         list = j.ok ? j.variants : []; fine.textContent = 'Варианты предлагает нейросеть. Проверьте текст перед отправкой.'; show();
+        if (j.reason === 'refused') sug.textContent = 'С такими словами помочь не можем. Напишите поздравление — и попробуем ещё раз.';
       }).catch(function (e) { if (e.name !== 'AbortError') { list = []; show(); } });
     }
     function open() {
@@ -227,7 +228,7 @@
   function failed(reason) {
     body.innerHTML = '';
     body.appendChild(el('h2', null, 'Не получилось'));
-    var why = { 'visitor-limit': 'На сегодня ваши кадры закончились — приходите завтра.', 'pilot-limit': 'На сегодня проба закончилась — приходите завтра.', 'none-available': 'Сейчас все художники заняты. Попробуйте через минуту.', 'too-large': 'Фото слишком большие. Попробуйте меньше фото.' }[reason] || 'Что-то пошло не так. Попробуйте ещё раз.';
+    var why = { 'visitor-limit': 'На сегодня ваши кадры закончились — приходите завтра.', 'pilot-limit': 'На сегодня проба закончилась — приходите завтра.', 'none-available': 'Сейчас все художники заняты. Попробуйте через минуту.', 'too-large': 'Фото слишком большие. Попробуйте меньше фото.', 'refused': 'Эти фото мы не можем использовать. Попробуйте другие — обычные семейные фото.', 'check-unavailable': 'Проверка фото сейчас недоступна. Попробуйте через минуту.' }[reason] || 'Что-то пошло не так. Попробуйте ещё раз.';
     body.appendChild(el('p', 'mv-note', why));
     var again = btn('btn', 'Ещё раз'); again.addEventListener('click', generate); body.appendChild(again);
   }
