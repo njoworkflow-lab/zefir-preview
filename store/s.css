@@ -1037,3 +1037,17 @@ figure.wide img{width:100%;height:100%;object-fit:cover;display:block}
 .promo-msg{min-height:1.2em;margin:0}
 .promo-msg.ok{color:var(--ok)}
 .sum .was,.tot .was{font-weight:400;font-size:.8em;color:var(--ink2);margin-right:6px}
+
+/* the pickup map at checkout (team review, 22 Nov): a calm map, then a short list; one point chosen at a time */
+.pvz-msg{margin:0;min-height:1.3em}
+.pvz-map{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--paper);aspect-ratio:4/3;max-height:340px}
+.pvz-map iframe{display:block;width:100%;height:100%;border:0}
+.pvz-list{list-style:none;margin:0;padding:0;display:grid;gap:8px;max-height:320px;overflow:auto;overscroll-behavior:contain}
+.pvz-list li>button{display:grid;gap:2px;width:100%;text-align:left;padding:12px 16px;border:1px solid var(--line);border-radius:var(--r-sm);background:#fff;cursor:pointer;transition:border-color .3s,background .3s}
+.pvz-list li>button:hover,.pvz-list li>button:focus-visible{border-color:var(--ink);background:var(--paper);outline:none}
+.pvz-list b{font-weight:500;font-size:15px}
+.pvz-list span{font-size:13px;color:var(--ink2);display:block}
+.pvz-list li.on{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start;padding:14px 16px;border:1px solid var(--ink);border-radius:var(--r-sm);background:var(--paper)}
+.pvz-list li.on .link{font-size:14px;white-space:nowrap}
+.pvz-list li.more{font-size:13px;color:var(--ink2);padding:4px 2px}
+@media(min-width:760px){.pvz-map{aspect-ratio:16/9}}
