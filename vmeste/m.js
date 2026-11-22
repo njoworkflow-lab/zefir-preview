@@ -10,8 +10,9 @@
   function btn(cls, txt) { var b = el('button', cls, txt); b.type = 'button'; return b; }
   function norm(t) { return String(t || '').toLowerCase().replace(/[^а-яёa-z0-9]+/g, ''); }
   function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  // open pilot (owner, 22 Nov): no code header, which also keeps the browser's permission check simple
   function api(path, body, signal) {
-    return fetch(D.api + path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Pilot-Code': store('mvcode') || '' }, body: JSON.stringify(body), signal: signal })
+    return fetch(D.api + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: signal })
       .then(function (r) { return r.json().then(function (j) { if (r.status === 401) j.reason = 'code'; return j; }); });
   }
 
