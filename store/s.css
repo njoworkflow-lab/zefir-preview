@@ -1171,3 +1171,28 @@ h1,h2,h3,.h1,.h2,.h3,.qname{word-break:normal;overflow-wrap:normal;-webkit-hyphe
 @media (hover:hover) and (min-width:700px){.gm .gswipe{display:none}}
 /* 6. the real reviews: each card shows its own stars, the empty ones pale */
 .rev .stars i{font-style:normal;color:var(--gold);opacity:.28;letter-spacing:1px}
+/* Owner edits, 23 Nov, second batch ------------------------------------------------------------------------------- */
+/* 2. the product names lead to their pages: a pointer and a quiet hover, the approved look otherwise */
+.qnamel{display:block;color:inherit;text-decoration:none;cursor:pointer}
+.qnamel .qname{transition:color .8s var(--soft),opacity .3s ease}
+.qnamel:hover .qname{opacity:.8}
+.vname a{cursor:pointer;transition:opacity .3s ease}
+.vname a:hover,.voice:hover .vname a{opacity:.8}
+.card .nm{transition:opacity .3s ease}.card .nm:hover{opacity:.75}
+/* 4. the products heading receives the focus from the logo (screen readers start there, Tab goes on from there); it is
+   not a control, so it shows no ring (the browser would draw one after a page load even for a mouse click) */
+#vkusy-h:focus{outline:0}
+/* 5. a chip row that scrolls sideways on a phone shows that it goes on (owner, 23 Nov): a soft fade on the far edge
+   (and on the near edge once scrolled), a thin wine «ещё →» that scrolls it, a snap so the chips settle. Rows that fit
+   (every wide screen) get none of it: the script marks only a row that overflows. */
+.xsw{position:relative;min-width:0}
+.xsw.xs > .chips,.xsw.xs > .words{scroll-snap-type:x proximity;scroll-padding-inline:2px;-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 96px),transparent calc(100% - 46px));mask-image:linear-gradient(to right,#000 calc(100% - 96px),transparent calc(100% - 46px))}
+.xsw.xs.xs-mid > .chips,.xsw.xs.xs-mid > .words{-webkit-mask-image:linear-gradient(to right,transparent,#000 28px,#000 calc(100% - 96px),transparent calc(100% - 46px));mask-image:linear-gradient(to right,transparent,#000 28px,#000 calc(100% - 96px),transparent calc(100% - 46px))}
+.xsw.xs.xs-end > .chips,.xsw.xs.xs-end > .words{-webkit-mask-image:linear-gradient(to right,transparent,#000 28px);mask-image:linear-gradient(to right,transparent,#000 28px)}
+.xsw.xs > .chips > *,.xsw.xs > .words > *{scroll-snap-align:start}
+.xsmore{display:none;position:absolute;right:0;width:46px;justify-content:flex-end;top:50%;transform:translateY(-50%);z-index:2;align-items:center;gap:4px;min-height:40px;padding:0 2px 0 10px;border:0;background:none;color:var(--wine,var(--ink));font:400 13px/1 var(--sans);letter-spacing:.02em;cursor:pointer;transition:opacity .4s var(--soft)}
+.xsmore span{font-size:15px;transition:transform .3s var(--ease)}
+.xsmore:hover span{transform:translateX(3px)}
+.xsw.xs .xsmore{display:inline-flex}
+.xsw.xs.xs-end .xsmore{opacity:0;pointer-events:none}
+.xsw.xs.xs-peek > .chips,.xsw.xs.xs-peek > .words{scroll-snap-type:none}

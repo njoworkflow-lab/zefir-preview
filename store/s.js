@@ -320,7 +320,7 @@
     addEventListener('resize',fitName); addEventListener('load',fitName); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fitName);
     function voice(f,fromScale){ qs.dataset.voice=f; qs.style.setProperty('--qg','var(--g-'+f+')'); qs.style.setProperty('--qd','var(--d-'+f+')');
       if(!fromScale) qs.style.setProperty('--cx',CX[f]); $$('.qt',qs).forEach(function(t){ t.setAttribute('aria-selected',String(t.dataset.f===f)); });
-      $('#qname').textContent=P[f].n; $('#qtaste').textContent=P[f].t; $('#qline').textContent=LINES[f]; $('#qlink').href=f+'.html'; fitName();
+      $('#qname').textContent=P[f].n; $('#qtaste').textContent=P[f].t; $('#qline').textContent=LINES[f]; $('#qlink').href=f+'.html'; $('#qnamel').setAttribute('href',$('#qlink').getAttribute('href')); fitName();
       var ad=$('#qadd'); ad.dataset.id=f; $('[data-add]',ad).dataset.add=f; if(!fromScale) $('#qscale').value=POS[f]; render(); }
     $('.qtabs',qs).addEventListener('click',function(e){ var t=e.target.closest('.qt'); if(t) voice(t.dataset.f); });
     /* dragging the taste scale pans along the row; letting go settles on the nearest voice */
@@ -382,8 +382,6 @@
     rg.addEventListener('change',function(){ u.classList.remove('drag'); setK(k>.5?1:0); }); });
 
   /* ---------- catalogue: the inside of each voice, and compare two ---------- */
-  /* owner, 23 Nov: the state class is «is-in» (it was «inside», the button's own class, which broke the card's layout) */
-  $$('.voice .inside').forEach(function(b){ b.addEventListener('click',function(){ var v=b.closest('.voice'), on=!v.classList.contains('is-in'); v.classList.toggle('is-in',on); b.setAttribute('aria-pressed',String(on)); }); });
   /* owner, 23 Nov: the whole card opens its product page (photo, name, «Подробнее»); the buttons, the stepper and «Сравнить» keep their own jobs */
   $$('.voice').forEach(function(v){ var a=$('.vimg',v); if(!a) return;
     v.addEventListener('click',function(e){ if(e.target.closest('a,button,input,label,output,.add,.step')) return; location.href=a.href; }); });
@@ -449,4 +447,30 @@
     if(!hall){ show(); return; }
     function check(){ if(hall.getBoundingClientRect().top<innerHeight){ removeEventListener('scroll',check); show(); } }
     addEventListener('scroll',check,{passive:true}); check(); })();
+
+  /* owner, 23 Nov: the logo leads to the home page's products part (index.html#vkusy), past the intro; the products
+     heading takes the keyboard focus, on arrival and when the link is followed on the home page itself */
+  function toProducts(){ if(location.hash!=='#vkusy') return; var h=$('#vkusy-h'); if(h) try{ h.focus({preventScroll:true}); }catch(x){ h.focus(); } }
+  /* owner, 23 Nov: a row of chips that scrolls sideways on a phone shows that it goes on: a soft fade on the far edge, a thin
+     «ещё →» that scrolls it (gone at the end), one gentle peek when it first comes into view (not under reduced motion),
+     and the chips settle on a snap. Only a row that really overflows gets it, so a wide screen stays as it was. */
+  $$('.chips,.words').forEach(function(row){
+    var w=document.createElement('div'), more=document.createElement('button'), on=false, peeked=false;
+    w.className='xsw'; row.parentNode.insertBefore(w,row); w.appendChild(row);
+    more.type='button'; more.className='xsmore'; more.tabIndex=-1; more.setAttribute('aria-hidden','true'); more.innerHTML='ещё <span>→</span>';
+    w.appendChild(more);
+    more.addEventListener('click',function(){ row.scrollBy({left:Math.max(120,row.clientWidth*.6),behavior:RM?'auto':'smooth'}); });
+    function mark(){ on=row.scrollWidth>row.clientWidth+2; w.classList.toggle('xs',on);
+      var end=row.scrollLeft+row.clientWidth>=row.scrollWidth-4; w.classList.toggle('xs-end',on&&end); w.classList.toggle('xs-mid',on&&row.scrollLeft>4); }
+    row.addEventListener('scroll',mark,{passive:true}); addEventListener('resize',mark); addEventListener('load',mark); mark();
+    if(!RM&&'IntersectionObserver' in window){ var io=new IntersectionObserver(function(en){ en.forEach(function(x){
+      if(!x.isIntersecting||peeked) return; peeked=true; io.disconnect(); if(!on||row.scrollLeft>0) return;
+      setTimeout(function(){ w.classList.add('xs-peek'); row.scrollTo({left:40,behavior:'smooth'});   /* the snap would pull a 40 px peek straight back */
+        setTimeout(function(){ if(row.scrollLeft<=44) row.scrollTo({left:0,behavior:'smooth'}); setTimeout(function(){ w.classList.remove('xs-peek'); },600); },520); },350); }); },{threshold:.9});
+      io.observe(row); }
+  });
+
+  toProducts(); addEventListener('load',function(){ setTimeout(toProducts,60); });          /* after the browser's own jump to the hash */
+  addEventListener('hashchange',function(){ setTimeout(toProducts,60); });
+  $$('.hd .logo').forEach(function(a){ a.addEventListener('click',function(){ if(location.hash==='#vkusy'&&$('#vkusy-h')) setTimeout(toProducts,60); }); });
 })();
