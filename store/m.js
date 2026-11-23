@@ -9,6 +9,7 @@
   function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
   function btn(cls, txt) { var b = el('button', cls, txt); b.type = 'button'; return b; }
   function norm(t) { return String(t || '').toLowerCase().replace(/[^а-яёa-z0-9]+/g, ''); }
+  var PRINT = 'mv-print-card';                // the printed keepsake card, one per order (design only, this browser)
   function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
   // open pilot (owner, 22 Nov): no code header, which also keeps the browser's permission check simple
   function api(path, body, signal) {
@@ -265,8 +266,23 @@
     var f = el('figure', 'mv-res'); var im = el('img'); im.src = image; im.alt = 'Ваш кадр «Время вместе»'; f.appendChild(im); f.appendChild(el('figcaption', null, 'Создано нейросетью'));
     body.appendChild(f);
     if (note) body.appendChild(el('p', 'mv-note', note));
+    /* Two actions under the picture (owner, 23 Nov): download the keepsake card, or have it printed and put in the box.
+       Design only: the preview cart (s.js) has no hook for a paid extra line and the money rules are protected, so the
+       printed card is marked in this browser (one per order) until the store adds it as a real line. */
+    var main = el('div', 'mv-acts mv-main');
+    var save = el('a', 'btn buy', 'Скачать'); save.href = image; save.download = 'vremya-vmeste.jpg';
+    var print = btn('btn', 'Напечатать и положить в заказ — 100 ₽');
+    var done = el('p', 'mv-print'); done.setAttribute('role', 'status');
+    function printState() {
+      var on = store(PRINT) === '1'; print.hidden = on; done.hidden = !on; done.innerHTML = '';
+      if (!on) return;
+      done.appendChild(el('b', null, 'Добавим печатную открытку к заказу'));
+      done.appendChild(el('span', null, 'Печать открытки «Время вместе» — 100 ₽. Одна на заказ, положим в коробку.'));
+      var undo = btn('link', 'Убрать'); undo.addEventListener('click', function () { store(PRINT, '0'); printState(); print.focus(); }); done.appendChild(undo);
+    }
+    print.addEventListener('click', function () { store(PRINT, '1'); printState(); });
+    main.appendChild(save); main.appendChild(print); body.appendChild(main); body.appendChild(done); printState();
     var row = el('div', 'mv-acts');
-    var save = el('a', 'btn buy', 'Сохранить'); save.href = image; save.download = 'vremya-vmeste.jpg';
     var share = btn('btn', 'Поделиться'); share.hidden = !navigator.share;
     share.addEventListener('click', function () {
       fetch(image).then(function (r) { return r.blob(); }).then(function (b) {
@@ -277,7 +293,7 @@
     });
     var mood = btn('link', 'Другое настроение'); mood.addEventListener('click', function () { S.step = 3; render(); });
     var again = btn('link', 'Начать заново'); again.addEventListener('click', function () { S.photos = []; S.scene = null; S.mood = null; S.ok1 = S.ok2 = false; S.step = 1; render(); });
-    row.appendChild(save); row.appendChild(share); row.appendChild(mood); row.appendChild(again); body.appendChild(row);
+    row.appendChild(share); row.appendChild(mood); row.appendChild(again); body.appendChild(row);
   }
   next.addEventListener('click', function () { if (next.disabled) return; if (S.step === 4) generate(); else { S.step++; render(); } });
   prev.addEventListener('click', function () { if (S.step > 1) { S.step--; render(); } });
