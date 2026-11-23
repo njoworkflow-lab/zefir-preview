@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build" content="23.11 · 20:33 UTC">
+<meta name="build" content="23.11 · 22:07 UTC">
 <title>Клубника — зефир ручной работы — Зефирная симфония</title>
 <meta name="description" content="Клубника: мягкая ягодная сладость. Зефир ручной работы, 9 шт, 360 г, 750 ₽. Доставка по всей России.">
-<link rel="stylesheet" href="s.css?v=35f7b255">
-<link rel="stylesheet" href="m.css?v=35f7b255">
+<link rel="stylesheet" href="s.css?v=d0b7595b">
+<link rel="stylesheet" href="m.css?v=d0b7595b">
 </head>
 <body>
 <p class="ann">Доставка по всей России · три коробки — «Ассорти» в подарок · <a href="akcii.html">подробнее</a></p>
@@ -49,21 +49,31 @@
     <form class="revform fs" id="revform" hidden novalidate>
       <fieldset class="rate"><legend class="small">Ваша оценка</legend><div class="ratein">
         <input type="radio" name="rate" id="rt5" value="5" required><label for="rt5" title="5 из 5">★</label><input type="radio" name="rate" id="rt4" value="4"><label for="rt4" title="4 из 5">★</label><input type="radio" name="rate" id="rt3" value="3"><label for="rt3" title="3 из 5">★</label><input type="radio" name="rate" id="rt2" value="2"><label for="rt2" title="2 из 5">★</label><input type="radio" name="rate" id="rt1" value="1"><label for="rt1" title="1 из 5">★</label></div></fieldset>
-      <div class="fld"><label for="rvn">Ваше имя</label><input id="rvn" required maxlength="40" autocomplete="given-name"></div>
-      <div class="fld"><label for="rvt">Отзыв</label><textarea id="rvt" required maxlength="600" placeholder="Что понравилось, кому дарили, с чем пили чай"></textarea></div>
-      <label class="chk"><input type="checkbox" id="rvok" required><span>Согласен(на) на обработку персональных данных по <a href="politika.html">Политике</a></span></label>
+      <div class="fld"><label for="rvn">Ваше имя</label><input id="rvn" name="author" required maxlength="40" autocomplete="given-name"></div>
+      <div class="fld"><label for="rvt">Отзыв</label><textarea id="rvt" name="comment" required minlength="3" maxlength="600" placeholder="Что понравилось, кому дарили, с чем пили чай"></textarea></div>
+      <label class="chk"><input type="checkbox" id="rvok" name="consent" value="1" required><span>Даю <a href="soglasie.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> в соответствии с <a href="politika.html" target="_blank" rel="noopener">Политикой</a></span></label>
       <p class="small" id="rverr" role="alert" style="color:var(--err,#9b2c2c);min-height:1.2em;margin:0"></p>
       <button class="btn buy" type="submit">Отправить отзыв</button>
-      <p class="small" style="margin:0">Отзыв появится на странице после проверки.</p>
+      <p class="small" style="margin:0">Отзыв и ваше имя появятся на странице после проверки.</p>
     </form>
-    <p class="revdone" id="revdone" hidden role="status">Спасибо! Мы получили ваш отзыв. Он появится на странице после проверки.</p>
+    <p class="revdone" id="revdone" hidden role="status">Спасибо! Мы получили ваш отзыв. Он появится на странице после проверки.<small class="revpv"> Это предпросмотр сайта: здесь отзыв никуда не отправляется.</small></p>
   </div>
 <script>(function(){ var o=document.getElementById('revopen'), f=document.getElementById('revform'), d=document.getElementById('revdone'), e=document.getElementById('rverr');
   o.addEventListener('click',function(){ f.hidden=!f.hidden; o.setAttribute('aria-expanded',String(!f.hidden)); if(!f.hidden) document.getElementById('rvn').focus(); });
   f.addEventListener('submit',function(ev){ ev.preventDefault();
     if(!f.querySelector('[name=rate]:checked')){ e.textContent='Поставьте оценку — от одной до пяти звёзд.'; return; }
     var bad=f.querySelector('input:invalid,textarea:invalid'); if(bad){ e.textContent=bad.type==='checkbox'?'Отметьте согласие, чтобы отправить отзыв.':'Заполните поле «'+f.querySelector('label[for="'+bad.id+'"]').textContent+'».'; bad.focus(); return; }
-    f.hidden=true; o.hidden=true; d.hidden=false; });
+    // fix batch 4: in the store the form carries its address (data-revpost) and the review is saved, held until staff approve
+    // it; the preview has no store behind it and only says thank you
+    var cfg=f.querySelector('[data-revpost]'), b=f.querySelector('[type=submit]');
+    function done(){ f.hidden=true; o.hidden=true; d.hidden=false; }
+    if(!cfg){ done(); return; }
+    var u=cfg.getAttribute('data-revpost'); e.textContent=''; b.disabled=true;
+    fetch(u,{credentials:'same-origin'}).then(function(r){ return r.json(); }).then(function(g){ var fd=new FormData(f); fd.append('nonce',g.nonce); fd.append('product',cfg.getAttribute('data-product'));
+      return fetch(u,{method:'POST',body:fd,credentials:'same-origin'}).then(function(r){ return r.json(); }); })
+      .then(function(a){ if(a&&a.success) done(); else e.textContent=(a&&a.data&&a.data.message)||'Не удалось отправить отзыв. Попробуйте ещё раз.'; })
+      .catch(function(){ e.textContent='Нет связи с магазином. Проверьте интернет и попробуйте ещё раз.'; })
+      .then(function(){ b.disabled=false; }); });
 })();</script></div></section>
 <section class="sec"><div class="wrap"><div class="head left"><h2 class="h2">Другие вкусы</h2></div><div class="more"><article class="card " data-card="malina"><div class="ph"><div class="win"><div class="sl"><a href="malina.html" tabindex="-1"><img src="img/malina-1.webp?v=23a0ddb2" alt="Малина: зефир ручной работы" loading=lazy></a><a href="malina.html" tabindex="-1" aria-hidden="true"><img src="img/malina-2.webp?v=23a0ddb2" alt="" loading=lazy></a></div></div><div class="dots" aria-hidden="true"><i class="on"></i><i></i></div><div class="add" data-id="malina"><button class="plus" type="button" data-add="malina" aria-label="Добавить «Малина» в корзину">+</button><div class="step" hidden><button type="button" data-q="-1" aria-label="Меньше">−</button><output>1</output><button type="button" data-q="1" aria-label="Больше">+</button></div></div></div>
 <a class="nm" href="malina.html">Малина</a><p class="nt">Яркая ягодная кислинка</p><p class="stars"><b>★</b> 4,6 · 7 отзывов</p><p class="pr"><b>750 ₽</b> <span>· 9 шт · 360 г</span></p></article><article class="card " data-card="smorodina"><div class="ph"><div class="win"><div class="sl"><a href="smorodina.html" tabindex="-1"><img src="img/smorodina-1.webp?v=23a0ddb2" alt="Чёрная смородина: зефир ручной работы" loading=lazy></a><a href="smorodina.html" tabindex="-1" aria-hidden="true"><img src="img/smorodina-2.webp?v=23a0ddb2" alt="" loading=lazy></a></div></div><div class="dots" aria-hidden="true"><i class="on"></i><i></i></div><div class="add" data-id="smorodina"><button class="plus" type="button" data-add="smorodina" aria-label="Добавить «Чёрная смородина» в корзину">+</button><div class="step" hidden><button type="button" data-q="-1" aria-label="Меньше">−</button><output>1</output><button type="button" data-q="1" aria-label="Больше">+</button></div></div></div>
@@ -101,7 +111,7 @@
   <div class="body"></div>
   <div class="foot" hidden><div class="sum"><span>Итого без доставки</span><b>0 ₽</b></div><a class="btn buy full" href="oformlenie.html">Оформить заказ</a><p class="small centre">Оплата картой, СБП или SberPay на странице банка</p><p class="small centre cartdocs"><a href="oferta.html">Оферта</a> · <a href="politika.html">Политика конфиденциальности</a> · <a href="vozvrat.html">Возврат</a></p></div>
 </aside>
-<script src="s.js?v=35f7b255"></script>
-<script src="mvdata.js?v=35f7b255"></script><script src="m.js?v=35f7b255"></script>
+<script src="s.js?v=d0b7595b"></script>
+<script src="mvdata.js?v=d0b7595b"></script><script src="m.js?v=d0b7595b"></script>
 </body>
 </html>
