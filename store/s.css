@@ -1199,3 +1199,9 @@ h1,h2,h3,.h1,.h2,.h3,.qname{word-break:normal;overflow-wrap:normal;-webkit-hyphe
 /* fix batch 2: sold out — the button says so, calmly; the card stays */
 .btn.buy.is-out,.btn.buy.is-out:hover{background:transparent;color:var(--ink);border-color:var(--ink);box-shadow:none;opacity:.55;cursor:default}
 .voice.is-out .vimg img,.card.is-out img{filter:saturate(.55)}
+
+/* fix batch 3: the delivery page names its ways of delivery */
+.dways{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.dways-h{font:500 15px/1.3 var(--sans);margin:0 0 10px;color:var(--ink)}
+.dways ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}.dways li{display:grid;gap:3px}.dways li b{font-weight:500}.dways li span,.dways li small{color:var(--ink2);font-size:15px;line-height:1.5}
+.dways li small{font-size:14px;white-space:pre-line}
+.opt .dterms{display:block;margin-top:6px;font-size:13px;color:var(--ink2);white-space:pre-line}
