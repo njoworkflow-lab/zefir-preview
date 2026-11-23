@@ -1206,3 +1206,6 @@ h1,h2,h3,.h1,.h2,.h3,.qname{word-break:normal;overflow-wrap:normal;-webkit-hyphe
 .dways ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}.dways li{display:grid;gap:3px}.dways li b{font-weight:500}.dways li span,.dways li small{color:var(--ink2);font-size:15px;line-height:1.5}
 .dways li small{font-size:14px;white-space:pre-line}
 .opt .dterms{display:block;margin-top:6px;font-size:13px;color:var(--ink2);white-space:pre-line}
+/* fix batch 4, phase 2: a product's video in the gallery: one more picture of the same shape, the site's loop and pause mark */
+.gal .main .gv{flex:0 0 100%;scroll-snap-align:start;aspect-ratio:4/5;position:relative;overflow:hidden;background:var(--tint)}
+.gal .main .gv .loopv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
