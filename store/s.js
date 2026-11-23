@@ -147,9 +147,25 @@
 
   /* ---------- product page: gallery, sticky bar, quantity ---------- */
   var gal=$('.gal');
-  if(gal){ var main=$('.main',gal), th=$$('.th button',gal);
-    th.forEach(function(b,i){ b.addEventListener('click',function(){ main.scrollTo({left:i*main.clientWidth,behavior:RM?'auto':'smooth'}); }); });
-    main.addEventListener('scroll',function(){ var k=Math.round(main.scrollLeft/main.clientWidth); th.forEach(function(b,i){ b.setAttribute('aria-current',String(i===k)); }); },{passive:true}); }
+  /* in its own scope: a later «var th» (the home thread) used to overwrite the thumbnails, so a swipe threw an error */
+  if(gal) (function(){ var main=$('.main',gal), th=$$('.th button',gal), gn=main.children.length, gm=null, gp, gx, gs;
+    function gTo(i){ i=Math.max(0,Math.min(gn-1,i)); main.scrollTo({left:i*main.clientWidth,behavior:RM?'auto':'smooth'}); }
+    function gAt(){ return Math.round(main.scrollLeft/(main.clientWidth||1)); }
+    th.forEach(function(b,i){ b.addEventListener('click',function(){ gTo(i); }); });
+    /* owner, 23 Nov: the gallery shows that it moves: arrows on a laptop, dots and a «Листайте» cue on a phone, arrow keys */
+    if(gn>1){ gm=document.createElement('div'); gm.className='gm'; main.parentNode.insertBefore(gm,main); gm.appendChild(main);
+      gp=document.createElement('button'); gx=document.createElement('button'); gs=document.createElement('span'); var gd=document.createElement('div');
+      gp.type=gx.type='button'; gp.className='gar p'; gx.className='gar n'; gp.setAttribute('aria-label','Предыдущее фото'); gx.setAttribute('aria-label','Следующее фото');
+      gp.innerHTML='<span aria-hidden="true">←</span>'; gx.innerHTML='<span aria-hidden="true">→</span>';
+      gd.className='gdots'; gd.setAttribute('aria-hidden','true'); for(var g=0;g<gn;g++) gd.appendChild(document.createElement('i'));
+      gs.className='gswipe'; gs.setAttribute('aria-hidden','true'); gs.textContent='Листайте ←→';
+      gm.appendChild(gp); gm.appendChild(gx); gm.appendChild(gd); gm.appendChild(gs);
+      gp.addEventListener('click',function(){ gTo(gAt()-1); }); gx.addEventListener('click',function(){ gTo(gAt()+1); });
+      main.setAttribute('aria-label','Фотографии: листайте стрелками влево и вправо');
+      main.addEventListener('keydown',function(e){ if(e.key==='ArrowRight'){ e.preventDefault(); gTo(gAt()+1); } else if(e.key==='ArrowLeft'){ e.preventDefault(); gTo(gAt()-1); } }); }
+    function gMark(){ var k=gAt(); th.forEach(function(b,i){ b.setAttribute('aria-current',String(i===k)); });
+      if(gm){ $$('.gdots i',gm).forEach(function(d,i){ d.classList.toggle('on',i===k); }); gp.disabled=k<=0; gx.disabled=k>=gn-1; if(k>0) gs.classList.add('off'); } }
+    gMark(); main.addEventListener('scroll',gMark,{passive:true}); addEventListener('resize',gMark); })();
   var buy=$('[data-buy]');
   if(buy){ var id=buy.dataset.buy, qo=$('#qty output'), q=1;
     $('#qty').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; q=Math.max(1,Math.min(20,q+(+b.dataset.d))); qo.textContent=q; });
@@ -366,7 +382,11 @@
     rg.addEventListener('change',function(){ u.classList.remove('drag'); setK(k>.5?1:0); }); });
 
   /* ---------- catalogue: the inside of each voice, and compare two ---------- */
-  $$('.voice .inside').forEach(function(b){ b.addEventListener('click',function(){ var v=b.closest('.voice'), on=!v.classList.contains('inside'); v.classList.toggle('inside',on); b.setAttribute('aria-pressed',String(on)); }); });
+  /* owner, 23 Nov: the state class is «is-in» (it was «inside», the button's own class, which broke the card's layout) */
+  $$('.voice .inside').forEach(function(b){ b.addEventListener('click',function(){ var v=b.closest('.voice'), on=!v.classList.contains('is-in'); v.classList.toggle('is-in',on); b.setAttribute('aria-pressed',String(on)); }); });
+  /* owner, 23 Nov: the whole card opens its product page (photo, name, «Подробнее»); the buttons, the stepper and «Сравнить» keep their own jobs */
+  $$('.voice').forEach(function(v){ var a=$('.vimg',v); if(!a) return;
+    v.addEventListener('click',function(e){ if(e.target.closest('a,button,input,label,output,.add,.step')) return; location.href=a.href; }); });
   var cb=$('#cmpbar');
   if(cb&&window.CMP){ var sel=[];
     document.addEventListener('change',function(e){ var c=e.target.closest('[data-cmp]'); if(!c) return; var f=c.dataset.cmp;
