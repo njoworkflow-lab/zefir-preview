@@ -278,9 +278,9 @@
       if (!on) return;
       done.appendChild(el('b', null, 'Добавим печатную открытку к заказу'));
       done.appendChild(el('span', null, 'Печать открытки «Время вместе» — 100 ₽. Одна на заказ, положим в коробку.'));
-      var undo = btn('link', 'Убрать'); undo.addEventListener('click', function () { store(PRINT, '0'); printState(); print.focus(); }); done.appendChild(undo);
+      var undo = btn('link', 'Убрать'); undo.addEventListener('click', function () { store(PRINT, '0'); printState(); print.focus(); try { document.dispatchEvent(new CustomEvent('zs:print')); } catch (e) {} }); done.appendChild(undo);
     }
-    print.addEventListener('click', function () { store(PRINT, '1'); printState(); });
+    print.addEventListener('click', function () { store(PRINT, '1'); printState(); try { document.dispatchEvent(new CustomEvent('zs:print')); } catch (e) {} });
     main.appendChild(save); main.appendChild(print); body.appendChild(main); body.appendChild(done); printState();
     var row = el('div', 'mv-acts');
     var share = btn('btn', 'Поделиться'); share.hidden = !navigator.share;

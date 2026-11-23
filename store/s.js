@@ -36,14 +36,19 @@
     return {code:code,known:!!r,applied:applied,D:D,free:free&&applied,DC:(free?0:del),goods:S-D,total:S-D+(free?0:del),why:why,
       text:applied?(free?'Доставка за\u00a0наш счёт':'Скидка '+rub(D)):''}; }
   function setPromo(code){ C.promo=String(code||'').trim().toUpperCase().replace(/\s+/g,''); if(!C.promo) delete C.promo; save(); return promo(); }
-  function add(id,q){ set(id,(C.i[id]||0)+(q||1)); }
-  window.ZS={C:C,P:P,FL:FL,PRICE:PRICE,OWN:OWN,add:add,set:set,save:save,paid:paid,subtotal:subtotal,rub:rub,boxes:boxes,promo:promo,setPromo:setPromo,openCart:function(){ open('cart'); },
+  /* sold out (fix batch 2): a flavour that is out of stock keeps its card and its page; its buttons say «Нет в наличии»
+     and add nothing. The store sends the list (window.ZS_OUT); this preview shows it with ?net=klubnika */
+  var OUT=(window.ZS_OUT||[]).slice(); try{ var nq=new URLSearchParams(location.search).get('net'); if(nq) OUT=OUT.concat(nq.split(',')); }catch(x){}
+  function out(k){ return OUT.indexOf(k)>-1; }
+  function outMark(b,k){ var o=out(k); b.disabled=o; b.classList.toggle('is-out',o); if(o) b.textContent='Нет в наличии'; var c=b.closest('[data-card],.card'); if(c) c.classList.toggle('is-out',o); return o; }
+  function add(id,q){ if(out(id)) return; set(id,(C.i[id]||0)+(q||1)); }
+  window.ZS={out:out,C:C,P:P,FL:FL,PRICE:PRICE,OWN:OWN,add:add,set:set,save:save,paid:paid,subtotal:subtotal,rub:rub,boxes:boxes,promo:promo,setPromo:setPromo,openCart:function(){ open('cart'); },
     addMix:function(mix){ C.m.push(mix); save(); }, clear:function(){ C.i={}; C.m=[]; C.card=''; delete C.promo; save(); }, est:est, plural:plural};
 
   function render(){
     var n=paid();
     $$('.cnt').forEach(function(x){ x.textContent=n; x.dataset.n=n; });
-    $$('[data-add]').forEach(function(b){ var id=b.dataset.add, q=C.i[id]||0, wrap=b.closest('.add'); if(!wrap) return;
+    $$('[data-add]').forEach(function(b){ var id=b.dataset.add, q=C.i[id]||0, wrap=b.closest('.add'); if(outMark(b,id)){ if(wrap){ b.hidden=false; $('.step',wrap).hidden=true; } return; } if(!wrap) return;
       var st=$('.step',wrap); b.hidden=q>0; st.hidden=q===0; if(q) $('output',st).textContent=q; });
     $$('[data-prog]').forEach(prog);
     cart();
@@ -103,6 +108,7 @@
     C.m.forEach(function(m,i){ h+=line('mix'+i,'img/assorti-box.webp?v=23a0ddb2','Своя коробка',mixtext(m),null,rub(OWN)+'<button class="rmv" type="button" data-q="-1">Убрать</button>'); });
     if(n>=GIFT_FROM) h+='<div class="line gift"><img src="img/assorti-box.webp?v=23a0ddb2" alt=""><div><p class="n">Ассорти в&nbsp;подарок</p><p class="s">Положили сами за&nbsp;три коробки</p></div><div class="p">0&nbsp;₽</div></div>';
     if(cardFee()) h+='<div class="line"><img src="img/gift.webp?v=23a0ddb2" alt=""><div><p class="n">Открытка с&nbsp;вашими словами</p><p class="s">Напишем от&nbsp;руки, вложим в&nbsp;коробку</p></div><div class="p">'+rub(CARD)+'</div></div>';
+    if(printFee()) h+='<div class="line"><img src="img/gift.webp?v=23a0ddb2" alt=""><div><p class="n">Печать открытки «Время вместе»</p><p class="s">Одна на&nbsp;заказ, положим в&nbsp;коробку</p></div><div class="p">'+rub(PRINT)+'</div></div>';
     h+='<div class="prog" data-prog><p class="pt"></p><div class="bar"><i></i></div></div>';
     h+='<details class="note-box"'+(C.card?' open':'')+'><summary class="link" style="list-style:none">Добавить открытку с&nbsp;вашими словами · +100&nbsp;₽</summary><textarea id="cardtext" maxlength="200" placeholder="Например: «С&nbsp;Новым годом, мама!»">'+(C.card||'')+'</textarea><p class="small">Напишем от&nbsp;руки и&nbsp;вложим в&nbsp;коробку. +100&nbsp;₽.</p></details>';
     var pr=promo();
@@ -113,11 +119,16 @@
     var ta=$('#cardtext'); if(ta) ta.addEventListener('input',function(){ C.card=ta.value; try{ localStorage.setItem('zs-cart',JSON.stringify(C)); }catch(e){} });
     var pb=$('#cpromob'), pi=$('#cpromo'); if(pb){ pb.addEventListener('click',function(){ setPromo(pi.value); }); pi.addEventListener('keydown',function(ev){ if(ev.key==='Enter'){ ev.preventDefault(); setPromo(pi.value); } }); }
     var px=$('#cpromox'); if(px) px.addEventListener('click',function(){ setPromo(''); });
-    $('.sum b',f).innerHTML=(pr.D?'<s class="was">'+rub(subtotal()+cardFee())+'</s> ':'')+rub(pr.goods+cardFee());
+    $('.sum b',f).innerHTML=(pr.D?'<s class="was">'+rub(subtotal()+fees())+'</s> ':'')+rub(pr.goods+fees());
   }
   /* the handwritten postcard costs 100 ₽ (owner, 23 Nov; design for the client's review): its own line, not discounted by
      promo codes, not counted toward the gift. The theme's WooCommerce cart does not charge it yet, so it is shown only here. */
-  var CARD=100; function cardFee(){ return !window.ZSH&&C.card&&String(C.card).trim()?CARD:0; } ZS.cardFee=cardFee;
+  var CARD=100; function cardFee(){ return !window.ZSH&&C.card&&String(C.card).trim()?CARD:0; }
+  /* the printed «Время вместе» card (+100 ₽, one per order), marked by «Время вместе» (m.js) in this browser */
+  var PRINT=100; function printFee(){ try{ return !window.ZSH&&localStorage.getItem('mv-print-card')==='1'?PRINT:0; }catch(x){ return 0; } }
+  function fees(){ return cardFee()+printFee(); }
+  ZS.cardFee=fees; ZS.fee={card:cardFee,print:printFee};
+  document.addEventListener('zs:print',function(){ if(window.ZSH) ZSH.push(C); render(); });
   function mixtext(m){ var o=[]; FL.forEach(function(k,i){ if(m[i]) o.push(P[k].n.toLowerCase().replace('чёрная ','')+' '+m[i]); }); return o.join(', '); }
   ZS.mixtext=mixtext;
 
@@ -170,7 +181,7 @@
   if(buy){ var id=buy.dataset.buy, qo=$('#qty output'), q=1;
     $('#qty').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; q=Math.max(1,Math.min(20,q+(+b.dataset.d))); qo.textContent=q; });
     function doBuy(e){ var b=e&&e.currentTarget; fly(b,id); add(id,q); pulse(); if(b){ var t=b.textContent; b.classList.add('done'); b.textContent='Добавлено ✓'; setTimeout(function(){ b.classList.remove('done'); b.textContent=t; },1500); } setTimeout(function(){ open('cart'); }, RM?0:650); }
-    $$('[data-buy]').forEach(function(b){ b.addEventListener('click',doBuy); });
+    $$('[data-buy]').forEach(function(b){ b.addEventListener('click',doBuy); outMark(b,id); }); if(out(id)) $('#qty').hidden=true;
     var stick=$('.stick'); if(stick&&'IntersectionObserver' in window) new IntersectionObserver(function(en){ en.forEach(function(x){ var past=!x.isIntersecting&&x.boundingClientRect.top<0; stick.classList.toggle('on',past); stick.toggleAttribute('inert',!past); }); }).observe(buy); }
 
   /* ---------- the box scene on the home: pinned for one screen, the scroll slides the sleeve off ---------- */
@@ -186,7 +197,9 @@
   if(tk){ var sel='malina', shut=0, shutTo=0, scene=tk.closest('.boxscene'), wrapb=tk.parentNode;
     function pick(f){ sel=f; shutTo=0; zsTake(tk,f);
       $$('#bxpick .chip').forEach(function(b){ b.setAttribute('aria-pressed',String(b.dataset.f===f)); });
-      $('#bxname').textContent=P[f].n; $('#bxnote').textContent=P[f].t; $('#bxlink').href=f+'.html'; }
+      $('#bxname').textContent=P[f].n; $('#bxnote').textContent=P[f].t; $('#bxlink').href=f+'.html'; outBx(f); }
+    function outBx(f){ var b=$('#bxadd'), o=out(f); b.disabled=o; b.classList.toggle('is-out',o); if(o) b.textContent='Нет в наличии'; else if(b.textContent==='Нет в наличии') b.textContent='В корзину — '+rub(PRICE); }
+    outBx(sel);
     $('#bxpick').addEventListener('click',function(e){ var b=e.target.closest('.chip'); if(b) pick(b.dataset.f); });
     $('#bxadd').addEventListener('click',function(){ var t=this; fly(tk,sel); add(sel,1); pulse(); shutTo=1; t.classList.add('done'); t.textContent='В корзине ✓';
       setTimeout(function(){ t.classList.remove('done'); t.textContent='В корзину — 750 ₽'; },1700); });

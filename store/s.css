@@ -1196,3 +1196,6 @@ h1,h2,h3,.h1,.h2,.h3,.qname{word-break:normal;overflow-wrap:normal;-webkit-hyphe
 .xsw.xs .xsmore{display:inline-flex}
 .xsw.xs.xs-end .xsmore{opacity:0;pointer-events:none}
 .xsw.xs.xs-peek > .chips,.xsw.xs.xs-peek > .words{scroll-snap-type:none}
+/* fix batch 2: sold out — the button says so, calmly; the card stays */
+.btn.buy.is-out,.btn.buy.is-out:hover{background:transparent;color:var(--ink);border-color:var(--ink);box-shadow:none;opacity:.55;cursor:default}
+.voice.is-out .vimg img,.card.is-out img{filter:saturate(.55)}
