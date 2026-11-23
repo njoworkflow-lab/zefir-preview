@@ -95,8 +95,9 @@
     for(var k in C.i) h+=line(k,'img/'+k+'-box.webp?v=8d1d03b8',P[k].n,'9 шт · 360 г',C.i[k],rub(C.i[k]*PRICE));
     C.m.forEach(function(m,i){ h+=line('mix'+i,'img/assorti-box.webp?v=8d1d03b8','Своя коробка',mixtext(m),null,rub(OWN)+'<button class="rmv" type="button" data-q="-1">Убрать</button>'); });
     if(n>=GIFT_FROM) h+='<div class="line gift"><img src="img/assorti-box.webp?v=8d1d03b8" alt=""><div><p class="n">Ассорти в&nbsp;подарок</p><p class="s">Положили сами за&nbsp;три коробки</p></div><div class="p">0&nbsp;₽</div></div>';
+    if(cardFee()) h+='<div class="line"><img src="img/gift.webp?v=8d1d03b8" alt=""><div><p class="n">Открытка с&nbsp;вашими словами</p><p class="s">Напишем от&nbsp;руки, вложим в&nbsp;коробку</p></div><div class="p">'+rub(CARD)+'</div></div>';
     h+='<div class="prog" data-prog><p class="pt"></p><div class="bar"><i></i></div></div>';
-    h+='<details class="note-box"'+(C.card?' open':'')+'><summary class="link" style="list-style:none">Добавить открытку с&nbsp;вашими словами</summary><textarea id="cardtext" maxlength="200" placeholder="Например: «С&nbsp;Новым годом, мама!»">'+(C.card||'')+'</textarea><p class="small">Напишем от&nbsp;руки и&nbsp;вложим в&nbsp;коробку. Бесплатно.</p></details>';
+    h+='<details class="note-box"'+(C.card?' open':'')+'><summary class="link" style="list-style:none">Добавить открытку с&nbsp;вашими словами · +100&nbsp;₽</summary><textarea id="cardtext" maxlength="200" placeholder="Например: «С&nbsp;Новым годом, мама!»">'+(C.card||'')+'</textarea><p class="small">Напишем от&nbsp;руки и&nbsp;вложим в&nbsp;коробку. +100&nbsp;₽.</p></details>';
     var pr=promo();
     h+='<div class="promo"><label class="small" for="cpromo">Промокод</label><div class="promo-row"><input id="cpromo" autocomplete="off" autocapitalize="characters" spellcheck="false" value="'+(C.promo||'').replace(/"/g,'')+'"><button class="btn" type="button" id="cpromob">'+(C.promo?'Обновить':'Применить')+'</button></div><p class="small promo-msg'+(pr.applied?' ok':'')+'" id="cpromom" aria-live="polite">'+(pr.applied?pr.text+' · <button class="link" type="button" id="cpromox" style="font-size:inherit">убрать</button>':pr.why)+'</p></div>';
     var e=est(localStorage.getItem('zs-city')||'');
@@ -105,8 +106,11 @@
     var ta=$('#cardtext'); if(ta) ta.addEventListener('input',function(){ C.card=ta.value; try{ localStorage.setItem('zs-cart',JSON.stringify(C)); }catch(e){} });
     var pb=$('#cpromob'), pi=$('#cpromo'); if(pb){ pb.addEventListener('click',function(){ setPromo(pi.value); }); pi.addEventListener('keydown',function(ev){ if(ev.key==='Enter'){ ev.preventDefault(); setPromo(pi.value); } }); }
     var px=$('#cpromox'); if(px) px.addEventListener('click',function(){ setPromo(''); });
-    $('.sum b',f).innerHTML=(pr.D?'<s class="was">'+rub(subtotal())+'</s> ':'')+rub(pr.goods);
+    $('.sum b',f).innerHTML=(pr.D?'<s class="was">'+rub(subtotal()+cardFee())+'</s> ':'')+rub(pr.goods+cardFee());
   }
+  /* the handwritten postcard costs 100 ₽ (owner, 23 Nov; design for the client's review): its own line, not discounted by
+     promo codes, not counted toward the gift. The theme's WooCommerce cart does not charge it yet, so it is shown only here. */
+  var CARD=100; function cardFee(){ return !window.ZSH&&C.card&&String(C.card).trim()?CARD:0; } ZS.cardFee=cardFee;
   function mixtext(m){ var o=[]; FL.forEach(function(k,i){ if(m[i]) o.push(P[k].n.toLowerCase().replace('чёрная ','')+' '+m[i]); }); return o.join(', '); }
   ZS.mixtext=mixtext;
 
