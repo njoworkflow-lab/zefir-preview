@@ -1111,8 +1111,8 @@ figure.wide img{width:100%;height:100%;object-fit:cover;display:block}
 
 /* Fix batch 1, A5: text at 200 % (the phone's text size or the browser's zoom) reflows instead of scrolling sideways.
    Single-column grids above keep their one column inside the screen (minmax(0,1fr): the same at normal size), long
-   words wrap only when they would not fit, and the rules under 300 px apply only when a 360–430 px phone is zoomed. */
-h1,h2,h3,.h1,.h2,.h3,p,li,dd,dt,label,legend,summary,figcaption{overflow-wrap:break-word}
+   words in body text wrap only when they would not fit (never in headings: the owner's rule below), and the rules under 300 px apply only when a 360–430 px phone is zoomed. */
+p,li,dd,dt,label,legend,summary,figcaption{overflow-wrap:break-word}
 fieldset{min-inline-size:0}
 .scale input{min-width:0}
 .qt{overflow-wrap:anywhere}
@@ -1133,4 +1133,15 @@ fieldset{min-inline-size:0}
   textarea{max-width:100%;box-sizing:border-box}
   .cart .foot{padding-left:12px;padding-right:12px}.sum{flex-wrap:wrap;column-gap:8px}.sum b{font-size:24px}
   .mn .flv{grid-template-columns:repeat(2,minmax(0,1fr))}.mn .flv img{max-width:100%;height:auto}
+  .qname{font-size:clamp(26px,14vw,52px)}   /* the big flavour name never breaks (owner), so it gets smaller when zoomed */
 }
+/* Owner, 23 Nov (client review): a word never breaks inside itself in a heading, in any browser (no automatic hyphens
+   either), and the product title is sized to its column so «смородина», «Ассорти», «корицей» always fit */
+h1,h2,h3,.h1,.h2,.h3,.qname{word-break:normal;overflow-wrap:normal;-webkit-hyphens:manual;hyphens:manual}
+@media (min-width:960px){.info .h1{font-size:clamp(38px,4.1vw,56px)}}
+/* Owner, 23 Nov: every footer link on its own line, also when one list item holds two links */
+.ft details:not(.ctc) li a{display:block}.ft details:not(.ctc) li a + a{margin-top:9px}
+
+/* brief §05: a line on sale shows its regular price struck through beside the sale price, in the cart panel and the
+   checkout too (the same mark as the totals) */
+.cart .line .p .was,.rowp .was{font-weight:400;font-size:.85em;color:var(--ink2);margin-right:6px}
