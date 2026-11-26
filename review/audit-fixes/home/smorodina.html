@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Чёрная смородина — зефир ручной работы · Зефирная симфония (предпросмотр)</title>
+<meta name="description" content="Нежный зефир на яблочном пюре и спелой чёрной смородине.">
+<style>
+@font-face{font-family:"Noto Serif Display";font-weight:400;src:url(../fonts/nsd400.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Noto Serif Display";font-weight:400;font-style:italic;src:url(../fonts/nsd400i.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Jost";font-weight:500;src:url(../fonts/jost500.woff2) format("woff2");font-display:block}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+:root{ --ink:#4A1026; --cream:#FFF4EE; --stage:#B9848B;
+  --display:"Noto Serif Display","Times New Roman",serif; --text:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --caps:500 11px/1.6 var(--text); --track:.26em; --ease:cubic-bezier(.22,.7,.2,1);
+  --gx:max(22px,env(safe-area-inset-left,0px)); --gxr:max(22px,env(safe-area-inset-right,0px));
+  --logo-w:min(28vw,116px); --top:calc(14px + env(safe-area-inset-top,0px));
+  --h:clamp(40px,11.6vw,58px); --m:clamp(18px,4.9vw,21px); color-scheme:light }
+body{margin:0;background:var(--stage);color:var(--ink);font:400 17px/1.6 var(--display);-webkit-font-smoothing:antialiased}
+img,video{display:block} p,h1,h2{margin:0}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:1px solid currentColor;outline-offset:5px}
+.caps{font:var(--caps);letter-spacing:var(--track);text-transform:uppercase}
+.caps a{text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:2px}
+.xl{font:400 var(--h)/1.03 var(--display);letter-spacing:-.018em;text-wrap:balance;max-width:13ch}
+.xl i{font-style:italic;letter-spacing:-.012em}
+.lab{display:flex;align-items:center;gap:12px}.lab::before{content:"";width:28px;height:1px;background:currentColor;opacity:.8}
+.m{font:400 var(--m)/1.45 var(--display);text-wrap:pretty;max-width:30ch}
+.go{position:relative;display:inline-block;font:italic 400 clamp(24px,6.4vw,30px)/1.2 var(--display);color:inherit;text-decoration:none;padding:0 0 8px;background:none;border:0;cursor:pointer;white-space:nowrap}
+.go::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.85}
+.pr{font:400 clamp(24px,6.4vw,30px)/1.2 var(--display);white-space:nowrap;padding-bottom:8px;font-variant-numeric:lining-nums}
+.pr small{font:var(--caps);letter-spacing:var(--track);text-transform:uppercase;margin-left:10px}
+.pr.in{display:none}
+.row{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;justify-self:stretch}
+.row .sp{flex:1}
+.qty{display:flex;align-items:baseline;gap:4px;font:400 clamp(22px,5.8vw,28px)/1.2 var(--display);padding-bottom:8px}
+.qty button{font:inherit;color:inherit;background:none;border:0;padding:0 9px;cursor:pointer;min-height:44px;margin:-8px 0}
+.qty output{min-width:1.2ch;text-align:center}
+.track{position:relative}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--stage);color:var(--cream)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:soft-light;z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
+.ly{position:absolute;inset:0;opacity:0;overflow:hidden;will-change:opacity}
+.ly:first-of-type{opacity:1}
+.ly > picture img,.ly > img,.ly > video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(calc(1.05 - .05 * var(--in,1)))}
+.ly.shade{box-shadow:inset 0 170px 140px -70px rgba(112,44,62,.66)}
+.ly.shade::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(108,42,60,.5),rgba(108,42,60,0) 22%)}
+.ly.bloom::after{content:"";position:absolute;inset:0;background:radial-gradient(150% 80% at 0% 100%,rgba(255,241,241,.9),rgba(255,241,241,.62) 38%,rgba(255,241,241,0) 70%)}
+.ly.grade::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(24,6,12,.28),rgba(24,6,12,0) 24%,rgba(24,6,12,0) 42%,rgba(24,6,12,.66))}
+.ly.box{background:url(box/ground.jpg) center/cover;box-shadow:inset 0 170px 140px -70px rgba(112,44,62,.66)}
+.bx{position:absolute;left:50%;top:36.5%;--B:min(78vw,42svh);width:var(--B);height:var(--B);transform:translate(-50%,-50%) scale(calc(1.05 - .05 * var(--in,1)))}
+.bx .dr,.bx .sl{position:absolute;inset:0;border-radius:2px}
+.bx .dr{box-shadow:3px 4px 9px rgba(92,30,46,.3),16px 20px 42px rgba(92,30,46,.3)}
+.bx img{position:absolute;inset:0;width:100%;height:100%}
+.bx canvas{position:absolute;left:9.25%;top:9.4%;width:83.07%;height:83.07%}
+.bx .sl{transform:translateX(calc(var(--k,0) * -94%)) scale(1.012);box-shadow:4px 5px 10px rgba(92,30,46,.32),18px 22px 46px rgba(92,30,46,.3);will-change:transform}
+.tx{position:absolute;z-index:2;left:var(--gx);right:var(--gxr);bottom:calc(26px + env(safe-area-inset-bottom,0px));display:grid;gap:18px;justify-items:start;opacity:0;pointer-events:none}
+.tx.live{pointer-events:auto}
+.tx.ink{color:var(--ink)} .tx.sh{text-shadow:0 1px 4px rgba(20,4,10,.5),0 2px 36px rgba(20,4,10,.95)}
+.top{position:absolute;z-index:3;left:0;right:0;top:0;padding:var(--top) var(--gxr) 0 var(--gx);display:flex;align-items:center;gap:6px;text-shadow:0 1px 12px rgba(40,6,16,.55)}
+.logo{width:var(--logo-w);flex:none;display:block;filter:drop-shadow(0 1px 10px rgba(40,6,16,.45))}.logo img{width:100%;height:auto}
+.top .sp{flex:1}
+.nav{font:var(--caps);letter-spacing:var(--track);text-transform:uppercase;color:inherit;text-decoration:none;padding:14px 12px}
+.nav b{font:italic 400 18px/1 var(--display);letter-spacing:0;margin-left:6px}
+.nav.wide{display:none}
+.menu{width:44px;height:44px;border:0;padding:0;background:none;cursor:pointer;display:grid;place-content:center;gap:7px;color:inherit}
+.menu i{display:block;width:22px;height:1px;background:currentColor;transition:transform .5s var(--ease)}
+.open .menu i:first-child{transform:translateY(4px) rotate(45deg)} .open .menu i:last-child{transform:translateY(-4px) rotate(-45deg)}
+.veil{position:absolute;inset:0;z-index:2;background:rgba(172,118,128,.93);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);display:grid;align-content:center;justify-items:start;gap:6px;padding:90px var(--gxr) 40px var(--gx);opacity:0;pointer-events:none;transition:opacity .5s ease;color:var(--cream)}
+.open .veil{opacity:1;pointer-events:auto}
+.veil a{font:400 clamp(30px,8.6vw,46px)/1.16 var(--display);letter-spacing:-.012em;text-decoration:none;padding:3px 0;transform:translateY(10px);opacity:0;transition:transform .7s var(--ease),opacity .6s ease}
+.veil a.it{font-style:italic}.veil .caps{margin:16px 0 6px;opacity:.8}
+.open .veil a{transform:none;opacity:1}
+.veil a:nth-of-type(2){transition-delay:.04s}.veil a:nth-of-type(3){transition-delay:.08s}.veil a:nth-of-type(4){transition-delay:.12s}.veil a:nth-of-type(5){transition-delay:.16s}.veil a:nth-of-type(6){transition-delay:.2s}.veil a:nth-of-type(7){transition-delay:.24s}.veil a:nth-of-type(8){transition-delay:.28s}
+.cue{position:absolute;z-index:2;right:var(--gxr);top:50%;writing-mode:vertical-rl;font:var(--caps);font-size:9.5px;letter-spacing:.42em;text-transform:uppercase;opacity:.75;transition:opacity .6s ease}
+.moved .cue,.open .cue{opacity:0}
+@media (min-aspect-ratio:1/1){
+  :root{--gx:max(4.5vw,env(safe-area-inset-left,0px));--gxr:max(4.5vw,env(safe-area-inset-right,0px));--logo-w:clamp(120px,11vw,176px);--top:24px;
+    --h:clamp(44px,4.1vw,66px); --m:clamp(18px,1.35vw,22px); --caps:500 12px/1.6 var(--text)}
+  .top{gap:10px} .nav.wide{display:block} .menu{display:none}
+  .xl{max-width:24ch} .m{max-width:46ch}
+  .tx{bottom:clamp(30px,5.6vh,56px)} .tx > .row{position:absolute;right:0;bottom:0;flex-direction:row-reverse;gap:34px} .tx > .go{position:absolute;right:0;bottom:0}
+  .go,.pr{font-size:clamp(26px,2vw,34px)} .qty{font-size:clamp(24px,1.8vw,30px)}
+  .tx.low{grid-template-columns:max-content 1fr;column-gap:26px;align-items:baseline}
+  .tx.low .xl{grid-area:1/1/2/3;max-width:none} .tx.low .lab{grid-area:2/1} .tx.low > .caps:not(.lab){grid-area:2/2}
+  .tx.low .row .pr{display:none}
+  .pr.in{display:inline-block;padding:0;margin-left:30px;font-size:clamp(22px,1.7vw,28px);letter-spacing:0;font-style:normal}
+  .bx{left:61%;top:46%;--B:min(54svh,31vw)}
+  .veil{justify-items:center;text-align:center}
+}
+</style>
+</head>
+<body>
+<div class="track" id="track"><div class="stage" id="stage">
+<div class="ly " data-len="1"><picture><source media="(min-aspect-ratio:1/1)" srcset="f/smorodina-w.webp"><img src="f/smorodina-t.webp" alt="Зефир «Чёрная смородина» на розовой бумаге" decoding="async"></picture></div>
+<div class="ly bloom shade" data-len="1"><picture><source media="(min-aspect-ratio:1/1)" srcset="p/smorodina-fruit-w.jpg"><img src="p/smorodina-fruit-t.jpg" alt="Гроздь чёрной смородины на розовой бумаге" decoding="async"></picture></div>
+<div class="ly bloom shade" data-len="1"><picture><source media="(min-aspect-ratio:1/1)" srcset="p/smorodina-ridges.jpg"><img src="p/smorodina-fold.jpg" alt="Зефир крупным планом" decoding="async"></picture></div>
+<div class="ly box" data-len="1.9" data-f="1"><div class="bx"><div class="dr"><img src="box/drawer.webp" alt="Открытая коробка сверху: в окне девять зефиров" decoding="async"><canvas aria-hidden="true"></canvas></div><div class="sl"><img src="box/sleeve.webp" alt="Розовый футляр коробки: название «Зефирная симфония» в фольге, тиснёные ягоды" decoding="async"></div></div></div>
+<div class="ly " data-len="1"><picture><source media="(min-aspect-ratio:1/1)" srcset="box-w.jpg"><img src="box-t.jpg" alt="Розовая коробка «Зефирная симфония»: тиснёные ягоды, название в фольге, в окне виден зефир" decoding="async"></picture></div>
+<div class="ly " data-len="1"><picture><source media="(min-aspect-ratio:1/1)" srcset="f/klubnika-w.webp"><img src="f/klubnika-t.webp" alt="Зефир «Клубника»" decoding="async"></picture></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="tx ink low"><p class="caps lab"><span><a href="katalog.html">Каталог</a> / Чёрная смородина</span></p><h1 class="xl">Чёрная <i>смородина</i><span class="pr in">750&nbsp;₽<small>за&nbsp;коробку</small></span></h1><p class="caps">Зефир ручной работы</p><div class="row"><button class="go" type="button" data-add="smorodina">В корзину</button><span class="sp"></span><p class="qty" aria-label="Количество коробок"><button type="button" data-q="-1" aria-label="Меньше">−</button><output>1</output><button type="button" data-q="1" aria-label="Больше">+</button></p><p class="pr">750&nbsp;₽</p></div></div>
+<div class="tx ink"><p class="caps lab">О вкусе</p><h2 class="xl">Нежная, из&nbsp;спелых <i>ягод</i></h2><p class="m">Нежный зефир на&nbsp;яблочном пюре и&nbsp;спелой чёрной смородине.</p></div>
+<div class="tx ink"><p class="caps lab">Состав</p><h2 class="xl">Семь <i>ингредиентов</i></h2><p class="caps">Сахар, вода питьевая, смородина чёрная свежая, белок яичный, пюре яблочное концентрированное, агар, кислота лимонная</p><p class="caps">Белки 2,0&nbsp;г · жиры 0,1&nbsp;г · углеводы 70,9&nbsp;г · 293&nbsp;ккал</p></div>
+<div class="tx ink"><p class="caps lab">Коробка</p><h2 class="xl"><i>Девять</i> таких в&nbsp;коробке</h2><p class="caps">9&nbsp;штук · 360&nbsp;г · срок годности 15&nbsp;дней</p><div class="row"><button class="go" type="button" data-add="smorodina" data-box="1">В корзину</button><p class="pr">750&nbsp;₽<small>за&nbsp;коробку</small></p></div></div>
+<div class="tx ink"><p class="caps lab">Доставка</p><h2 class="xl">СДЭК: в&nbsp;пункт выдачи или <i>курьером</i></h2><p class="caps">Стоимость — при оформлении</p><a class="go" href="katalog.html">В каталог</a></div>
+<div class="tx ink low"><p class="caps lab">Другие вкусы</p><h2 class="xl"><i>Клубника</i></h2><p class="caps"><a href="malina.html">Малина</a> · <a href="yabloko.html">Яблоко с&nbsp;корицей</a> · <a href="assorti.html">Ассорти</a></p><a class="go" href="klubnika.html">Смотреть</a></div>
+<nav class="veil" id="veil" aria-label="Меню"><a href="index.html">Главная</a><a href="katalog.html">Каталог</a><p class="caps">Вкусы</p><a class="it" href="malina.html">Малина</a><a class="it" href="smorodina.html">Чёрная смородина</a><a class="it" href="klubnika.html">Клубника</a><a class="it" href="yabloko.html">Яблоко с&nbsp;корицей</a><a class="it" href="assorti.html">Ассорти</a><p class="caps">О компании</p><a href="o-nas.html">О нас</a><a href="dostavka.html">Доставка и оплата</a></nav>
+<header class="top"><a class="logo" href="index.html" aria-label="Зефирная симфония: на главную"><img src="../scene-1/wordmark.svg" alt="Зефирная симфония" width="1368" height="698"></a><span class="sp"></span><a class="nav wide" href="katalog.html">Каталог</a><a class="nav wide" href="o-nas.html">О нас</a><a class="nav" href="korzina.html" aria-label="Корзина">Корзина<b class="count">0</b></a><button class="menu" type="button" aria-label="Меню" aria-expanded="false" aria-controls="veil"><i></i><i></i></button></header>
+<p class="cue" aria-hidden="true">Листайте</p>
+</div></div>
+<script>
+(function(){
+  var $$=function(q){ return [].slice.call(document.querySelectorAll(q)); }, track=document.getElementById('track'), stage=document.getElementById('stage');
+  var L=$$('.ly'), T=$$('.tx'), ST=[], acc=0, u=0, N=L.length, wide=null;
+  L.forEach(function(l){ ST.push(acc); acc+=+(l.dataset.len||1); }); ST.push(acc); track.style.height=(acc*100)+'vh';
+  function cl(v){ return v<0?0:v>1?1:v; } function smooth(t){ t=cl(t); return t*t*(3-2*t); }
+  /* films: the right cut for the screen, playing only while seen */
+  function films(){ var w=innerWidth>=innerHeight; if(w===wide) return; wide=w; $$('video[data-v]').forEach(function(v){ var k=v.dataset.v+(w?'-w':'-t'); v.poster=k+'.jpg'; v.src=k+'.mp4'; v.muted=true; }); }
+  films(); addEventListener('resize', films);
+  /* the box: sleeve off by scroll, back before the next scene, and shut when added */
+  var boxes=L.map(function(l){ if(!l.classList.contains('box')) return null; var f=+l.dataset.f, bx=l.querySelector('.bx'), cv=bx.querySelector('canvas'), c=cv.getContext('2d'), im=[], b={shut:0,to:0,k:-1,i:-1,done:false};
+    var MIX=[0,1,2,3,0,1,2,3,0], XS=[0,.326,.652,1], YS=[0,.319,.65,1], need = f<4 ? [f] : [0,1,2,3];
+    b.load=function(){ if(im.length) return; need.forEach(function(n){ var g=new Image(); g.onload=function(){ g._ok=true; b.done=false; }; g.src='box/win-'+['malina','smorodina','klubnika','yabloko'][n]+'.webp'; im[n]=g; }); };
+    b.paint=function(){ var r=cv.getBoundingClientRect(), S=Math.max(1,Math.min(1060,Math.round(r.width*Math.min(devicePixelRatio||1,2.5)))); if(cv.width!==S){ cv.width=cv.height=S; c.imageSmoothingQuality='high'; b.done=false; } if(b.done) return; var all=true;
+      for(var i=0;i<9;i++){ var g=im[f<4?f:MIX[i]], cc=i%3, rr=(i-cc)/3, x=XS[cc], y=YS[rr], w=XS[cc+1]-x, h=YS[rr+1]-y; if(g&&g._ok) c.drawImage(g,x*1060,y*1060,w*1060,h*1060,x*S,y*S,w*S,h*S); else all=false; } b.done=all; };
+    b.step=function(p,inn){ if(p<-.6 || p>2){ b.to=0; b.shut=0; return; } b.load(); if(p<.08 || p>1.55) b.to=0; b.shut+=(b.to-b.shut)*.11; if(Math.abs(b.to-b.shut)<.002) b.shut=b.to;
+      var k=smooth(p/.5)*(1-smooth((p-1.2)/.32))*(1-smooth(b.shut)); if(Math.abs(k-b.k)>.0004){ bx.style.setProperty('--k',k.toFixed(4)); b.k=k; } b.paint(); };
+    addEventListener('resize', function(){ b.done=false; }); return b; });
+  function tick(){ var r=track.getBoundingClientRect(), vh=innerHeight, target=Math.max(0,Math.min(acc-1,-r.top/vh)); u+=(target-u)*.16; if(Math.abs(target-u)<.0006) u=target;
+    for(var n=0;n<N;n++){ var o = n===0 ? 1 : cl((u-ST[n])/.5+1), last=n===N-1, a = n===0 ? 1 : cl((u-(ST[n]-.3))/.2), z = last ? 1 : cl((ST[n+1]-.5-u)/.2), txo=Math.min(a,z), l=L[n];
+      if(l._o!==o){ l.style.opacity=o.toFixed(3); l.style.setProperty('--in', smooth(o).toFixed(3)); l._o=o; }
+      if(T[n] && T[n]._o!==txo){ T[n].style.opacity=txo.toFixed(3); T[n].classList.toggle('live', txo>.6); T[n]._o=txo; }
+      var v=l.querySelector('video'); if(v){ var seen = o>.35 && (last || u<ST[n+1]-.05); if(seen && v.paused){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); } else if(!seen && !v.paused) v.pause(); }
+      if(boxes[n]) boxes[n].step(u-ST[n]); }
+    stage.classList.toggle('moved', u>.15); requestAnimationFrame(tick); }
+  requestAnimationFrame(tick);
+  /* cart (kept between pages as flavour → boxes), quantity, menu */
+  var items={}; try{ items=JSON.parse(localStorage.getItem('zs-items')||'{}')||{}; }catch(e){}
+  function total(){ var n=0; for(var k in items) n+=items[k]; return n; }
+  function show(){ $$('.count').forEach(function(x){ x.textContent=String(total()); }); } show();
+  function put(id,n){ items[id]=(items[id]||0)+n; try{ localStorage.setItem('zs-items', JSON.stringify(items)); localStorage.setItem('zs-last', id); }catch(e){} show(); }
+  document.addEventListener('click', function(e){ var b=e.target.closest('[data-add]'), q=e.target.closest('[data-q]'), m=e.target.closest('.menu');
+    if(m){ stage.classList.toggle('open'); m.setAttribute('aria-expanded', String(stage.classList.contains('open'))); return; }
+    if(q){ var out=q.parentNode.querySelector('output'); out.value=String(Math.max(1,Math.min(20,(+out.value||1)+(+q.dataset.q)))); return; }
+    if(!b) return; var n=1, o=b.closest('.tx')&&b.closest('.tx').querySelector('.qty output'); if(o) n=+o.value||1;
+    if(b.dataset.box){ var i=T.indexOf(b.closest('.tx')), bb=boxes[i]; if(bb && bb.to){ bb.to=0; b.textContent='В корзину'; return; } if(bb){ bb.to=1; } put(b.dataset.add,n); b.textContent='Открыть снова'; }
+    else { put(b.dataset.add,n); var t=b.textContent; b.textContent='Добавлено'; setTimeout(function(){ b.textContent=t; },1400); } });
+})();
+</script>
+</body>
+</html>
