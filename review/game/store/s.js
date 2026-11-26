@@ -146,7 +146,7 @@
     for(var k in C.i) h+=line(k,'img/'+k+'-box.webp?v=c5f0699d',P[k].n,'9 шт · 360 г',C.i[k],rub(C.i[k]*cost(k)));
     C.m.forEach(function(m,i){ h+=line('mix'+i,'img/assorti-box.webp?v=c5f0699d','Своя коробка',mixtext(m),null,rub(OWN)+'<button class="rmv" type="button" data-q="-1">Убрать</button>'); });
     if(n>=GIFT_FROM) h+='<div class="line gift"><img src="img/assorti-box.webp?v=c5f0699d" alt=""><div><p class="n">Ассорти в&nbsp;подарок</p><p class="s">Положили сами за&nbsp;три коробки</p></div><div class="p">0&nbsp;₽</div></div>';
-    if(cardFee()) h+='<div class="line"><img src="img/gift.webp?v=c5f0699d" alt=""><div><p class="n">Открытка с&nbsp;вашими словами</p><p class="s">Напишем от&nbsp;руки, вложим в&nbsp;коробку</p></div><div class="p">'+rub(CARD)+'</div></div>';
+    if(cardFee()) h+='<div class="line"><img src="img/gift.webp?v=c5f0699d" alt=""><div><p class="n">'+(cardFee()>CARD?'Открытки с&nbsp;вашими словами ×&nbsp;'+(cardFee()/CARD):'Открытка с&nbsp;вашими словами')+'</p><p class="s">Напишем от&nbsp;руки, вложим в&nbsp;коробку</p></div><div class="p">'+rub(cardFee())+'</div></div>';
     if(printFee()) h+='<div class="line"><img src="img/gift.webp?v=c5f0699d" alt=""><div><p class="n">Печать открытки «Время вместе»</p><p class="s">Одна на&nbsp;заказ, положим в&nbsp;коробку</p></div><div class="p">'+rub(PRINT)+'</div></div>';
     h+='<div class="prog" data-prog><p class="pt"></p><div class="bar"><i></i></div></div>';
     h+='<details class="note-box"'+(C.card?' open':'')+'><summary class="link" style="list-style:none">Добавить открытку с&nbsp;вашими словами · +100&nbsp;₽</summary><textarea data-helper id="cardtext" maxlength="200" placeholder="Например: «С&nbsp;Новым годом, мама!»">'+(C.card||'')+'</textarea><p class="small">Напишем от&nbsp;руки и&nbsp;вложим в&nbsp;коробку. +100&nbsp;₽.</p></details>';
@@ -165,7 +165,7 @@
   }
   /* the handwritten postcard costs 100 ₽ (owner, 23 Nov; design for the client's review): its own line, not discounted by
      promo codes, not counted toward the gift. The theme's WooCommerce cart does not charge it yet, so it is shown only here. */
-  var CARD=100; function cardFee(){ return !window.ZSH&&C.card&&String(C.card).trim()?CARD:0; }
+  var CARD=100; function cardFee(){ return !window.ZSH?CARD*(ZS.cardsN?ZS.cardsN():(C.card&&String(C.card).trim()?1:0)):0; }
   /* the printed «Время вместе» card (+100 ₽, one per order), marked by «Время вместе» (m.js) in this browser */
   var PRINT=100; function printFee(){ try{ return !window.ZSH&&window.MV&&MV.print&&localStorage.getItem('mv-print-card')==='1'?PRINT:0; }catch(x){ return 0; } }
   function fees(){ return cardFee()+printFee(); }
@@ -380,7 +380,7 @@
   ZS.review=review; ZS.cardScene=cardScene;
   /* the checkout (the preview's and WooCommerce's: both have «Это подарок» #gift and the card text #g3): the block follows the words */
   (function(){ var g3=$('#g3'), gb=$('#giftbox'), gc=$('#gift'); if(!g3||!gb||!gc) return;
-    var box=document.createElement('div'); box.hidden=true; gb.parentNode.insertBefore(box,gb.nextSibling); var put=null;
+    var box=document.createElement('div'); box.className='cardrev'; box.hidden=true; gb.parentNode.insertBefore(box,gb.nextSibling); var put=null;
     function sync(){ var t=g3.value.trim(), show=gc.checked&&!!t; box.hidden=!show; if(!show) return;
       if(!put){ box.innerHTML=review(t); put=cardScene($('.scene',box)); $('[data-cardedit]',box).addEventListener('click',function(){ g3.focus(); g3.scrollIntoView({block:'center'}); }); }
       else put(t); }
