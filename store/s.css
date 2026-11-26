@@ -447,6 +447,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .intro canvas{background:url(img/intro-p.webp?v=c5f0699d) center/cover no-repeat}
 @media (min-aspect-ratio:1/1){.intro canvas{background-image:url(img/intro-w.webp?v=c5f0699d)}}
 @media (max-aspect-ratio:1/1) and (min-width:600px){.intro canvas{background-image:url(img/intro-t.webp?v=c5f0699d)}}
+.low .intro canvas{background-image:url(img/intro-p.webp?v=c5f0699d)}   /* low-end phones keep the phone frames sideways too (decision 10) */
 .intro canvas.drawn{background-image:none}
 .intro .mark{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:22px;opacity:calc(1 - var(--t,0) * 1.6);pointer-events:none}
 .intro .mark .logo{width:min(64vw,420px);height:min(32.6vw,214px);background:var(--on);filter:drop-shadow(0 1px 12px rgba(40,6,16,.4))}
@@ -1221,3 +1222,5 @@ h1,h2,h3,.h1,.h2,.h3,.qname{word-break:normal;overflow-wrap:normal;-webkit-hyphe
 /* under 360 px the builder's column and the four flavours shrink to the screen and a long name wraps, so it fits 320 px
    (audit A4-002); from 360 px up nothing changes */
 @media (max-width:359px){.byo{grid-template-columns:minmax(0,1fr)}.byo .ctl{min-width:0}.byo .rows{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.byo .rows .r{min-width:0;grid-template-columns:28px minmax(0,1fr);gap:8px 6px;padding:10px 8px 12px}.byo .rows img{width:28px;height:28px}.byo .rows .n{min-width:0;font-size:14px;overflow-wrap:break-word}}
+/* «Своя коробка»: the quiet «Состав и хранение» fold under the flavour picker (decision 4, 26 Nov) */
+.ownacc{border-top:1px solid var(--line)}.ownacc summary{font-size:17px;padding:14px 0}
