@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<base href="../../store/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="build" content="26.11 · 13:32 UTC">
+<title>Соберите свою коробку — Зефирная симфония</title>
+<meta name="description" content="Соберите коробку из девяти зефирок: малина, чёрная смородина, клубника, яблоко с корицей.">
+<link rel="stylesheet" href="../palettes/sliva/s.css?v=1bcf62db">
+<link rel="stylesheet" href="../palettes/sliva/m.css?v=1bcf62db">
+</head>
+<body>
+<p class="ann">Доставка по всей России · три коробки — «Ассорти» в подарок · <a href="akcii.html">подробнее</a></p>
+<header class="hd"><div class="in">
+  <div class="l"><button class="tx menu-btn" type="button" data-open="menu" aria-controls="menu" aria-expanded="false">Меню</button><nav aria-label="Магазин"><a href="katalog.html">Каталог</a><a href="sobrat.html" aria-current=page>Соберите коробку</a><a href="akcii.html">Акции</a></nav></div>
+  <a class="logo" href="index.html#vkusy"><span>Зефирная симфония — на главную</span></a>
+  <div class="r"><nav aria-label="О компании"><!--corp:<a href="podarki-kompaniyam.html">Подарки компаниям</a>--><a href="index.html#vremya" data-mv-open>Время вместе</a><a href="o-nas.html">О нас</a></nav><button class="tx" type="button" data-open="cart" aria-controls="cart" aria-expanded="false">Корзина<span class="cnt" data-n="0">0</span></button></div>
+</div></header>
+<main id="main">
+<div class="wrap">
+  <p class="crumbs"><a href="index.html">Главная</a><span>/</span><a href="katalog.html">Каталог</a><span>/</span>Своя коробка</p>
+  <div class="byo" style="padding:18px 0 70px">
+    <div class="stage photo"><div class="bq"><img src="img/byo-empty.webp?v=c5f0699d" alt="Коробка сверху: девять свободных мест"><canvas id="bc" role="img" aria-label="Ваша коробка: девять мест"></canvas></div></div>
+    <div class="ctl">
+      <h1 class="h1">Соберите свою коробку</h1>
+      <p class="lead" style="font-size:17px">Девять мест, и дирижёр здесь вы. Хоть все малиновые, хоть всех понемногу. Чтобы убрать зефир, нажмите на него в коробке.</p>
+      <div class="count9"><span>Выбрано</span><b id="cn9" aria-live="polite">0 из 9</b></div>
+      <div class="bar" style="margin-top:-6px"><i id="b9" style="width:0"></i></div>
+      <div class="rows"><div class="r" data-f="0"><img src="img/malina-sq.webp?v=c5f0699d" alt=""><p class="n">Малина<small>Яркая ягодная кислинка</small></p><div class="step"><button type="button" data-d="-1" aria-label="Убрать «Малина»">−</button><output>0</output><button type="button" data-d="1" aria-label="Добавить «Малина»">+</button></div></div><div class="r" data-f="1"><img src="img/smorodina-sq.webp?v=c5f0699d" alt=""><p class="n">Чёрная смородина<small>Нежная, из спелых ягод</small></p><div class="step"><button type="button" data-d="-1" aria-label="Убрать «Чёрная смородина»">−</button><output>0</output><button type="button" data-d="1" aria-label="Добавить «Чёрная смородина»">+</button></div></div><div class="r" data-f="2"><img src="img/klubnika-sq.webp?v=c5f0699d" alt=""><p class="n">Клубника<small>Мягкая ягодная сладость</small></p><div class="step"><button type="button" data-d="-1" aria-label="Убрать «Клубника»">−</button><output>0</output><button type="button" data-d="1" aria-label="Добавить «Клубника»">+</button></div></div><div class="r" data-f="3"><img src="img/yabloko-sq.webp?v=c5f0699d" alt=""><p class="n">Яблоко с корицей<small>Тепло и пряность</small></p><div class="step"><button type="button" data-d="-1" aria-label="Убрать «Яблоко с корицей»">−</button><output>0</output><button type="button" data-d="1" aria-label="Добавить «Яблоко с корицей»">+</button></div></div></div>
+      <div class="chips presets" id="presets" role="group" aria-label="Готовые сочетания"><button class="chip" type="button" data-preset="as">Всех понемногу</button><button class="chip" type="button" data-preset="half">Малина и клубника</button><button class="chip" type="button" data-preset="mono">Только малина</button><button class="chip" type="button" id="rnd">Случайный набор</button><button class="chip" type="button" id="clr">Очистить</button></div>
+      <div class="acc ownacc"><details><summary>Состав и хранение</summary><div class="in"><p data-of="malina"><b style="color:var(--ink);font-weight:500">Малина:</b> Сахар, вода питьевая, малина свежая, белок яичный, пюре яблочное концентрированное, желирующий агент — агар, регулятор кислотности — лимонная кислота.</p><p data-of="smorodina"><b style="color:var(--ink);font-weight:500">Чёрная смородина:</b> Сахар, вода питьевая, смородина чёрная свежая, белок яичный, пюре яблочное концентрированное, желирующий агент — агар, регулятор кислотности — лимонная кислота.</p><p data-of="klubnika"><b style="color:var(--ink);font-weight:500">Клубника:</b> Сахар, вода питьевая, клубника свежая, белок яичный, пюре яблочное концентрированное, желирующий агент — агар, регулятор кислотности — лимонная кислота.</p><p data-of="yabloko"><b style="color:var(--ink);font-weight:500">Яблоко с корицей:</b> Сахар, вода питьевая, белок яичный, пюре яблочное концентрированное, корица, желирующий агент — агар, регулятор кислотности — лимонная кислота.</p><p>Пищевая ценность на 100 г: белки 2,0 г, жиры 0,1 г, углеводы 70,9 г. Энергетическая ценность 293 ккал / 1227 кДж.</p><p>Срок годности — 15 суток с даты изготовления. Дата указана на упаковке, рядом со стикером с составом.</p><p>Храните зефир в сухом месте при температуре от +15 до +21 °C и относительной влажности воздуха не более 75 %, вдали от прямых солнечных лучей. Открытую коробку держите в плотно закрытом контейнере.</p><dl><dt>Зефир —</dt><dd>9 шт</dd><dt>Вес —</dt><dd>360 г</dd><dt>Упаковка</dt><dd>коробка с окном и картонный рукав</dd></dl></div></details></div>
+      <p class="price">900 ₽<small>9 шт · 360 г</small></p>
+      <button class="btn buy full" type="button" id="byoadd" disabled>Добавьте ещё 9</button>
+      <div class="mini"><div data-prog><p class="pt"></p><div class="bar"><i></i></div></div></div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Зефир «Своя коробка»", "description": "Девять зефиров ручной работы, которые вы выбираете сами из четырёх вкусов: малина, клубника, чёрная смородина, яблоко с корицей.", "image": "https://www.vanslad-selection.ru/wp-content/themes/zefir/assets/store/img/own-1.webp", "sku": "sobrat", "brand": {"@type": "Brand", "name": "Зефирная симфония"}, "manufacturer": {"@id": "https://www.vanslad-selection.ru/#org"}, "weight": {"@type": "QuantitativeValue", "value": 360, "unitCode": "GRM"}, "offers": {"@type": "Offer", "url": "https://www.vanslad-selection.ru/sobrat/", "price": "900.00", "priceCurrency": "RUB", "availability": "https://schema.org/InStock", "seller": {"@id": "https://www.vanslad-selection.ru/#org"}}}</script>
+</main>
+<footer class="ft"><div class="wrap"><div class="seal" aria-hidden="true"><svg viewBox="-12 -12 24 24"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2.20 0.00 C6.58 2.40 6.84 8.62 1.16 9.53"/><path d="M1.56 1.56 C2.95 6.35 -1.26 10.93 -5.92 7.56"/><path d="M0.00 2.20 C-2.40 6.58 -8.62 6.84 -9.53 1.16"/><path d="M-1.56 1.56 C-6.35 2.95 -10.93 -1.26 -7.56 -5.92"/><path d="M-2.20 0.00 C-6.58 -2.40 -6.84 -8.62 -1.16 -9.53"/><path d="M-1.56 -1.56 C-2.95 -6.35 1.26 -10.93 5.92 -7.56"/><path d="M-0.00 -2.20 C2.40 -6.58 8.62 -6.84 9.53 -1.16"/><path d="M1.56 -1.56 C6.35 -2.95 10.93 1.26 7.56 5.92"/><circle r="1.6"/></g></svg></div>
+  <div class="cols">
+    <div class="brand"><span class="logo" role="img" aria-label="Зефирная симфония"></span><p class="small">Зефир ручной работы из Пензы. Семейное дело «Ванюшкины сладости».</p></div>
+    <details><summary>Магазин</summary><ul><li><a href="katalog.html">Каталог</a></li><li><a href="sobrat.html">Соберите коробку</a></li><li><a href="akcii.html">Акции</a></li><!--corp:<li><a href="podarki-kompaniyam.html">Подарки компаниям</a></li>--><li><a href="index.html#vremya" data-mv-open>Время вместе</a></li></ul></details>
+    <details><summary>Покупателям</summary><ul><li><a href="voiti.html">Личный кабинет</a></li><li><a href="dostavka.html">Доставка и оплата</a></li><li><a href="voprosy.html">Вопросы и ответы</a></li><li><a href="vozvrat.html">Возврат и обмен</a></li><li><a href="kontakty.html">Контакты</a></li></ul></details>
+    <details><summary>Компания</summary><ul><li><a href="o-nas.html">О нас</a></li><li><a href="rekvizity.html">Реквизиты</a></li><li><a href="oferta.html">Оферта</a></li><li><a href="politika.html">Политика обработки персональных данных</a></li><li><a href="soglasie.html">Согласие на обработку данных</a></li><li><a href="usloviya.html">Условия доставки и оплаты</a></li><li><a href="cookie.html">Политика cookie</a></li></ul></details>
+    <details class="ctc" open><summary>Связаться</summary><ul><li><a href="tel:+79085204642">+7 908 520-46-42</a></li><li><a href="mailto:zefir@vanslad.ru">zefir@vanslad.ru</a></li><li>По этим же номерам — в удобных вам мессенджерах.</li><li class="small">Пн–Пт, 9:00–18:00 по Москве</li><li class="soc"><a class="socb" href="https://vk.ru/httpsvanslad.ruvanslad" rel="noopener" target="_blank" aria-label="«Ванюшкины сладости» во ВКонтакте"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M6 0h12a6 6 0 0 1 6 6v12a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V6a6 6 0 0 1 6-6Zm.79 7.3H4.05c.13 6.24 3.25 9.99 8.72 9.99h.31v-3.57c2.01.2 3.53 1.67 4.14 3.57h2.84c-.78-2.84-2.83-4.41-4.11-5.01 1.28-.74 3.08-2.54 3.51-4.98h-2.58c-.56 1.98-2.22 3.78-3.8 3.95V7.3H10.5v6.92c-1.6-.4-3.62-2.34-3.71-6.92Z"/></svg></a></li></ul></details>
+  </div>
+  <div class="legal"><span>© 2026 ООО «ВанСлад» · ИНН 5837038640 · ОГРН 1125809000437</span></div>
+</div></footer>
+<div class="shade"></div>
+<aside class="panel left" id="menu" aria-label="Меню" hidden>
+  <div class="top"><span class="h3">Меню</span><button class="x" type="button" data-close aria-label="Закрыть меню">×</button></div>
+  <nav class="body mn">
+    <a href="katalog.html">Каталог</a>
+    <div class="flv"><a href="malina.html"><img src="img/malina-sq.webp?v=c5f0699d" alt="" loading="lazy">Малина</a><a href="smorodina.html"><img src="img/smorodina-sq.webp?v=c5f0699d" alt="" loading="lazy">Чёрная смородина</a><a href="klubnika.html"><img src="img/klubnika-sq.webp?v=c5f0699d" alt="" loading="lazy">Клубника</a><a href="yabloko.html"><img src="img/yabloko-sq.webp?v=c5f0699d" alt="" loading="lazy">Яблоко с корицей</a><a href="assorti.html"><img src="img/assorti-sq.webp?v=c5f0699d" alt="" loading="lazy">Ассорти</a><a href="sobrat.html"><img src="img/own-sq.webp?v=c5f0699d" alt="" loading="lazy">Своя коробка</a></div>
+    <hr><a href="sobrat.html">Соберите коробку</a><a href="akcii.html">Акции</a><!--corp:<a href="podarki-kompaniyam.html">Подарки компаниям</a>--><a href="index.html#vremya" data-mv-open>Время вместе</a><a href="o-nas.html">О нас</a>
+    <hr><div class="sub"><a href="voiti.html">Войти в кабинет</a><a href="dostavka.html">Доставка и оплата</a><a href="voprosy.html">Вопросы и ответы</a><a href="kontakty.html">Контакты</a><a href="tel:+79085204642">+7 908 520-46-42</a></div>
+  </nav>
+</aside>
+<aside class="panel right cart" id="cart" aria-label="Корзина" hidden>
+  <div class="top"><span class="h3">Ваш заказ</span><button class="x" type="button" data-close aria-label="Закрыть корзину">×</button></div>
+  <div class="body"></div>
+  <div class="foot" hidden><div class="sum"><span>Итого без доставки</span><b>0 ₽</b></div><a class="btn buy full" href="oformlenie.html">Оформить заказ</a><p class="small centre">Оплата картой, СБП или SberPay на странице банка</p><p class="small centre cartdocs"><a href="oferta.html">Оферта</a> · <a href="politika.html">Политика конфиденциальности</a> · <a href="vozvrat.html">Возврат</a></p></div>
+</aside>
+<script src="s.js?v=1bcf62db"></script>
+<script>
+(function(){
+  var cv=document.getElementById('bc'), cx=cv.getContext('2d'), FL=ZS.FL, slots=[null,null,null,null,null,null,null,null,null], t0=[], wim={}, busy=true;
+  var B={"cell": 260, "size": 1000, "places": [[0.2784, 0.2784], [0.4977, 0.2784], [0.717, 0.2784], [0.2784, 0.4977], [0.4977, 0.4977], [0.717, 0.4977], [0.2784, 0.717], [0.4977, 0.717], [0.717, 0.717]], "radius": 0.1096, "at": {"malina": [[148, 148], [368, 148], [587, 148], [148, 368], [368, 368], [587, 368], [148, 587], [368, 587], [587, 587]], "smorodina": [[148, 148], [368, 148], [587, 148], [148, 368], [368, 368], [587, 368], [148, 587], [368, 587], [587, 587]], "klubnika": [[148, 148], [368, 148], [587, 148], [148, 368], [368, 368], [587, 368], [148, 587], [368, 587], [587, 587]], "yabloko": [[148, 148], [368, 148], [587, 148], [148, 368], [368, 368], [587, 368], [148, 587], [368, 587], [587, 587]]}, "flavours": ["malina", "smorodina", "klubnika", "yabloko"]}, btn=document.getElementById('byoadd');
+  /* the pieces: every flavour is a photograph of the same tray from the same place; a piece is its own place of that
+     photograph, laid over the empty tray (sheet: nine places, 3x3; byo.json says where each goes) */
+  FL.forEach(function(f){ var im=new Image(); im.onload=function(){ im._ok=1; busy=true; }; im.src='img/byo-'+f+'.webp?v=c5f0699d'; wim[f]=im; });
+  function draw(now){ var S=Math.round(cv.getBoundingClientRect().width*Math.min(devicePixelRatio||1,2)); if(!S) return; if(cv.width!==S){ cv.width=cv.height=S; }
+    cx.clearRect(0,0,S,S); var any=false, k=S/B.size, C=B.cell;
+    for(var i=0;i<9;i++){ var f=slots[i], px=B.places[i][0]*S, py=B.places[i][1]*S;
+      if(f===null){ cx.beginPath(); cx.arc(px,py,B.radius*S*.62,0,7); cx.setLineDash([S*.008,S*.012]); cx.lineWidth=Math.max(1,S*.0022); cx.strokeStyle='rgba(95,51,80,.2)'; cx.stroke(); cx.setLineDash([]); continue; }
+      var im=wim[FL[f]], at=B.at[FL[f]]&&B.at[FL[f]][i], a=Math.max(0,Math.min(1,(now-(t0[i]||0))/420)); if(a<1) any=true; a=a*a*(3-2*a);
+      if(!(im&&im._ok&&at)){ any=true; continue; }
+      var z=1+(1-a)*.06, w=C*k*z;
+      cx.globalAlpha=a; cx.drawImage(im,(i%3)*C,((i-i%3)/3)*C,C,C,at[0]*k-(w-C*k)/2,at[1]*k-(w-C*k)/2,w,w); cx.globalAlpha=1; }
+    busy=any; }
+  (function loop(now){ if(busy) draw(now); requestAnimationFrame(loop); })(performance.now());
+  function n(){ return slots.filter(function(s){ return s!==null; }).length; }
+  function ui(){ var k=n(); document.getElementById('cn9').textContent=k+' из 9'; document.getElementById('b9').style.width=(k/9*100)+'%';
+    [].forEach.call(document.querySelectorAll('.rows .r'),function(r){ var f=+r.dataset.f; r.querySelector('output').textContent=slots.filter(function(s){ return s===f; }).length; });
+    btn.disabled=k<9&&!(lastMix&&k===0); btn.textContent=(lastMix&&k===0)?'Ещё такую же — 900 ₽':(k<9?'Добавьте ещё '+(9-k):'В корзину — 900 ₽'); busy=true; }
+  function put(f){ var i=slots.indexOf(null); if(i<0) return; slots[i]=f; t0[i]=performance.now(); ui(); }
+  function take(f){ for(var i=8;i>=0;i--) if(slots[i]===f){ slots[i]=null; ui(); return; } }
+  document.querySelector('.rows').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; var f=+b.closest('.r').dataset.f; if(+b.dataset.d>0) put(f); else take(f); });
+  cv.addEventListener('click',function(e){ var r=cv.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height, best=-1, d=1;
+    for(var i=0;i<9;i++){ var dx=x-B.places[i][0], dy=y-B.places[i][1], q=Math.sqrt(dx*dx+dy*dy); if(q<d){ d=q; best=i; } }
+    if(best>=0&&d<B.radius*1.15&&slots[best]!==null){ slots[best]=null; ui(); } });
+  document.getElementById('rnd').addEventListener('click',function(){ for(var i=0;i<9;i++) if(slots[i]===null){ slots[i]=Math.floor(Math.random()*4); t0[i]=performance.now()+i*60; } ui(); });
+  document.getElementById('clr').addEventListener('click',function(){ slots=slots.map(function(){ return null; }); ui(); });
+  var PRE={as:[0,0,0,2,2,1,1,3,3],half:[0,0,0,0,0,2,2,2,2],mono:[0,0,0,0,0,0,0,0,0]};
+  document.getElementById('presets').addEventListener('click',function(e){ var c=e.target.closest('[data-preset]'); if(!c) return; var now=performance.now(); PRE[c.dataset.preset].forEach(function(f,i){ slots[i]=f; t0[i]=now+i*70; }); ui(); });
+  var lastMix=null;
+  btn.addEventListener('click',function(){ if(lastMix&&n()===0){ ZS.addMix(lastMix.slice()); ZS.openCart(); return; } if(n()<9) return; var m=[0,0,0,0]; slots.forEach(function(s){ m[s]++; }); ZS.addMix(m); lastMix=m; slots=slots.map(function(){ return null; }); ui(); btn.disabled=false; btn.textContent='Ещё такую же — 900 ₽'; ZS.openCart(); });
+  addEventListener('resize',function(){ busy=true; }); ui();
+})();
+</script>
+<script src="mvdata.js?v=1bcf62db"></script><script src="m.js?v=1bcf62db"></script>
+<script>/* this colour option's pages link to each other */document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a||(a.target&&a.target!=='_self'))return;var u=new URL(a.href),m=u.pathname.match(/\/store\/([\w-]+\.html)$/);if(m&&u.origin===location.origin){e.preventDefault();location.href='../palettes/sliva/'+m[1]+u.search+u.hash;}},true);</script>
+</body>
+</html>

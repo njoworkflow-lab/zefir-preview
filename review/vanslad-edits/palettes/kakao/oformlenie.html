@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<base href="../../store/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="build" content="26.11 · 13:32 UTC">
+<title>Оформление заказа — Зефирная симфония</title>
+<meta name="description" content="Оформление заказа.">
+<link rel="stylesheet" href="../palettes/kakao/s.css?v=1bcf62db">
+<link rel="stylesheet" href="../palettes/kakao/m.css?v=1bcf62db">
+</head>
+<body>
+<p class="ann">Доставка по всей России · три коробки — «Ассорти» в подарок · <a href="akcii.html">подробнее</a></p>
+<header class="hd"><div class="in">
+  <div class="l"><button class="tx menu-btn" type="button" data-open="menu" aria-controls="menu" aria-expanded="false">Меню</button><nav aria-label="Магазин"><a href="katalog.html">Каталог</a><a href="sobrat.html">Соберите коробку</a><a href="akcii.html">Акции</a></nav></div>
+  <a class="logo" href="index.html#vkusy"><span>Зефирная симфония — на главную</span></a>
+  <div class="r"><nav aria-label="О компании"><!--corp:<a href="podarki-kompaniyam.html">Подарки компаниям</a>--><a href="index.html#vremya" data-mv-open>Время вместе</a><a href="o-nas.html">О нас</a></nav><button class="tx" type="button" data-open="cart" aria-controls="cart" aria-expanded="false">Корзина<span class="cnt" data-n="0">0</span></button></div>
+</div></header>
+<main id="main">
+<div class="wrap">
+  <p class="crumbs"><a href="index.html">Главная</a><span>/</span><button class="link" style="font-size:13px;font-weight:400" type="button" data-open="cart" aria-controls="cart">Корзина</button><span>/</span>Оформление</p>
+  <div class="co">
+    <aside class="sumbox" id="sumbox"><details id="sumd"><summary><span>Ваш заказ</span><span id="sumhead"></span></summary><div id="sumlines" style="margin-top:12px"></div></details>
+      <div class="rowp"><span>Товары</span><span id="s1"></span></div><div class="rowp"><span>Доставка</span><span id="s2"></span></div><div class="rowp" id="srow3" hidden><span>«Ассорти» в подарок</span><span style="color:var(--ok)">0 ₽</span></div>
+      <div class="rowp" id="srow4" hidden><span id="s4n">Промокод</span><span id="s4" style="color:var(--ok)"></span></div>
+      <div class="promo"><label class="small" for="promo">Промокод</label><div class="promo-row"><input id="promo" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="btn" type="button" id="promob">Применить</button></div><p class="small promo-msg" id="promom" aria-live="polite"></p><p class="small" data-example style="margin:0">Примеры для проверки: СИМФОНИЯ10 · МАЛИНА100 · ДОСТАВКА</p></div>
+      <div class="tot"><span>Итого</span><b id="s3"></b></div></aside>
+    <form id="co" novalidate style="display:grid;gap:34px">
+      <h1 class="h1" style="font-size:clamp(30px,7vw,40px)">Оформление заказа</h1>
+      <fieldset class="fs"><legend><span class="num">1</span>Покупатель</legend>
+        <p class="small" style="margin:0">Уже покупали у нас? <a href="voiti.html">Войти</a></p>
+        <div class="fld"><label for="f1">Телефон</label><input id="f1" type="tel" required autocomplete="tel" placeholder="+7"></div>
+        <div class="two"><div class="fld"><label for="f2">Имя</label><input id="f2" required autocomplete="given-name"></div><div class="fld"><label for="f2b">Фамилия</label><input id="f2b" required autocomplete="family-name"></div></div>
+        <div class="fld"><label for="f3">Электронная почта — для чека и трек-номера</label><input id="f3" type="email" required autocomplete="email"></div>
+        <label class="chk"><input type="checkbox" id="acct"><span><b style="font-weight:500">Создать аккаунт</b> — ссылку для пароля пришлём на почту. В кабинете видно заказы и трек-номер</span></label>
+        <label class="chk"><input type="checkbox" id="gift"><span><b style="font-weight:500">Это подарок</b> — подпишем открытку и не будем вкладывать чек с ценой</span></label>
+        <div id="giftbox" hidden style="display:grid;gap:14px">
+          <div class="two"><div class="fld"><label for="g1">Имя получателя</label><input id="g1"></div><div class="fld"><label for="g2">Телефон получателя</label><input id="g2" type="tel"></div></div>
+          <div class="fld"><label for="g3">Текст открытки</label><textarea data-helper id="g3" maxlength="200" placeholder="Напишем от руки"></textarea></div>
+        </div>
+      </fieldset>
+      <fieldset class="fs"><legend><span class="num">2</span>Доставка</legend>
+        <div class="fld"><label for="d1">Город</label><input id="d1" required list="cities" autocomplete="address-level2"><datalist id="cities"><option>Москва</option><option>Санкт-Петербург</option><option>Пенза</option><option>Казань</option><option>Самара</option><option>Екатеринбург</option></datalist></div>
+        <label class="opt"><input type="radio" name="dv" value="pvz" checked><div><b>Пункт выдачи СДЭК</b><br><span id="dv1"></span></div><b id="dp1"></b></label>
+        <!-- team review, 22 Nov: the pickup map. Points come from CDEK (the preview asks CDEK's TEST server through our pilot server, so the list is shorter than the real one);
+             the map is Yandex Maps (recorded service). If the list cannot load, this stays a plain field, as before. -->
+        <div id="pvzbox" class="fld pvz" data-api="https://zefir-moments.njoworkflow.workers.dev">
+          <label for="d2">Пункт выдачи СДЭК</label>
+          <input id="d2" required placeholder="Улица или название пункта" autocomplete="off" aria-describedby="pvzmsg">
+          <input type="hidden" id="d2c">
+          <p class="small pvz-msg" id="pvzmsg" aria-live="polite">Укажите город — покажем пункты на карте.</p>
+          <div class="pvz-map" id="pvzmap" hidden><iframe title="Пункты выдачи СДЭК на карте" loading="lazy" referrerpolicy="no-referrer"></iframe></div>
+          <ul class="pvz-list" id="pvzlist" hidden aria-label="Пункты выдачи СДЭК"></ul>
+        </div>
+        <label class="opt"><input type="radio" name="dv" value="cur"><div><b>Курьер до двери</b><br><span id="dv2"></span></div><b id="dp2"></b></label>
+        <div id="curbox" hidden style="display:grid;gap:14px"><div class="two"><div class="fld"><label for="d3">Улица</label><input id="d3" autocomplete="address-line1"></div><div class="fld"><label for="d3b">Дом</label><input id="d3b" autocomplete="address-line2"></div></div><div class="fld"><label for="d4">Квартира или офис</label><input id="d4"></div></div>
+        <div class="fld"><label for="d5">Комментарий к заказу — по желанию</label><input id="d5" placeholder="Например, позвонить за час"></div>
+      </fieldset>
+      <fieldset class="fs"><legend><span class="num">3</span>Оплата</legend>
+        <label class="opt"><input type="radio" name="pay" checked><div><b>Картой онлайн</b><br><span>Мир, Visa, Mastercard</span></div></label>
+        <label class="opt"><input type="radio" name="pay"><div><b>СБП</b><br><span>Через приложение вашего банка</span></div></label>
+        <label class="opt"><input type="radio" name="pay"><div><b>SberPay</b></div></label>
+        <p class="safe"><span aria-hidden="true">🔒</span><span>Данные карты вы введёте на странице банка. Мы их не видим и не храним.</span></p>
+      </fieldset>
+      <div style="display:grid;gap:12px">
+        <label class="chk"><input type="checkbox" id="ok1" required><span>Принимаю условия <a href="oferta.html" target="_blank" rel="noopener">публичной оферты</a></span></label>
+        <label class="chk"><input type="checkbox" id="ok2" required><span>Даю <a href="soglasie.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> в соответствии с <a href="politika.html" target="_blank" rel="noopener">Политикой</a></span></label>
+        <p class="small" id="coerr" aria-live="polite" style="color:#9B1C2E"></p>
+        <button class="btn buy full" type="submit" id="pay">Оплатить</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</main>
+<footer class="ft"><div class="wrap"><div class="seal" aria-hidden="true"><svg viewBox="-12 -12 24 24"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M2.20 0.00 C6.58 2.40 6.84 8.62 1.16 9.53"/><path d="M1.56 1.56 C2.95 6.35 -1.26 10.93 -5.92 7.56"/><path d="M0.00 2.20 C-2.40 6.58 -8.62 6.84 -9.53 1.16"/><path d="M-1.56 1.56 C-6.35 2.95 -10.93 -1.26 -7.56 -5.92"/><path d="M-2.20 0.00 C-6.58 -2.40 -6.84 -8.62 -1.16 -9.53"/><path d="M-1.56 -1.56 C-2.95 -6.35 1.26 -10.93 5.92 -7.56"/><path d="M-0.00 -2.20 C2.40 -6.58 8.62 -6.84 9.53 -1.16"/><path d="M1.56 -1.56 C6.35 -2.95 10.93 1.26 7.56 5.92"/><circle r="1.6"/></g></svg></div>
+  <div class="cols">
+    <div class="brand"><span class="logo" role="img" aria-label="Зефирная симфония"></span><p class="small">Зефир ручной работы из Пензы. Семейное дело «Ванюшкины сладости».</p></div>
+    <details><summary>Магазин</summary><ul><li><a href="katalog.html">Каталог</a></li><li><a href="sobrat.html">Соберите коробку</a></li><li><a href="akcii.html">Акции</a></li><!--corp:<li><a href="podarki-kompaniyam.html">Подарки компаниям</a></li>--><li><a href="index.html#vremya" data-mv-open>Время вместе</a></li></ul></details>
+    <details><summary>Покупателям</summary><ul><li><a href="voiti.html">Личный кабинет</a></li><li><a href="dostavka.html">Доставка и оплата</a></li><li><a href="voprosy.html">Вопросы и ответы</a></li><li><a href="vozvrat.html">Возврат и обмен</a></li><li><a href="kontakty.html">Контакты</a></li></ul></details>
+    <details><summary>Компания</summary><ul><li><a href="o-nas.html">О нас</a></li><li><a href="rekvizity.html">Реквизиты</a></li><li><a href="oferta.html">Оферта</a></li><li><a href="politika.html">Политика обработки персональных данных</a></li><li><a href="soglasie.html">Согласие на обработку данных</a></li><li><a href="usloviya.html">Условия доставки и оплаты</a></li><li><a href="cookie.html">Политика cookie</a></li></ul></details>
+    <details class="ctc" open><summary>Связаться</summary><ul><li><a href="tel:+79085204642">+7 908 520-46-42</a></li><li><a href="mailto:zefir@vanslad.ru">zefir@vanslad.ru</a></li><li>По этим же номерам — в удобных вам мессенджерах.</li><li class="small">Пн–Пт, 9:00–18:00 по Москве</li><li class="soc"><a class="socb" href="https://vk.ru/httpsvanslad.ruvanslad" rel="noopener" target="_blank" aria-label="«Ванюшкины сладости» во ВКонтакте"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M6 0h12a6 6 0 0 1 6 6v12a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V6a6 6 0 0 1 6-6Zm.79 7.3H4.05c.13 6.24 3.25 9.99 8.72 9.99h.31v-3.57c2.01.2 3.53 1.67 4.14 3.57h2.84c-.78-2.84-2.83-4.41-4.11-5.01 1.28-.74 3.08-2.54 3.51-4.98h-2.58c-.56 1.98-2.22 3.78-3.8 3.95V7.3H10.5v6.92c-1.6-.4-3.62-2.34-3.71-6.92Z"/></svg></a></li></ul></details>
+  </div>
+  <div class="legal"><span>© 2026 ООО «ВанСлад» · ИНН 5837038640 · ОГРН 1125809000437</span></div>
+</div></footer>
+<div class="shade"></div>
+<aside class="panel left" id="menu" aria-label="Меню" hidden>
+  <div class="top"><span class="h3">Меню</span><button class="x" type="button" data-close aria-label="Закрыть меню">×</button></div>
+  <nav class="body mn">
+    <a href="katalog.html">Каталог</a>
+    <div class="flv"><a href="malina.html"><img src="img/malina-sq.webp?v=c5f0699d" alt="" loading="lazy">Малина</a><a href="smorodina.html"><img src="img/smorodina-sq.webp?v=c5f0699d" alt="" loading="lazy">Чёрная смородина</a><a href="klubnika.html"><img src="img/klubnika-sq.webp?v=c5f0699d" alt="" loading="lazy">Клубника</a><a href="yabloko.html"><img src="img/yabloko-sq.webp?v=c5f0699d" alt="" loading="lazy">Яблоко с корицей</a><a href="assorti.html"><img src="img/assorti-sq.webp?v=c5f0699d" alt="" loading="lazy">Ассорти</a><a href="sobrat.html"><img src="img/own-sq.webp?v=c5f0699d" alt="" loading="lazy">Своя коробка</a></div>
+    <hr><a href="sobrat.html">Соберите коробку</a><a href="akcii.html">Акции</a><!--corp:<a href="podarki-kompaniyam.html">Подарки компаниям</a>--><a href="index.html#vremya" data-mv-open>Время вместе</a><a href="o-nas.html">О нас</a>
+    <hr><div class="sub"><a href="voiti.html">Войти в кабинет</a><a href="dostavka.html">Доставка и оплата</a><a href="voprosy.html">Вопросы и ответы</a><a href="kontakty.html">Контакты</a><a href="tel:+79085204642">+7 908 520-46-42</a></div>
+  </nav>
+</aside>
+<aside class="panel right cart" id="cart" aria-label="Корзина" hidden>
+  <div class="top"><span class="h3">Ваш заказ</span><button class="x" type="button" data-close aria-label="Закрыть корзину">×</button></div>
+  <div class="body"></div>
+  <div class="foot" hidden><div class="sum"><span>Итого без доставки</span><b>0 ₽</b></div><a class="btn buy full" href="oformlenie.html">Оформить заказ</a><p class="small centre">Оплата картой, СБП или SberPay на странице банка</p><p class="small centre cartdocs"><a href="oferta.html">Оферта</a> · <a href="politika.html">Политика конфиденциальности</a> · <a href="vozvrat.html">Возврат</a></p></div>
+</aside>
+<script src="s.js?v=1bcf62db"></script>
+<script>
+(function(){
+  var C=ZS.C, $=function(i){ return document.getElementById(i); }, city=$('d1');
+  city.value=ZS.ls('zs-city');
+  function dv(){ return document.querySelector('[name=dv]:checked').value; }
+  function calc(){ var e=ZS.est(city.value), del=ZS.paid()?(dv()==='pvz'?e.pvz:e.cur):0, sub=ZS.subtotal();
+    $('dv1').textContent=e.when+' · '+e.days+' дн. в пути'; $('dv2').textContent=e.when; $('dp1').textContent=ZS.rub(e.pvz); $('dp2').textContent=ZS.rub(e.cur);
+    var pr=ZS.promo(del), cf=ZS.cardFee?ZS.cardFee():0, tot=pr.total+cf;
+    $('s1').textContent=ZS.rub(sub); $('s2').textContent=pr.free?'0 ₽ · за наш счёт':(city.value.trim()?ZS.rub(del):'от '+ZS.rub(e.pvz)); $('s3').textContent=ZS.rub(tot); $('srow3').hidden=ZS.paid()<3;
+    $('srow4').hidden=!pr.D; $('s4n').textContent='Промокод '+pr.code; $('s4').textContent='−'+ZS.rub(pr.D);
+    if(document.activeElement!==$('promo')) $('promo').value=pr.code; $('promob').textContent=pr.code?'Обновить':'Применить';
+    $('promom').className='small promo-msg'+(pr.applied?' ok':''); $('promom').textContent=pr.applied?pr.text:pr.why;
+    $('sumhead').textContent=ZS.boxes(ZS.paid())+' ▾'; $('pay').textContent=ZS.paid()?'Оплатить '+ZS.rub(tot):'Корзина пуста';
+    var h=''; for(var k in C.i) h+='<div class="rowp"><span>'+ZS.P[k].n+' × '+C.i[k]+'</span><span>'+ZS.rub(C.i[k]*ZS.cost(k))+'</span></div>';
+    C.m.forEach(function(m){ h+='<div class="rowp"><span>Своя коробка: '+ZS.mixtext(m)+'</span><span>'+ZS.rub(ZS.OWN)+'</span></div>'; });
+    if(ZS.fee&&ZS.fee.card()) h+='<div class="rowp"><span>Открытка с вашими словами</span><span>'+ZS.rub(ZS.fee.card())+'</span></div>';
+    if(ZS.fee&&ZS.fee.print()) h+='<div class="rowp"><span>Печать открытки «Время вместе»</span><span>'+ZS.rub(ZS.fee.print())+'</span></div>';
+    $('sumlines').innerHTML=h||'<p class="small">Пока пусто. <a href="katalog.html">Выбрать вкус</a></p>';
+    return {sub:sub,del:del,e:e,tot:tot,pr:pr}; }
+  if(innerWidth>=960) $('sumd').open=true;
+  city.addEventListener('input',function(){ try{ localStorage.setItem('zs-city',city.value.trim()); }catch(x){} calc(); });
+  [].forEach.call(document.querySelectorAll('[name=dv]'),function(r){ r.addEventListener('change',function(){ var c=dv()==='cur'; $('curbox').hidden=!c; $('pvzbox').hidden=c; $('d2').required=!c; $('d3').required=c; $('d3b').required=c; calc(); }); });
+  $('gift').addEventListener('change',function(){ $('giftbox').hidden=!this.checked; if(this.checked&&C.card) $('g3').value=C.card; });
+  $('promob').addEventListener('click',function(){ ZS.setPromo($('promo').value); calc(); });
+  $('promo').addEventListener('keydown',function(ev){ if(ev.key==='Enter'){ ev.preventDefault(); ZS.setPromo($('promo').value); calc(); } });
+  /* ---------- the pickup map (team review, 22 Nov) ----------
+     The city goes to our pilot server, which asks CDEK for its pickup points there. The visitor filters by street,
+     picks a point from the list, and the map (Yandex Maps) moves to it. No list (no network, CDEK silent): the field
+     works as a plain text field, so an order can always be placed. */
+  var PV={city:'',pts:[],sel:null,n:0,ok:false,t:0}, box=$('pvzbox'), d2=$('d2'), frame=box.querySelector('iframe');
+  function pmsg(t){ $('pvzmsg').textContent=t; }
+  function plural(n,a,b,c){ var m=n%100, k=n%10; return n+' '+((m>10&&m<20)?c:k===1?a:(k>1&&k<5)?b:c); }
+  function esc(t){ return String(t).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function pmap(){ var pts=PV.pts, s=PV.sel; if(!pts.length){ $('pvzmap').hidden=true; return; }
+    var lat=0, lon=0, a=[1e9,-1e9,1e9,-1e9]; pts.forEach(function(p){ lat+=p.lat; lon+=p.lon; a=[Math.min(a[0],p.lon),Math.max(a[1],p.lon),Math.min(a[2],p.lat),Math.max(a[3],p.lat)]; });
+    var c=s||{lat:lat/pts.length, lon:lon/pts.length}, span=Math.max(a[1]-a[0],(a[3]-a[2])*1.8,0.02);
+    var z=s?16:Math.max(9,Math.min(14,Math.floor(Math.log(360*1.4/span)/Math.LN2)));
+    var near=pts.slice().sort(function(p,q){ return (Math.pow(p.lat-c.lat,2)+Math.pow((p.lon-c.lon)*0.56,2))-(Math.pow(q.lat-c.lat,2)+Math.pow((q.lon-c.lon)*0.56,2)); }).slice(0,60);
+    var pt=near.map(function(p){ return p.lon.toFixed(5)+','+p.lat.toFixed(5)+','+(s&&p.code===s.code?'pm2rdl':'pm2pnm'); }).join('~');
+    var src='https://yandex.ru/map-widget/v1/?ll='+c.lon.toFixed(5)+'%2C'+c.lat.toFixed(5)+'&z='+z+'&pt='+encodeURIComponent(pt);
+    if(frame.getAttribute('src')!==src) frame.setAttribute('src',src); $('pvzmap').hidden=false; }
+  function plist(){ var L=$('pvzlist'), s=PV.sel; if(!PV.ok){ L.hidden=true; return; }
+    if(s){ L.innerHTML='<li class="on"><div><b>'+esc(s.address)+'</b><span>'+esc((s.type==='postamat'?'Постамат · ':'')+s.time)+'</span>'+(s.note?'<span>'+esc(s.note)+'</span>':'')+'</div><button class="link" type="button" data-pvz-change>Другой пункт</button></li>'; L.hidden=false; return; }
+    var q=d2.value.trim().toLowerCase(), hit=PV.pts.filter(function(p){ return !q||(p.address+' '+p.note+' '+p.code).toLowerCase().indexOf(q)>=0; }), show=hit.slice(0,24);
+    L.innerHTML=show.map(function(p){ return '<li><button type="button" data-pvz="'+esc(p.code)+'"><b>'+esc(p.address)+'</b><span>'+esc((p.type==='postamat'?'Постамат · ':'')+p.time)+'</span></button></li>'; }).join('')+
+      (hit.length>show.length?'<li class="more">Ещё '+plural(hit.length-show.length,'пункт','пункта','пунктов')+' — напишите улицу, чтобы сузить список.</li>':'')+
+      (!hit.length?'<li class="more">По такому адресу пунктов нет. Попробуйте название улицы.</li>':'');
+    L.hidden=false; }
+  function pick(code){ PV.sel=PV.pts.filter(function(p){ return p.code===code; })[0]||null; if(!PV.sel) return;
+    d2.value=PV.sel.address; $('d2c').value=PV.sel.code; d2.setCustomValidity(''); pmsg('Пункт выбран. Заберёте заказ здесь.'); plist(); pmap(); }
+  function unpick(){ PV.sel=null; $('d2c').value=''; }
+  function pload(){ var name=city.value.trim(), key=name.toLowerCase(); if(dv()!=='pvz') return;
+    if(name.length<2){ PV.city=''; PV.ok=false; PV.pts=[]; plist(); pmap(); pmsg('Укажите город — покажем пункты на карте.'); return; }
+    if(key===PV.city) return; PV.city=key; PV.ok=false; PV.pts=[]; unpick(); d2.value=''; d2.setCustomValidity(''); plist(); pmap(); pmsg('Ищем пункты выдачи…'); var my=++PV.n;
+    fetch(box.dataset.api+'/pvz?city='+encodeURIComponent(name)).then(function(r){ return r.json(); }).then(function(j){ if(my!==PV.n) return;
+      if(!j.ok){ pmsg(j.reason==='no-city'?'Не нашли такой город. Проверьте написание.':'Список пунктов не загрузился. Напишите адрес или название пункта.'); return; }
+      if(!j.points.length){ pmsg('В этом городе пунктов выдачи нет. Выберите курьера до двери.'); return; }
+      PV.pts=j.points; PV.ok=true; pmsg(plural(j.points.length,'пункт','пункта','пунктов')+' в городе '+j.city+'. Выберите удобный.'); plist(); pmap(); })
+    .catch(function(){ if(my!==PV.n) return; PV.city=''; pmsg('Список пунктов не загрузился. Напишите адрес или название пункта.'); }); }
+  city.addEventListener('input',function(){ clearTimeout(PV.t); PV.t=setTimeout(pload,600); });
+  city.addEventListener('change',function(){ clearTimeout(PV.t); pload(); });
+  d2.addEventListener('input',function(){ if(!PV.ok) return; unpick(); pmsg(plural(PV.pts.length,'пункт','пункта','пунктов')+' в городе. Выберите удобный.'); plist(); });
+  $('pvzlist').addEventListener('click',function(e){ var b=e.target.closest('[data-pvz]'); if(b){ pick(b.dataset.pvz); return; }
+    if(e.target.closest('[data-pvz-change]')){ unpick(); d2.value=''; plist(); pmap(); pmsg(plural(PV.pts.length,'пункт','пункта','пунктов')+' в городе. Выберите удобный.'); d2.focus(); } });
+  [].forEach.call(document.querySelectorAll('[name=dv]'),function(r){ r.addEventListener('change',pload); });
+  if(city.value.trim()) pload();
+  document.addEventListener('zs:cart',calc); calc();
+  $('co').addEventListener('submit',function(e){ e.preventDefault(); var f=this;
+    if(!ZS.paid()){ $('coerr').textContent='В корзине пока ничего нет.'; return; }
+    d2.setCustomValidity(dv()==='pvz'&&PV.ok&&!$('d2c').value?'pick':'');
+    if(!f.checkValidity()){ var bad=f.querySelector('input:invalid,textarea:invalid,select:invalid'); if(bad===d2&&PV.ok&&d2.value.trim()){ $('coerr').textContent='Выберите пункт выдачи из списка.'; d2.focus(); return; } $('coerr').textContent=(bad.type==='checkbox')?'Отметьте оба согласия, чтобы продолжить.':'Заполните поле «'+(f.querySelector('label[for="'+bad.id+'"]')||{}).textContent+'».'; bad.focus(); return; }
+    var c=calc(), o={n:1000+Math.floor(Math.random()*900), name:$('f2').value.trim(), email:$('f3').value.trim(), total:c.tot, promo:c.pr.applied?c.pr.code:'', when:c.e.when, gift:$('gift').checked, to:$('g1').value.trim(), boxes:ZS.paid(), lines:$('sumlines').innerHTML, giftline:ZS.paid()>=3, city:$('d1').value.trim(), pvz:dv()==='pvz'?$('d2').value.trim():'', first:Object.keys(C.i)[0]||(C.m.length?'assorti':'malina')};
+    try{ localStorage.setItem('zs-order',JSON.stringify(o)); }catch(x){} ZS.clear(); location.href='spasibo.html'; });
+})();
+</script>
+<script src="mvdata.js?v=1bcf62db"></script><script src="m.js?v=1bcf62db"></script>
+<script>/* this colour option's pages link to each other */document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a||(a.target&&a.target!=='_self'))return;var u=new URL(a.href),m=u.pathname.match(/\/store\/([\w-]+\.html)$/);if(m&&u.origin===location.origin){e.preventDefault();location.href='../palettes/kakao/'+m[1]+u.search+u.hash;}},true);</script>
+</body>
+</html>
