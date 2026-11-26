@@ -26,6 +26,9 @@
 .mv-row .mv-go{font:500 14px/1 var(--sans);color:var(--ink);display:inline-flex;gap:8px;align-items:center;margin-top:4px}
 .mv-row:hover .mv-go span{transform:translateX(4px)}
 .mv-row .mv-go span{transition:transform .45s var(--ease,ease)}
+/* narrow covers and small phones under 360 px (audit A4-014): a smaller deck, so the words keep their room and are never cut */
+@media (max-width:359px){.mv-row{grid-template-columns:100px minmax(0,1fr);gap:12px}.mv-deck{width:92px;height:114px}}
+.mv-row .mv-h,.mv-row .mv-p{overflow-wrap:break-word}
 @media (min-width:821px){.mv-row{grid-template-columns:268px minmax(0,1fr);gap:22px;padding:30px 26px}.mv-deck{width:172px;height:210px}}
 @media (prefers-reduced-motion:reduce){.mv-deck img{transition:none}}
 

@@ -299,7 +299,11 @@
   prev.addEventListener('click', function () { if (S.step > 1) { S.step--; render(); } });
   close.addEventListener('click', function () { if (S.ctl) S.ctl.abort(); dlg.close(); });
   dlg.addEventListener('click', function (e) { if (e.target === dlg) { if (S.ctl) S.ctl.abort(); dlg.close(); } });
-  function openDlg(e) { if (e) e.preventDefault(); if (S.step > 4 && !S.image) S.step = 1; render(); dlg.showModal(); }
+  function openDlg(e) { if (e) e.preventDefault(); if (S.step > 4 && !S.image) S.step = 1; render(); dlg.showModal();
+    /* Back closes the dialog instead of leaving the page (audit A4-010); closing it takes that step back */
+    try { if (history.state && history.state.zsPanel) history.replaceState({ zsPanel: 'mv' }, ''); else history.pushState({ zsPanel: 'mv' }, ''); } catch (x) {} }
+  dlg.addEventListener('close', function () { try { if (history.state && history.state.zsPanel === 'mv') history.back(); } catch (x) {} });
+  addEventListener('popstate', function () { if (dlg.open) { if (S.ctl) S.ctl.abort(); dlg.close(); } });
   openers.forEach(function (o) {
     o.addEventListener('click', function (e) {
       openDlg(e);
