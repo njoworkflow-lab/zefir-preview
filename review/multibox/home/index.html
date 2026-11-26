@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Зефирная симфония · главная (предпросмотр)</title>
+<!--page-->
+<style>
+/* One stage for the whole home. Nothing is a block: every scene fills the screen and the next one fades in over it.
+   Order: intro film, the piece opens (cut film), three more flavours with their own fruit (each turn is a pull of focus, like the opening), the box (it opens by scroll, takes the chosen flavour, closes), the kitchen film, the offer, corporate, close.
+   Type, one system for every scene: Noto Serif Display 400 for headlines (one word in italic: the taste or the hand),
+   italic 400 for actions (words over a hairline, never a button shape), display numerals for the price, Jost 500 small capitals for labels and facts.
+   Every text block sits bottom left; on laptops the action and the price sit bottom right. */
+@font-face{font-family:"Noto Serif Display";font-weight:200;src:url(../fonts/nsd200.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Noto Serif Display";font-weight:300;src:url(../fonts/nsd300.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Noto Serif Display";font-weight:300;font-style:italic;src:url(../fonts/nsd300i.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Noto Serif Display";font-weight:400;src:url(../fonts/nsd400.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Noto Serif Display";font-weight:400;font-style:italic;src:url(../fonts/nsd400i.woff2) format("woff2");font-display:block}
+@font-face{font-family:"Jost";font-weight:500;src:url(../fonts/jost500.woff2) format("woff2");font-display:block}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+:root{ --ink:#4A1026; --cream:#FFF4EE; --stage:#B9848B; --greige:#D6C4BD;
+  --display:"Noto Serif Display","Times New Roman",serif; --text:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --caps:500 11px/1.6 var(--text); --track:.26em; --ease:cubic-bezier(.22,.7,.2,1);
+  --gx:max(22px,env(safe-area-inset-left,0px)); --gxr:max(22px,env(safe-area-inset-right,0px));
+  --logo-w:min(28vw,116px); --top:calc(14px + env(safe-area-inset-top,0px));
+  --h:clamp(40px,11.6vw,58px); --m:clamp(18px,4.9vw,21px); color-scheme:light }
+body{margin:0;background:var(--stage);color:var(--ink);font:400 17px/1.6 var(--display);-webkit-font-smoothing:antialiased}
+img,video{display:block} p,h2{margin:0}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+a:focus-visible,button:focus-visible{outline:1px solid currentColor;outline-offset:5px}
+.caps{font:var(--caps);letter-spacing:var(--track);text-transform:uppercase}
+.xl,.l{font:400 var(--h)/1.03 var(--display);letter-spacing:-.018em;text-wrap:balance;max-width:13ch;font-kerning:normal}
+.xl i,.l i{font-style:italic;letter-spacing:-.012em}
+.lab{display:flex;align-items:center;gap:12px}.lab::before{content:"";width:28px;height:1px;background:currentColor;opacity:.8}
+.m{font:400 var(--m)/1.45 var(--display);text-wrap:pretty;max-width:28ch}
+.go{position:relative;display:inline-block;font:italic 400 clamp(24px,6.4vw,30px)/1.2 var(--display);color:inherit;text-decoration:none;padding:0 0 8px;background:none;border:0;cursor:pointer;white-space:nowrap}
+.go::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.85}
+.pr{font:400 clamp(24px,6.4vw,30px)/1.2 var(--display);white-space:nowrap;padding-bottom:8px;font-variant-numeric:lining-nums}
+.pr small{font:var(--caps);letter-spacing:var(--track);text-transform:uppercase;margin-left:10px}
+.pr.in{display:none}
+.row{display:flex;align-items:flex-end;justify-content:space-between;gap:26px;justify-self:stretch}
+
+.track{height:1240vh;position:relative}
+.mark{position:absolute;left:0;width:1px;height:1px}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--stage);color:var(--cream)}
+#fg{position:absolute;inset:0;width:100%;height:100%;transform:scale(calc(1.06 - .06 * var(--t,0)));filter:blur(calc((1 - var(--t,0)) * 16px)) brightness(calc(.8 + .2 * var(--t,0)))}
+.sharp #fg{filter:none;transform:none}
+.sharp.soft #fg{filter:blur(calc(var(--b,0) * 1px));transform:scale(calc(1 + var(--b,0) * .005))}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* the scenes after the films: each fills the stage and fades in over the one before */
+.ly{position:absolute;inset:0;opacity:0;background:center/cover no-repeat;will-change:opacity}
+.ly > img,.ly > video,.ly > picture img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#ly0,#ly2,#ly3{box-shadow:inset 0 170px 140px -70px rgba(112,44,62,.66)}
+/* the box, seen from exactly above: the drawer with nine pieces, and the sleeve that slides over it */
+#ly0{background-image:url(box/ground.jpg)}
+.bx{position:absolute;left:50%;top:36.5%;--B:min(78vw,42svh);width:var(--B);height:var(--B);transform:translate(-50%,-50%) scale(calc(1.05 - .05 * var(--in,1)))}
+.bx .dr,.bx .sl{position:absolute;inset:0;border-radius:2px}
+.bx .dr{box-shadow:3px 4px 9px rgba(92,30,46,.3),16px 20px 42px rgba(92,30,46,.3)}
+.bx img{position:absolute;inset:0;width:100%;height:100%}
+#win{position:absolute;left:9.25%;top:9.4%;width:83.07%;height:83.07%}
+.bx .sl{transform:translateX(calc(var(--k,0) * -94%)) scale(1.012);box-shadow:4px 5px 10px rgba(92,30,46,.32),18px 22px 46px rgba(92,30,46,.3);will-change:transform}
+.pick{display:flex;flex-wrap:wrap;gap:0 20px;margin:-8px 0}
+.pick button{font:var(--caps);letter-spacing:.24em;text-transform:uppercase;color:inherit;background:none;border:0;padding:13px 0 12px;cursor:pointer;position:relative;opacity:.72;transition:opacity .4s ease}
+.pick button::after{content:"";position:absolute;left:0;right:.24em;bottom:7px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:0 50%;transition:transform .5s var(--ease)}
+.pick button[aria-pressed="true"]{opacity:1}.pick button[aria-pressed="true"]::after{transform:scaleX(1)}
+#ly1::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(24,6,12,0) 42%,rgba(24,6,12,.62))}
+#ly2::after,#ly3::after{content:"";position:absolute;inset:0;background:radial-gradient(150% 80% at 0% 100%,rgba(255,241,241,.9),rgba(255,241,241,.62) 38%,rgba(255,241,241,0) 70%)}
+#ly2::before,#ly3::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(108,42,60,.5),rgba(108,42,60,0) 22%)}
+#ly4{background-color:#B68893;background-blend-mode:multiply}
+.tx{position:absolute;left:var(--gx);right:var(--gxr);bottom:calc(26px + env(safe-area-inset-bottom,0px));display:grid;gap:18px;justify-items:start;opacity:0;pointer-events:none}
+.tx.live{pointer-events:auto}
+.tx.ink{color:var(--ink)} .tx.sh{text-shadow:0 1px 4px rgba(20,4,10,.5),0 2px 36px rgba(20,4,10,.95)}
+#tx4{inset:0;place-content:center;justify-items:center;text-align:center;gap:26px;padding:0 var(--gx)}
+#tx4 .wm{width:min(70vw,460px);height:auto}
+.seal{width:54px;aspect-ratio:322/218;background:url(seal-cream.png) center/contain no-repeat}
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 26px;list-style:none;margin:0;padding:0;max-width:700px}
+.links a{font:var(--caps);letter-spacing:var(--track);text-transform:uppercase;color:inherit;text-decoration:none;padding:11px 0;display:inline-block}
+
+.brand{position:absolute;z-index:3;left:0;top:0;height:auto;max-width:none;pointer-events:none;opacity:0;transition:opacity 1.2s ease .1s;filter:drop-shadow(0 1px 10px rgba(40,6,16,.45))}
+.ready .brand{opacity:1}
+.sub{position:absolute;left:0;right:0;text-align:center;font:var(--caps);font-size:11px;letter-spacing:.42em;text-indent:.42em;text-transform:uppercase;opacity:calc(1 - var(--t,0) * 3.2);pointer-events:none;visibility:hidden}
+.ready .sub{visibility:visible}
+.cue{position:absolute;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;font:var(--caps);font-size:9.5px;letter-spacing:.42em;text-indent:.42em;text-transform:uppercase;opacity:calc(1 - var(--t,0) * 4);pointer-events:none}
+.cue::after{content:"";width:1px;height:34px;background:linear-gradient(180deg,currentColor,transparent)}
+.top{position:absolute;z-index:3;left:0;right:0;top:0;padding:var(--top) var(--gxr) 0 var(--gx);display:flex;align-items:center;gap:6px;text-shadow:0 1px 12px rgba(40,6,16,.55)}
+.slot{width:var(--logo-w);aspect-ratio:136.84/69.84;visibility:hidden;flex:none}
+.top .sp{flex:1}
+.nav{font:var(--caps);letter-spacing:var(--track);text-transform:uppercase;color:inherit;text-decoration:none;padding:14px 12px}
+.nav b{font:italic 400 18px/1 var(--display);letter-spacing:0;margin-left:6px}
+.nav.wide{display:none}
+.menu{width:44px;height:44px;border:0;padding:0;background:none;cursor:pointer;display:grid;place-content:center;gap:7px;color:inherit}
+.menu i{display:block;width:22px;height:1px;background:currentColor;transition:transform .5s var(--ease)}
+.open .menu i:first-child{transform:translateY(4px) rotate(45deg)} .open .menu i:last-child{transform:translateY(-4px) rotate(-45deg)}
+.veil{position:absolute;z-index:2;inset:0;background:rgba(172,118,128,.93);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);display:grid;align-content:center;justify-items:start;gap:6px;padding:90px var(--gxr) 40px var(--gx);opacity:0;pointer-events:none;transition:opacity .5s ease;color:var(--cream)}
+.open .veil{opacity:1;pointer-events:auto}
+.open:not(.sharp) .brand,.open .cue,.open .sub{opacity:0!important;transition:opacity .3s ease}
+.veil a{font:400 clamp(30px,8.6vw,46px)/1.16 var(--display);letter-spacing:-.012em;text-decoration:none;color:inherit;padding:3px 0;transform:translateY(10px);opacity:0;transition:transform .7s var(--ease),opacity .6s ease}
+.veil a.it{font-style:italic}.veil .caps{margin:16px 0 6px;opacity:.8}
+.open .veil a{transform:none;opacity:1}
+.foot{position:absolute;left:var(--gx);right:var(--gxr);bottom:calc(26px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:18px;color:var(--ink)}
+.foot{pointer-events:none} .foot .say:not(.off),.acts > :not(.off){pointer-events:auto}
+.beats{display:grid}
+.say{grid-area:1/1;align-self:end;transition:opacity .6s ease,transform .7s var(--ease)}
+.say.off{opacity:0;transform:translateY(8px);pointer-events:none}
+.say{display:grid;gap:14px;justify-items:start}
+.acts{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;column-gap:26px}
+.acts > *{grid-area:1/1;justify-self:start;transition:opacity .6s ease,transform .7s var(--ease)}
+.acts > .pr{grid-area:1/2;color:var(--ink)}
+.acts > .off{opacity:0;transform:translateY(8px);pointer-events:none}
+.names{position:absolute;left:var(--gx);right:var(--gxr);bottom:calc(92px + env(safe-area-inset-bottom,0px));display:grid;pointer-events:none;color:var(--ink)}
+.diag{position:fixed;left:10px;bottom:10px;z-index:9;font:400 10.5px/1.3 ui-monospace,Menlo,monospace;color:#fff;mix-blend-mode:difference;white-space:pre;pointer-events:none}
+
+@media (min-aspect-ratio:1/1){
+  :root{--gx:max(4.5vw,env(safe-area-inset-left,0px));--gxr:max(4.5vw,env(safe-area-inset-right,0px));--logo-w:clamp(120px,11vw,176px);--top:24px;
+}
+  .top{gap:10px} .nav.wide{display:block} .menu{display:none}
+  :root{--h:clamp(44px,4.1vw,66px); --m:clamp(18px,1.35vw,22px); --caps:500 12px/1.6 var(--text)}
+  .xl,.l{max-width:none}
+  .foot{bottom:clamp(30px,5.6vh,56px);flex-direction:row;align-items:flex-end;justify-content:space-between;gap:40px}
+  .names{bottom:clamp(30px,5.6vh,56px);right:30%}
+  .tx{bottom:clamp(30px,5.6vh,56px)} .tx > .go,.tx > .row{position:absolute;right:0;bottom:0} #tx4 > .go{position:static}
+  .row{flex-direction:row-reverse;gap:34px} .acts{grid-template-columns:auto auto;column-gap:34px} .acts > .pr{grid-area:1/1} .acts > .go{grid-area:1/2}
+  .say .caps{max-width:none} .tx .xl{max-width:24ch}
+  .names .say{grid-template-columns:max-content 1fr;column-gap:26px;align-items:baseline}
+  .names .say .l{grid-area:1/1/2/3} .names .say .lab{grid-area:2/1} .names .say > .caps:not(.lab){grid-area:2/2}
+  .pr.in{display:inline-block;padding:0;margin-left:30px;font-size:clamp(22px,1.7vw,28px);letter-spacing:0;font-style:normal}
+  .acts > .pr{display:none}
+  .bx{left:61%;top:46%;--B:min(54svh,31vw)}
+  .m{max-width:44ch}
+  .go,.pr{font-size:clamp(26px,2vw,34px)} .sub{font-size:12px}
+}
+</style>
+</head>
+<body>
+<!--body-->
+<div class="track" id="track">
+  <span class="mark" id="vkusy" style="top:360vh"></span><span class="mark" id="korobka" style="top:660vh"></span><span class="mark" id="o-nas" style="top:760vh"></span><span class="mark" id="akciya" style="top:860vh"></span><span class="mark" id="korp" style="top:960vh"></span><span class="mark" id="niz" style="top:1090vh"></span>
+  <div class="stage" id="stage">
+    <h1 class="vh">Зефирная симфония: зефир ручной работы из Пензы</h1>
+    <canvas id="fg" role="img" aria-label="Насадка отсаживает один зефир; нож раскрывает его; затем он меняет вкус: чёрная смородина, клубника, яблоко с корицей"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="ly" id="ly0"><div class="bx" id="bx">
+      <div class="dr"><img src="box/drawer.webp" alt="Открытая коробка сверху: в окне девять зефиров" decoding="async"><canvas id="win" aria-hidden="true"></canvas></div>
+      <div class="sl"><img src="box/sleeve.webp" alt="Розовый футляр коробки: название «Зефирная симфония» в фольге, тиснёные ягоды" decoding="async"></div>
+    </div></div>
+    <div class="ly" id="ly1"><video id="film" muted loop playsinline preload="none" aria-label="Как мы делаем зефир"></video></div>
+    <div class="ly" id="ly2" style="background-image:url(bg/offer.jpg)"></div>
+    <div class="ly" id="ly3" style="background-image:url(bg/corp.jpg)"></div>
+    <div class="ly" id="ly4" style="background-image:url(bg/close.jpg)"></div>
+
+    <div class="tx ink" id="tx0"><p class="caps lab">Коробка</p><h2 class="xl"><i>Девять</i> таких в&nbsp;коробке</h2>
+      <div class="pick" id="pick" role="group" aria-label="Вкус в коробке"><button type="button" data-f="0" aria-pressed="true">Малина</button><button type="button" data-f="1" aria-pressed="false">Смородина</button><button type="button" data-f="2" aria-pressed="false">Клубника</button><button type="button" data-f="3" aria-pressed="false">Яблоко с&nbsp;корицей</button><button type="button" data-f="4" aria-pressed="false">Ассорти</button></div>
+      <p class="caps" id="bxfact" aria-live="polite">9&nbsp;штук · 360&nbsp;г · срок годности 15&nbsp;дней</p><div class="row"><button class="go" id="bxadd" type="button">В корзину</button><p class="pr">750&nbsp;₽<small>за&nbsp;коробку</small></p></div></div>
+    <div class="tx sh" id="tx1"><p class="caps lab">О нас</p><h2 class="xl">Мы ведь <i>искусство</i> делаем</h2><a class="go" href="o-nas.html">О нас</a></div>
+    <div class="tx ink" id="tx2"><p class="caps lab">Акция</p><h2 class="xl">От&nbsp;трёх коробок&nbsp;— <i>«Ассорти»</i> в&nbsp;подарок</h2><p class="caps">Подарок сам появится в&nbsp;корзине</p><a class="go" href="akcii.html">Условия акции</a></div>
+    <div class="tx ink" id="tx3"><p class="caps lab">Компаниям</p><h2 class="xl">Для&nbsp;партнёров и&nbsp;<i>коллег</i></h2><p class="m">Оплатите на&nbsp;сайте или по&nbsp;счёту для&nbsp;компании.</p><a class="go" href="korporativnym.html">Корпоративные подарки</a></div>
+    <div class="tx" id="tx4"><span class="seal" role="img" aria-label="Три снопа"></span><img class="wm" src="../scene-1/wordmark.svg" alt="Зефирная симфония" width="1368" height="698"><p class="caps">Сделано в&nbsp;Пензе. С&nbsp;заботой.</p>
+      <ul class="links"><li><a href="katalog.html">Каталог</a></li><li><a href="akcii.html">Акции</a></li><li><a href="korporativnym.html">Корпоративные подарки</a></li><li><a href="o-nas.html">О нас</a></li><li><a href="dostavka.html">Доставка и оплата</a></li><li><a href="voprosy.html">Вопросы и ответы</a></li><li><a href="kontakty.html">Контакты</a></li></ul></div>
+
+    <nav class="veil" id="veil" aria-label="Меню"><a href="katalog.html">Каталог</a><p class="caps">Вкусы</p><a class="it" href="malina.html">Малина</a><a class="it" href="smorodina.html">Чёрная смородина</a><a class="it" href="klubnika.html">Клубника</a><a class="it" href="yabloko.html">Яблоко с&nbsp;корицей</a><a class="it" href="assorti.html">Ассорти</a><p class="caps">О компании</p><a href="o-nas.html">О нас</a><a href="dostavka.html">Доставка и оплата</a></nav>
+    <header class="top">
+      <span class="slot" id="slot"></span><span class="sp"></span>
+      <a class="nav wide" href="katalog.html">Каталог</a><a class="nav wide" href="o-nas.html">О нас</a>
+      <a class="nav" href="korzina.html" aria-label="Корзина">Корзина<b class="count">0</b></a>
+      <button class="menu" type="button" aria-label="Меню" aria-expanded="false" aria-controls="veil"><i></i><i></i></button>
+    </header>
+    <img class="brand" id="brand" src="../scene-1/wordmark.svg" alt="Зефирная симфония" width="1368" height="698">
+    <p class="sub" id="sub">Зефир ручной работы</p>
+    <div class="cue" aria-hidden="true">Листайте</div>
+    <div class="names" id="names" aria-live="polite">
+      <div class="say off" data-k="0"><p class="caps lab">Вкус 1&nbsp;из&nbsp;4</p><p class="l"><i>Малина</i><span class="pr in">750&nbsp;₽<small>за&nbsp;коробку</small></span></p><p class="caps">Яркая кислинка</p></div>
+      <div class="say off" data-k="1"><p class="caps lab">Вкус 2&nbsp;из&nbsp;4</p><p class="l">Чёрная <i>смородина</i><span class="pr in">750&nbsp;₽<small>за&nbsp;коробку</small></span></p><p class="caps">Нежная, из&nbsp;спелых ягод</p></div>
+      <div class="say off" data-k="2"><p class="caps lab">Вкус 3&nbsp;из&nbsp;4</p><p class="l"><i>Клубника</i><span class="pr in">750&nbsp;₽<small>за&nbsp;коробку</small></span></p><p class="caps">Мягкая сладость</p></div>
+      <div class="say off" data-k="3"><p class="caps lab">Вкус 4&nbsp;из&nbsp;4</p><p class="l"><i>Яблоко</i> с&nbsp;корицей<span class="pr in">750&nbsp;₽<small>за&nbsp;коробку</small></span></p><p class="caps">Тепло и&nbsp;пряность</p></div>
+    </div>
+    <section class="foot" id="foot" aria-label="Зефир">
+      <div class="beats">
+        <div class="say off" data-k="a"><p class="l">Из&nbsp;настоящей <i>малины</i></p></div>
+        <div class="say off" data-k="b"><p class="l">Отсажен <i>вручную,</i> по&nbsp;одному</p></div>
+        <div class="say off" data-k="c"><p class="l">Семь <i>ингредиентов</i></p><p class="caps">Малина, яичный белок, яблочное пюре, сахар, агар, вода и&nbsp;лимонная кислота</p></div>
+      </div>
+      <div class="acts"><a class="go off" id="on" href="#vkusy">Выбрать вкус</a><button class="go add off" id="add" type="button">В корзину</button><p class="pr off" id="pr">750&nbsp;₽<small>за&nbsp;коробку</small></p></div>
+    </section>
+  </div>
+</div>
+<pre class="diag" id="diag" hidden></pre>
+
+<script>
+(function(){
+  var SETS={tall:{dir:'../scene-1/k',n:108,dir2:'../scene-flavours/k',n2:85,big:.78,cy:.45,z:'t'}, wide:{dir:'../scene-1/w4',n:100,dir2:'../scene-flavours/w',n2:86,big:.5,cy:.47,z:'w'}};
+  var FLAV=['malina','smorodina','klubnika','yabloko'];
+  var FILM=1.65, CUT=1.35, TURN=2.1, HOLD=.6, NL=5, A_END=FILM+CUT+TURN+HOLD;     /* screens of scroll */
+  var ST=[0,1.9,2.9,3.9,4.9], END=5.9;      /* where each scene after the films starts (the box holds longer: it opens, is played with, closes) */
+  var INTRO=.17, AR=136.84/69.84;
+  var $=function(i){ return document.getElementById(i); };
+  var root=document.documentElement, track=$('track'), stage=$('stage'), fg=$('fg'), c1=fg.getContext('2d'), brand=$('brand'), slot=$('slot'), sub=$('sub'),
+      on=$('on'), add=$('add'), pr=$('pr'), foot=$('foot'), names=$('names'), film=$('film'), says={}, ly=[], tx=[],
+      buf=document.createElement('canvas'), c2=buf.getContext('2d'),
+      set=null, f1=[], f2=[], stills={}, ok=0, drawnKey='', u=0, lastT=-1, lastB=0, cur=0, geo=null, kind='';
+  [].forEach.call(document.querySelectorAll('.say'), function(s){ says[s.dataset.k]=s; });
+  for(var i=0;i<NL;i++){ ly.push($('ly'+i)); tx.push($('tx'+i)); }
+  function pad(i){ return String(i).padStart(3,'0'); }
+  function cl(v){ return v<0?0:v>1?1:v; }
+  function get(arr,i,src){ if(arr[i]) return; var mine=set, im=new Image(); im.decoding='async'; im.onload=function(){ if(mine!==set) return; im._ok=true; ok++; drawnKey=''; }; im.src=src; arr[i]=im; }
+  function order(n){ var o=[],s; for(s=0;s<n;s+=8) o.push(s); o.push(n-1); for(s=0;s<n;s+=2) if(o.indexOf(s)<0) o.push(s); for(s=0;s<n;s++) if(o.indexOf(s)<0) o.push(s); return o; }
+  function measure(){ var s=stage.getBoundingClientRect(), r=slot.getBoundingClientRect(), cw=s.width, ch=s.height, bw=Math.min(cw*set.big, 920, ch*.42*AR), bh=bw/AR;
+    geo={ x0:(cw-bw)/2, y0:ch*set.cy-bh/2, w0:bw, x1:r.left-s.left, y1:r.top-s.top, w1:r.width, ch:ch }; lastT=-1; }
+  function ease(t){ return t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+  function smooth(t){ t=cl(t); return t*t*(3-2*t); }
+  function placeBrand(t){ if(!geo) return; var e=ease(t), w=geo.w0+(geo.w1-geo.w0)*e, x=geo.x0+(geo.x1-geo.x0)*e, y=geo.y0+(geo.y1-geo.y0)*e;
+    brand.style.width=w.toFixed(2)+'px'; brand.style.transform='translate('+x.toFixed(2)+'px,'+y.toFixed(2)+'px)'; sub.style.top=(geo.y0+geo.w0/AR+Math.max(22,geo.ch*.035))+'px'; }
+  function choose(force){ var r=fg.getBoundingClientRect(), want = r.width>=r.height ? SETS.wide : SETS.tall, d=Math.min(window.devicePixelRatio||1,2);
+    fg.width=buf.width=Math.max(1,Math.round(r.width*d)); fg.height=buf.height=Math.max(1,Math.round(r.height*d)); c1.imageSmoothingQuality='high'; c2.imageSmoothingQuality='high'; drawnKey='';
+    if(want!==set || force){ set=want; f1=new Array(set.n); f2=new Array(set.n2); stills={}; ok=0; var mine=set;
+      order(set.n).forEach(function(i,j){ setTimeout(function(){ if(mine===set) get(f1,i,set.dir+'/'+pad(i+1)+'.webp'); }, j<20?0:(j-20)*14); });
+      order(set.n2).forEach(function(i,j){ setTimeout(function(){ if(mine===set) get(f2,i,set.dir2+'/'+pad(i+1)+'.webp'); }, 500+j*16); });
+      FLAV.forEach(function(n,i){ if(i) setTimeout(function(){ if(mine!==set) return; var im=new Image(); im.onload=function(){ if(mine===set){ stills[i]=im; drawnKey=''; } }; im.src='f/'+n+'-'+set.z+'.webp'; }, 900); }); }
+    var k=set.z; if(k!==kind){ kind=k; film.poster='v/poster-'+k+'.jpg'; film.src='v/film-'+k+'.mp4'; }
+    measure(); }
+  function pick(arr,i){ for(var d=0;d<arr.length;d++){ var a=arr[i-d], b=arr[i+d]; if(a&&a._ok) return a; if(b&&b._ok) return b; } return null; }
+  function cover(ctx,im){ var cw=fg.width, ch=fg.height, iw=im.naturalWidth, ih=im.naturalHeight, k=Math.max(cw/iw, ch/ih), w=iw*k, h=ih*k; ctx.drawImage(im,(cw-w)/2,(ch-h)/2,w,h); }
+  function still(i){ return i===0 ? pick(f2,set.n2-1) : stills[i]; }
+  /* a flavour turns the way the page opens: the picture goes out of focus, becomes the next one, and comes back sharp */
+  function turn(i,t){ var a=still(i), b=still(i+1); if(!a) return; cover(c1,a); if(!b || t<=0) return; if(t>=1){ cover(c1,b); return; }
+    c1.globalAlpha=smooth((t-.3)/.4); cover(c1,b); c1.globalAlpha=1; }
+  function tick(){
+    var r=track.getBoundingClientRect(), vh=window.innerHeight, target=Math.max(0,Math.min(A_END+END,-r.top/vh));
+    u += (target-u)*0.16; if(Math.abs(target-u)<0.0006) u=target;
+    var pos=Math.min(1,u/FILM), t=Math.min(1,pos/INTRO), f=Math.max(0,(pos-INTRO)/(1-INTRO)), c=cl((u-FILM)/CUT),
+        v=Math.max(0,(u-FILM-CUT)/TURN)*3, seg=Math.min(2,Math.floor(v)), tt=smooth((v-seg-.12)/.6), q=u-A_END, name=-1, key;
+    if(q<.2){
+      if(u<FILM){ var i=Math.round(f*(set.n-1)); key='a'+i+':'+ok; if(key!==drawnKey){ var im=pick(f1,i); if(im){ cover(c1,im); drawnKey=key; } } }
+      else if(u<FILM+CUT){ var j=Math.round(c*(set.n2-1)); key='b'+j+':'+ok; if(key!==drawnKey){ var im2=pick(f2,j)||pick(f1,set.n-1); if(im2){ cover(c1,im2); drawnKey=key; } } }
+      else { key='c'+seg+':'+tt.toFixed(3)+':'+ok+':'+Object.keys(stills).length; if(key!==drawnKey){ turn(seg,tt); drawnKey=key; } }
+      var bl = (u>=FILM+CUT && tt>0 && tt<1) ? Math.sin(Math.PI*tt)*15 : 0; if(Math.abs(bl-lastB)>.05){ stage.style.setProperty('--b', bl.toFixed(2)); stage.classList.toggle('soft', bl>0); lastB=bl; }
+    }
+    if(t!==lastT){ stage.style.setProperty('--t', ease(t).toFixed(3)); stage.classList.toggle('sharp', t>=1); placeBrand(t); lastT=t; }
+    var inIntro=t>=1 && u<FILM, inCut=u>=FILM && u<FILM+CUT, inTurn=u>=FILM+CUT, live=q<-.5;
+    if(inCut && c<.5) name=0; if(inTurn) name = tt>.5 ? seg+1 : (seg===0 ? -1 : seg);
+    var beatC = (inCut && c>=.5) || (inTurn && seg===0 && tt<=.5); cur = name>0 ? name : 0;
+    says.a.classList.toggle('off', !(live && inIntro && f>=.02 && f<.46));
+    says.b.classList.toggle('off', !(live && inIntro && f>=.46));
+    says.c.classList.toggle('off', !(live && beatC));
+    for(var k=0;k<4;k++) says[k].classList.toggle('off', !(live && name===k));
+    on.classList.toggle('off', !(live && inIntro && f>=.86));
+    add.classList.toggle('off', !(live && (name>=0 || beatC))); pr.classList.toggle('off', !(live && (name>=0 || beatC)));
+    /* the scenes after the films */
+    for(var n=0;n<NL;n++){ var o=cl((q-ST[n])/.5+1), txo = n===NL-1 ? cl((q-(ST[n]-.15))/.25) : cl(Math.min((q-(ST[n]-.15))/.25, (ST[n+1]-.5-q)/.2));
+      ly[n].style.opacity=o.toFixed(3); tx[n].style.opacity=txo.toFixed(3); tx[n].classList.toggle('live', txo>.6); }
+    box(q, performance.now());
+    var playing = q>ST[1]-.6 && q<ST[2]-.1; if(playing && film.paused){ var p=film.play(); if(p&&p.catch) p.catch(function(){}); } else if(!playing && !film.paused) film.pause();
+    window.__s={ok:ok,u:u,q:q,stills:Object.keys(stills).length,film:!film.paused,k:lastK,sel:sel};
+    requestAnimationFrame(tick);
+  }
+  film.muted=true; choose(true); window.addEventListener('resize', function(){ choose(false); });
+  function ready(){ measure(); root.classList.add('ready'); }
+  if(brand.complete) ready(); else { brand.addEventListener('load', ready); brand.addEventListener('error', ready); }
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  requestAnimationFrame(tick);
+  var items={}, IDS=['malina','smorodina','klubnika','yabloko','assorti']; try{ items=JSON.parse(localStorage.getItem('zs-items')||'{}')||{}; }catch(e){}
+  function shown(){ var n=0; for(var k in items) n+=items[k]; [].forEach.call(document.querySelectorAll('.count'), function(x){ x.textContent=String(n); }); } shown();
+  function count(i){ var id=IDS[i]||'malina'; items[id]=(items[id]||0)+1; try{ localStorage.setItem('zs-items', JSON.stringify(items)); localStorage.setItem('zs-last', id); }catch(e){} shown(); }
+  var menu=document.querySelector('.menu'); menu.addEventListener('click', function(){ stage.classList.toggle('open'); menu.setAttribute('aria-expanded', String(stage.classList.contains('open'))); });
+  add.addEventListener('click', function(){ count(cur); add.textContent='Добавлено'; setTimeout(function(){ add.textContent='В корзину'; },1400); });
+  /* the box: the scroll slides the sleeve off and back; a flavour turns the nine pieces one after another; «В корзину» closes it */
+  var bx=$('bx'), win=$('win'), wc=win.getContext('2d'), pk=$('pick'), bxadd=$('bxadd'), bxfact=$('bxfact'),
+      WN=['malina','smorodina','klubnika','yabloko'], NAME=['Малина','Чёрная смородина','Клубника','Яблоко с корицей','Ассорти'], MIX=[0,1,2,3,0,1,2,3,0], RIP=[0,1,2,1,2,3,2,3,4],
+      XS=[0,.326,.652,1], YS=[0,.319,.65,1], wim=[], from=[0,0,0,0,0,0,0,0,0], to=[0,0,0,0,0,0,0,0,0], t0=[0,0,0,0,0,0,0,0,0], sel=0, moving=false, dirty=true, shut=0, shutTo=0, lastK=-1, lastIn=-1;
+  function wins(){ if(wim.length) return; WN.forEach(function(n,i){ var im=new Image(); im.decoding='async'; im.onload=function(){ im._ok=true; dirty=true; }; im.src='box/win-'+n+'.webp'; wim[i]=im; }); }
+  function paint(now){ var r=win.getBoundingClientRect(), d=Math.min(window.devicePixelRatio||1,2.5), S=Math.max(1,Math.min(1060,Math.round(r.width*d)));
+    if(win.width!==S){ win.width=win.height=S; wc.imageSmoothingQuality='high'; } var busy=false;
+    for(var i=0;i<9;i++){ var c=i%3, rw=(i-c)/3, x=XS[c], y=YS[rw], w=XS[c+1]-x, h=YS[rw+1]-y, a=cl((now-t0[i])/560), A=wim[from[i]], B=wim[to[i]];
+      if(a<1) busy=true; a=a*a*(3-2*a);
+      if(A&&A._ok && a<1){ wc.globalAlpha=1; wc.drawImage(A,x*1060,y*1060,w*1060,h*1060,x*S,y*S,w*S,h*S); }
+      if(B&&B._ok && a>0){ wc.globalAlpha=a; wc.drawImage(B,x*1060,y*1060,w*1060,h*1060,x*S,y*S,w*S,h*S); } }
+    wc.globalAlpha=1; moving=busy; dirty=false; }
+  function flavour(f){ if(f===sel) return; sel=f; var now=performance.now();
+    for(var i=0;i<9;i++){ var g = f<4 ? f : MIX[i]; if(g!==to[i]){ from[i]=to[i]; to[i]=g; t0[i]=now+RIP[i]*80; } }
+    [].forEach.call(pk.children, function(b){ b.setAttribute('aria-pressed', String(+b.dataset.f===f)); }); moving=true; open(); }
+  function open(){ shutTo=0; bxadd.textContent='В корзину'; bxfact.textContent='9\u00a0штук · 360\u00a0г · срок годности 15\u00a0дней'; }
+  function box(q, now){ var p=q-ST[0];
+    if(p<-.6 || p>2){ if(shutTo) open(); shut=0; return; }
+    wins(); if(p<.08 || p>1.55){ if(shutTo) open(); }
+    shut += (shutTo-shut)*.11; if(Math.abs(shutTo-shut)<.002) shut=shutTo;
+    var k=smooth(p/.5)*(1-smooth((p-1.2)/.32))*(1-smooth(shut)), inn=cl(p/.5+1);
+    if(Math.abs(k-lastK)>.0004){ bx.style.setProperty('--k', k.toFixed(4)); lastK=k; }
+    if(Math.abs(inn-lastIn)>.002){ bx.style.setProperty('--in', smooth(inn).toFixed(3)); lastIn=inn; }
+    if(moving || dirty) paint(now); }
+  pk.addEventListener('click', function(e){ var b=e.target.closest('button'); if(b) flavour(+b.dataset.f); });
+  bxadd.addEventListener('click', function(){ if(shutTo){ open(); return; } count(sel); shutTo=1; bxfact.textContent='«'+NAME[sel]+'» · в корзине'; bxadd.textContent='Открыть снова'; });
+  window.addEventListener('resize', function(){ dirty=true; });
+  if(/debug/.test(location.hash+location.search)){ var d=$('diag'); d.hidden=false; setInterval(function(){ var s=window.__s||{}; d.textContent='frames '+s.ok+'  stills '+s.stills+'  u '+(s.u||0).toFixed(2)+'  q '+(s.q||0).toFixed(2)+'  film '+(s.film?'playing':'paused'); }, 300); }
+})();
+</script>
+</body>
+</html>
