@@ -6,9 +6,28 @@
           klubnika:{n:'Клубника',t:'Мягкая ягодная сладость',c:'#F0B9BE'}, yabloko:{n:'Яблоко с корицей',t:'Тепло и пряность',c:'#EADCC4'},
           assorti:{n:'Ассорти',t:'Сюрприз от кондитера',c:'#E9C3C8'} };
   var FL=['malina','smorodina','klubnika','yabloko'], PRICE=760, OWN=900, GIFT_FROM=3, RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* VanSlad, 26 Nov (edit 3): the «3 + 1» offer is off for the soft launch; the preview's pages say so (GIFT=1 builds them with it):
+     no gift line, no «до подарка» progress. In the theme the store's own gift rule decides (ZSH.from, js/cart.js). */
+  if(window.ZS_NOGIFT) GIFT_FROM=1e9;
   /* the price of each box (VanSlad, 26 Nov 2026; the store's own prices come from WooCommerce) */
   var PR={yabloko:730,klubnika:760,smorodina:760,malina:760,assorti:790};
   function cost(k){ return PR[k]!=null?PR[k]:PRICE; }
+  /* write a price into an element whose first child may be a comment (the theme's fill marks): the visible text changes (owner, 26 Nov:
+     the home fader must show each flavour's own price) */
+  /* VanSlad edit 2: while orders are paused («Приём заказов»), the notice above «Оформить заказ» and the button leads nowhere; the
+     cart still works. The theme's notice comes from WooCommerce (ZSH.pause); the preview shows it when built with PAUSE=1. */
+  function pauseNote(){ return window.ZSH&&ZSH.pause?ZSH.pause():(window.ZS_PAUSE||null); }
+  function pauseFoot(f){ var go=$('a.btn.buy',f), pn=$('.pausenote',f), pz=pauseNote(); if(!go) return; if(!go.dataset.href) go.dataset.href=go.getAttribute('href')||'';
+    if(pz){ if(!pn){ pn=document.createElement('p'); pn.className='small pausenote'; pn.setAttribute('role','status'); go.parentNode.insertBefore(pn,go); } pn.textContent=pz;
+      go.removeAttribute('href'); go.setAttribute('aria-disabled','true'); go.classList.add('is-off'); }
+    else { if(pn) pn.remove(); go.setAttribute('href',go.dataset.href); go.removeAttribute('aria-disabled'); go.classList.remove('is-off'); } }
+  (function(){ var pay=$('#pay'), pz=pauseNote(); if(!pay||!pz) return; pay.disabled=true;      // the preview's checkout (the theme's: inc/order-pause.php)
+    var n=document.createElement('p'); n.className='small pausenote'; n.setAttribute('role','status'); n.textContent=pz; pay.parentNode.insertBefore(n,pay); })();
+  /* «Написать нам» on «Контакты» (VanSlad edit 12): the preview only says thank you; in the theme the form posts to the store */
+  (function(){ var zf=$('#napisat form'); if(!zf||window.ZSH) return; zf.addEventListener('submit',function(e){ e.preventDefault(); if(!zf.checkValidity()){ zf.reportValidity(); return; }
+    zf.parentNode.innerHTML='<div class="done form" role="status"><p class="h2">Спасибо!</p><p class="lead">Сообщение у нас. Ответим на почту в рабочее время.</p></div>'; }); })();
+  function setPrice(el,n){ if(!el) return; var t=null; for(var i=0;i<el.childNodes.length;i++){ var c=el.childNodes[i]; if(c.nodeType===3&&c.nodeValue.trim()){ t=c; break; } if(c.nodeType===1) break; }
+    if(t) t.nodeValue=rub(n); else el.insertBefore(document.createTextNode(rub(n)),el.firstChild); }
   function rub(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' ₽'; }
   function plural(n,a,b,c){ var m=n%10, h=n%100; return (m===1&&h!==11)?a:(m>=2&&m<=4&&(h<12||h>14))?b:c; }
   function boxes(n){ return n+' '+plural(n,'коробка','коробки','коробок'); }
@@ -47,7 +66,7 @@
   function out(k){ return OUT.indexOf(k)>-1; }
   function outMark(b,k){ var o=out(k); b.disabled=o; b.classList.toggle('is-out',o); if(o) b.textContent='Нет в наличии'; var c=b.closest('[data-card],.card'); if(c) c.classList.toggle('is-out',o); return o; }
   function add(id,q){ if(out(id)) return; set(id,(C.i[id]||0)+(q||1)); }
-  window.ZS={out:out,C:C,P:P,FL:FL,PRICE:PRICE,OWN:OWN,cost:cost,add:add,set:set,save:save,paid:paid,subtotal:subtotal,rub:rub,boxes:boxes,promo:promo,setPromo:setPromo,openCart:function(){ open('cart'); },
+  window.ZS={out:out,C:C,P:P,FL:FL,PRICE:PRICE,OWN:OWN,cost:cost,giftAt:function(){ return GIFT_FROM; },add:add,set:set,save:save,paid:paid,subtotal:subtotal,rub:rub,boxes:boxes,promo:promo,setPromo:setPromo,openCart:function(){ open('cart'); },
     addMix:function(mix){ C.m.push(mix); save(); }, clear:function(){ C.i={}; C.m=[]; C.card=''; delete C.promo; save(); }, est:est, plural:plural, ls:ls};
 
   function render(){
@@ -59,7 +78,7 @@
     cart();
     document.dispatchEvent(new CustomEvent('zs:cart'));
   }
-  function prog(el){ var n=paid(), left=Math.max(0,GIFT_FROM-n), bar=$('.bar i',el), t=$('.pt',el);
+  function prog(el){ if(GIFT_FROM>=1e9){ el.hidden=true; return; } var n=paid(), left=Math.max(0,GIFT_FROM-n), bar=$('.bar i',el), t=$('.pt',el);
     if(t) t.innerHTML = left ? (n===0 ? 'Три коробки — и «Ассорти» положим в&nbsp;подарок' : 'Ещё '+boxes(left)+' — и «Ассорти» в&nbsp;подарок') : '«Ассорти» в&nbsp;подарок — уже в&nbsp;корзине';
     if(bar) bar.style.width=Math.min(100,n/GIFT_FROM*100)+'%'; }
 
@@ -121,7 +140,7 @@
   function cart(){
     var b=$('#cart .body'), f=$('#cart .foot'); if(!b) return; var n=paid(), h='';
     if(!n){ b.innerHTML='<div class="empty"><img src="img/own-box.webp?v=c5f0699d" alt=""><p class="h3">В корзине пока пусто</p><p class="small">Коробка ждёт: девять мест, четыре вкуса и&nbsp;«Ассорти».</p><a class="btn" href="katalog.html">Выбрать вкус</a></div>'; f.hidden=true; return; }
-    f.hidden=false;
+    f.hidden=false; pauseFoot(f);
     var ims=[]; for(var k0 in C.i) for(var j0=0;j0<C.i[k0]&&ims.length<3;j0++) ims.push(k0); C.m.forEach(function(){ if(ims.length<3) ims.push('assorti'); });
     h+='<div class="head2"><span class="cstack" aria-hidden="true">'+ims.reverse().map(function(k){ return '<img src="img/'+k+'-box.webp?v=c5f0699d" alt="">'; }).join('')+'</span><div><p class="h3">'+boxes(n)+(n>=GIFT_FROM?' и «Ассорти» на бис':'')+'</p><p class="small">'+(n>=GIFT_FROM?'Четвёртая коробка — подарок, она уже в заказе':'В каждой коробке девять зефирок — целая симфония')+'</p></div></div>';
     for(var k in C.i) h+=line(k,'img/'+k+'-box.webp?v=c5f0699d',P[k].n,'9 шт · 360 г',C.i[k],rub(C.i[k]*cost(k)));
@@ -392,7 +411,7 @@
     function voice(f,fromScale){ qs.dataset.voice=f; qs.style.setProperty('--qg','var(--g-'+f+')'); qs.style.setProperty('--qd','var(--d-'+f+')');
       if(!fromScale) qs.style.setProperty('--cx',CX[f]); $$('.qt',qs).forEach(function(t){ t.setAttribute('aria-selected',String(t.dataset.f===f)); });
       $('#qname').textContent=P[f].n; $('#qtaste').textContent=P[f].t; $('#qline').textContent=LINES[f]; $('#qlink').href=f+'.html'; $('#qnamel').setAttribute('href',$('#qlink').getAttribute('href')); fitName();
-      var pe0=$('.qinfo .price',qs); if(pe0&&pe0.firstChild) pe0.firstChild.nodeValue=rub(cost(f));
+      setPrice($('.qinfo .price',qs),cost(f));
       var ad=$('#qadd'); ad.dataset.id=f; $('[data-add]',ad).dataset.add=f; if(!fromScale) $('#qscale').value=POS[f]; render(); }
     $('.qtabs',qs).addEventListener('click',function(e){ var t=e.target.closest('.qt'); if(t) voice(t.dataset.f); });
     /* dragging the taste scale pans along the row; letting go settles on the nearest voice */

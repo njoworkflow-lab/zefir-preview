@@ -1229,3 +1229,7 @@ h1,h2,h3,.h1,.h2,.h3,.qname{word-break:normal;overflow-wrap:normal;-webkit-hyphe
 @media (max-width:359px){.byo{grid-template-columns:minmax(0,1fr)}.byo .ctl{min-width:0}.byo .rows{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.byo .rows .r{min-width:0;grid-template-columns:28px minmax(0,1fr);gap:8px 6px;padding:10px 8px 12px}.byo .rows img{width:28px;height:28px}.byo .rows .n{min-width:0;font-size:14px;overflow-wrap:break-word}}
 /* «Своя коробка»: the quiet «Состав и хранение» fold under the flavour picker (decision 4, 26 Nov) */
 .ownacc{border-top:1px solid var(--line)}.ownacc summary{font-size:17px;padding:14px 0}
+
+/* VanSlad edit 2: orders paused, the notice above the order button (the theme's checkout note looks the same) */
+.pausenote{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:var(--rose2);color:inherit}
+.foot .btn.is-off{opacity:.5;pointer-events:none;cursor:default}
