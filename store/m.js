@@ -10,7 +10,11 @@
   function btn(cls, txt) { var b = el('button', cls, txt); b.type = 'button'; return b; }
   function norm(t) { return String(t || '').toLowerCase().replace(/[^а-яёa-z0-9]+/g, ''); }
   var PRINT = 'mv-print-card';                // the printed keepsake card, one per order (design only, this browser)
-  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return null; } }
+  /* photo printing (VanSlad, 26 Nov): off for the launch. The store's switch decides in the theme (the print fee on or off);
+     the preview follows MV.print (off). Off: no «Напечатать…», download and sharing stay; on: the same place as before. */
+  function printOn() { return window.ZSH && ZSH.feeOn ? ZSH.feeOn('print') : !!D.print; }
+  if (!printOn() && store(PRINT) === '1') { store(PRINT, null); store('mv-print-img', null); }
   // open pilot (owner, 22 Nov): no code header, which also keeps the browser's permission check simple
   function api(path, body, signal) {
     return fetch(D.api + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: signal })
@@ -24,7 +28,8 @@
   /* ---------- card-words helper ---------- */
   var TONES = [['warm', 'Теплее'], ['funny', 'Игривее'], ['romantic', 'Романтичнее'], ['formal', 'Строже'], ['short', 'Короче']];
   var PEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4.5-1.2L19 8.3a2.1 2.1 0 0 0-3-3L5.5 15.8z"/><path d="M14.5 6.8l3 3"/></svg>';
-  document.querySelectorAll('textarea[data-helper]').forEach(function (ta) {
+  function helper(ta) {
+    if (ta.closest('.mv-field')) return;
     var wrap = el('div', 'mv-field'); ta.parentNode.insertBefore(wrap, ta); wrap.appendChild(ta);
     var pen = btn('mv-pen'); pen.innerHTML = PEN + '<span>Помочь с текстом</span>';
     pen.setAttribute('aria-expanded', 'false'); wrap.appendChild(pen);
@@ -86,7 +91,10 @@
     keep.addEventListener('click', close);
     back.addEventListener('click', function () { ta.value = mine || ''; ta.dispatchEvent(new Event('input', { bubbles: true })); back.hidden = true; mine = null; });
     ta.addEventListener('input', function (e) { if (e.isTrusted) { mine = null; back.hidden = true; } });
-  });
+  }
+  document.querySelectorAll('textarea[data-helper]').forEach(helper);
+  /* the cart panel is drawn again on every change: its card field gets the helper each time (VanSlad, 26 Nov: no copy-paste) */
+  document.addEventListener('zs:cart', function () { document.querySelectorAll('#cart textarea[data-helper]').forEach(helper); });
 
   /* ---------- the team code (pilot only), asked once ---------- */
   function askCode(then) {
@@ -274,22 +282,23 @@
     var print = btn('btn', 'Напечатать и положить в заказ — 100 ₽');
     var done = el('p', 'mv-print'); done.setAttribute('role', 'status');
     function printState() {
-      var on = store(PRINT) === '1'; print.hidden = on; done.hidden = !on; done.innerHTML = '';
+      var off = !printOn(), on = !off && store(PRINT) === '1'; print.hidden = on || off; done.hidden = !on; done.innerHTML = '';
       if (!on) return;
       done.appendChild(el('b', null, 'Добавим печатную открытку к заказу'));
       done.appendChild(el('span', null, 'Печать открытки «Время вместе» — 100 ₽. Одна на заказ, положим в коробку.'));
-      var undo = btn('link', 'Убрать'); undo.addEventListener('click', function () { store(PRINT, '0'); printState(); print.focus(); try { document.dispatchEvent(new CustomEvent('zs:print')); } catch (e) {} }); done.appendChild(undo);
+      var undo = btn('link', 'Убрать'); undo.addEventListener('click', function () { store(PRINT, '0'); store('mv-print-img', null); printState(); print.focus(); try { document.dispatchEvent(new CustomEvent('zs:print')); } catch (e) {} }); done.appendChild(undo);
     }
-    print.addEventListener('click', function () { store(PRINT, '1'); printState(); try { document.dispatchEvent(new CustomEvent('zs:print')); } catch (e) {} });
+    print.addEventListener('click', function () { store(PRINT, '1'); store('mv-print-img', image); printState(); try { document.dispatchEvent(new CustomEvent('zs:print')); } catch (e) {} });
     main.appendChild(save); main.appendChild(print); body.appendChild(main); body.appendChild(done); printState();
     var row = el('div', 'mv-acts');
-    var share = btn('btn', 'Поделиться'); share.hidden = !navigator.share;
+    var share = btn('btn', 'Поделиться');
     share.addEventListener('click', function () {
+      if (!navigator.share) { save.click(); return; }                    // no share sheet (most computers): the picture is saved
       fetch(image).then(function (r) { return r.blob(); }).then(function (b) {
         var file = new File([b], 'vremya-vmeste.jpg', { type: b.type || 'image/jpeg' });
         var d = navigator.canShare && navigator.canShare({ files: [file] }) ? { files: [file], title: 'Время вместе' } : { title: 'Время вместе', url: location.href };
         return navigator.share(d);
-      }).catch(function () {});
+      }).catch(function (e) { if (!e || e.name !== 'AbortError') save.click(); });
     });
     var mood = btn('link', 'Другое настроение'); mood.addEventListener('click', function () { S.step = 3; render(); });
     var again = btn('link', 'Начать заново'); again.addEventListener('click', function () { S.photos = []; S.scene = null; S.mood = null; S.ok1 = S.ok2 = false; S.step = 1; render(); });

@@ -4,8 +4,30 @@
   var $=function(s,r){ return (r||document).querySelector(s); }, $$=function(s,r){ return [].slice.call((r||document).querySelectorAll(s)); };
   var P={ malina:{n:'Малина',t:'Яркая ягодная кислинка',c:'#E7A6B2'}, smorodina:{n:'Чёрная смородина',t:'Нежная, из спелых ягод',c:'#BBA6D6'},
           klubnika:{n:'Клубника',t:'Мягкая ягодная сладость',c:'#F0B9BE'}, yabloko:{n:'Яблоко с корицей',t:'Тепло и пряность',c:'#EADCC4'},
-          assorti:{n:'Ассорти',t:'Четыре вкуса в одной коробке',c:'#E9C3C8'} };
-  var FL=['malina','smorodina','klubnika','yabloko'], PRICE=750, OWN=900, GIFT_FROM=3, RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+          assorti:{n:'Ассорти',t:'Сюрприз от кондитера',c:'#E9C3C8'} };
+  var FL=['malina','smorodina','klubnika','yabloko'], PRICE=760, OWN=900, GIFT_FROM=3, RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* VanSlad, 26 Nov (edit 3): the «3 + 1» offer is off for the soft launch; the preview's pages say so (GIFT=1 builds them with it):
+     no gift line, no «до подарка» progress. In the theme the store's own gift rule decides (ZSH.from, js/cart.js). */
+  if(window.ZS_NOGIFT) GIFT_FROM=1e9;
+  /* the price of each box (VanSlad, 26 Nov 2026; the store's own prices come from WooCommerce) */
+  var PR={yabloko:730,klubnika:760,smorodina:760,malina:760,assorti:790};
+  function cost(k){ return PR[k]!=null?PR[k]:PRICE; }
+  /* write a price into an element whose first child may be a comment (the theme's fill marks): the visible text changes (owner, 26 Nov:
+     the home fader must show each flavour's own price) */
+  /* VanSlad edit 2: while orders are paused («Приём заказов»), the notice above «Оформить заказ» and the button leads nowhere; the
+     cart still works. The theme's notice comes from WooCommerce (ZSH.pause); the preview shows it when built with PAUSE=1. */
+  function pauseNote(){ return window.ZSH&&ZSH.pause?ZSH.pause():(window.ZS_PAUSE||null); }
+  function pauseFoot(f){ var go=$('a.btn.buy',f), pn=$('.pausenote',f), pz=pauseNote(); if(!go) return; if(!go.dataset.href) go.dataset.href=go.getAttribute('href')||'';
+    if(pz){ if(!pn){ pn=document.createElement('p'); pn.className='small pausenote'; pn.setAttribute('role','status'); go.parentNode.insertBefore(pn,go); } pn.textContent=pz;
+      go.removeAttribute('href'); go.setAttribute('aria-disabled','true'); go.classList.add('is-off'); }
+    else { if(pn) pn.remove(); go.setAttribute('href',go.dataset.href); go.removeAttribute('aria-disabled'); go.classList.remove('is-off'); } }
+  (function(){ var pay=$('#pay'), pz=pauseNote(); if(!pay||!pz) return; pay.disabled=true;      // the preview's checkout (the theme's: inc/order-pause.php)
+    var n=document.createElement('p'); n.className='small pausenote'; n.setAttribute('role','status'); n.textContent=pz; pay.parentNode.insertBefore(n,pay); })();
+  /* «Написать нам» on «Контакты» (VanSlad edit 12): the preview only says thank you; in the theme the form posts to the store */
+  (function(){ var zf=$('#napisat form'); if(!zf||window.ZSH) return; zf.addEventListener('submit',function(e){ e.preventDefault(); if(!zf.checkValidity()){ zf.reportValidity(); return; }
+    zf.parentNode.innerHTML='<div class="done form" role="status"><p class="h2">Спасибо!</p><p class="lead">Сообщение у нас. Ответим на почту в рабочее время.</p></div>'; }); })();
+  function setPrice(el,n){ if(!el) return; var t=null; for(var i=0;i<el.childNodes.length;i++){ var c=el.childNodes[i]; if(c.nodeType===3&&c.nodeValue.trim()){ t=c; break; } if(c.nodeType===1) break; }
+    if(t) t.nodeValue=rub(n); else el.insertBefore(document.createTextNode(rub(n)),el.firstChild); }
   function rub(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' ₽'; }
   function plural(n,a,b,c){ var m=n%10, h=n%100; return (m===1&&h!==11)?a:(m>=2&&m<=4&&(h<12||h>14))?b:c; }
   function boxes(n){ return n+' '+plural(n,'коробка','коробки','коробок'); }
@@ -17,7 +39,7 @@
   try{ var s=JSON.parse(localStorage.getItem('zs-cart')||'null'); if(s&&s.i) C=s; if(!C.m) C.m=[]; }catch(e){}
   function save(){ try{ localStorage.setItem('zs-cart',JSON.stringify(C)); }catch(e){} render(); }
   function paid(){ var n=0; for(var k in C.i) n+=C.i[k]; return n+C.m.length; }
-  function subtotal(){ var s=0; for(var k in C.i) s+=C.i[k]*PRICE; return s+C.m.length*OWN; }
+  function subtotal(){ var s=0; for(var k in C.i) s+=C.i[k]*cost(k); return s+C.m.length*OWN; }
   function set(id,q){ if(q<=0) delete C.i[id]; else C.i[id]=Math.min(q,99); save(); }
   /* ---------- promo codes (owner and team, 22 Nov: "no place to apply a promo code") ----------
      The three kinds from the brief, §05. The codes here are EXAMPLES for the preview; real ones come from the admin
@@ -27,7 +49,7 @@
   function promo(delivery){ var code=C.promo||'', r=PROMOS[code], S=subtotal(), n=paid(), D=0, free=false, applied=null, why='';
     if(code&&!r) why='Такого промокода нет. Проверьте написание.';
     if(r){
-      if(r.type==='product_percent'||r.type==='product_fixed'){ var q=C.i[r.sku]||0, sum=q*PRICE;
+      if(r.type==='product_percent'||r.type==='product_fixed'){ var q=C.i[r.sku]||0, sum=q*cost(r.sku);
         if(q) D=r.type==='product_percent'?Math.round(sum*r.value)/100:Math.min(r.value*q,sum);
         applied=q>0; if(!applied) why='Этот промокод — на «'+P[r.sku].n+'». Добавьте её в\u00a0корзину.'; }
       else if(r.type==='cart_percent'||r.type==='cart_fixed'){ var need=r.min_items||2;
@@ -44,7 +66,7 @@
   function out(k){ return OUT.indexOf(k)>-1; }
   function outMark(b,k){ var o=out(k); b.disabled=o; b.classList.toggle('is-out',o); if(o) b.textContent='Нет в наличии'; var c=b.closest('[data-card],.card'); if(c) c.classList.toggle('is-out',o); return o; }
   function add(id,q){ if(out(id)) return; set(id,(C.i[id]||0)+(q||1)); }
-  window.ZS={out:out,C:C,P:P,FL:FL,PRICE:PRICE,OWN:OWN,add:add,set:set,save:save,paid:paid,subtotal:subtotal,rub:rub,boxes:boxes,promo:promo,setPromo:setPromo,openCart:function(){ open('cart'); },
+  window.ZS={out:out,C:C,P:P,FL:FL,PRICE:PRICE,OWN:OWN,cost:cost,giftAt:function(){ return GIFT_FROM; },add:add,set:set,save:save,paid:paid,subtotal:subtotal,rub:rub,boxes:boxes,promo:promo,setPromo:setPromo,openCart:function(){ open('cart'); },
     addMix:function(mix){ C.m.push(mix); save(); }, clear:function(){ C.i={}; C.m=[]; C.card=''; delete C.promo; save(); }, est:est, plural:plural, ls:ls};
 
   function render(){
@@ -56,7 +78,7 @@
     cart();
     document.dispatchEvent(new CustomEvent('zs:cart'));
   }
-  function prog(el){ var n=paid(), left=Math.max(0,GIFT_FROM-n), bar=$('.bar i',el), t=$('.pt',el);
+  function prog(el){ if(GIFT_FROM>=1e9){ el.hidden=true; return; } var n=paid(), left=Math.max(0,GIFT_FROM-n), bar=$('.bar i',el), t=$('.pt',el);
     if(t) t.innerHTML = left ? (n===0 ? 'Три коробки — и «Ассорти» положим в&nbsp;подарок' : 'Ещё '+boxes(left)+' — и «Ассорти» в&nbsp;подарок') : '«Ассорти» в&nbsp;подарок — уже в&nbsp;корзине';
     if(bar) bar.style.width=Math.min(100,n/GIFT_FROM*100)+'%'; }
 
@@ -118,21 +140,24 @@
   function cart(){
     var b=$('#cart .body'), f=$('#cart .foot'); if(!b) return; var n=paid(), h='';
     if(!n){ b.innerHTML='<div class="empty"><img src="img/own-box.webp?v=c5f0699d" alt=""><p class="h3">В корзине пока пусто</p><p class="small">Коробка ждёт: девять мест, четыре вкуса и&nbsp;«Ассорти».</p><a class="btn" href="katalog.html">Выбрать вкус</a></div>'; f.hidden=true; return; }
-    f.hidden=false;
+    f.hidden=false; pauseFoot(f);
     var ims=[]; for(var k0 in C.i) for(var j0=0;j0<C.i[k0]&&ims.length<3;j0++) ims.push(k0); C.m.forEach(function(){ if(ims.length<3) ims.push('assorti'); });
     h+='<div class="head2"><span class="cstack" aria-hidden="true">'+ims.reverse().map(function(k){ return '<img src="img/'+k+'-box.webp?v=c5f0699d" alt="">'; }).join('')+'</span><div><p class="h3">'+boxes(n)+(n>=GIFT_FROM?' и «Ассорти» на бис':'')+'</p><p class="small">'+(n>=GIFT_FROM?'Четвёртая коробка — подарок, она уже в заказе':'В каждой коробке девять зефирок — целая симфония')+'</p></div></div>';
-    for(var k in C.i) h+=line(k,'img/'+k+'-box.webp?v=c5f0699d',P[k].n,'9 шт · 360 г',C.i[k],rub(C.i[k]*PRICE));
+    for(var k in C.i) h+=line(k,'img/'+k+'-box.webp?v=c5f0699d',P[k].n,'9 шт · 360 г',C.i[k],rub(C.i[k]*cost(k)));
     C.m.forEach(function(m,i){ h+=line('mix'+i,'img/assorti-box.webp?v=c5f0699d','Своя коробка',mixtext(m),null,rub(OWN)+'<button class="rmv" type="button" data-q="-1">Убрать</button>'); });
     if(n>=GIFT_FROM) h+='<div class="line gift"><img src="img/assorti-box.webp?v=c5f0699d" alt=""><div><p class="n">Ассорти в&nbsp;подарок</p><p class="s">Положили сами за&nbsp;три коробки</p></div><div class="p">0&nbsp;₽</div></div>';
     if(cardFee()) h+='<div class="line"><img src="img/gift.webp?v=c5f0699d" alt=""><div><p class="n">Открытка с&nbsp;вашими словами</p><p class="s">Напишем от&nbsp;руки, вложим в&nbsp;коробку</p></div><div class="p">'+rub(CARD)+'</div></div>';
     if(printFee()) h+='<div class="line"><img src="img/gift.webp?v=c5f0699d" alt=""><div><p class="n">Печать открытки «Время вместе»</p><p class="s">Одна на&nbsp;заказ, положим в&nbsp;коробку</p></div><div class="p">'+rub(PRINT)+'</div></div>';
     h+='<div class="prog" data-prog><p class="pt"></p><div class="bar"><i></i></div></div>';
-    h+='<details class="note-box"'+(C.card?' open':'')+'><summary class="link" style="list-style:none">Добавить открытку с&nbsp;вашими словами · +100&nbsp;₽</summary><textarea id="cardtext" maxlength="200" placeholder="Например: «С&nbsp;Новым годом, мама!»">'+(C.card||'')+'</textarea><p class="small">Напишем от&nbsp;руки и&nbsp;вложим в&nbsp;коробку. +100&nbsp;₽.</p></details>';
+    h+='<details class="note-box"'+(C.card?' open':'')+'><summary class="link" style="list-style:none">Добавить открытку с&nbsp;вашими словами · +100&nbsp;₽</summary><textarea data-helper id="cardtext" maxlength="200" placeholder="Например: «С&nbsp;Новым годом, мама!»">'+(C.card||'')+'</textarea><p class="small">Напишем от&nbsp;руки и&nbsp;вложим в&nbsp;коробку. +100&nbsp;₽.</p></details>';
     var pr=promo();
     h+='<div class="promo"><label class="small" for="cpromo">Промокод</label><div class="promo-row"><input id="cpromo" autocomplete="off" autocapitalize="characters" spellcheck="false" value="'+(C.promo||'').replace(/"/g,'')+'"><button class="btn" type="button" id="cpromob">'+(C.promo?'Обновить':'Применить')+'</button></div><p class="small promo-msg'+(pr.applied?' ok':'')+'" id="cpromom" aria-live="polite">'+(pr.applied?pr.text+' · <button class="link" type="button" id="cpromox" style="font-size:inherit">убрать</button>':pr.why)+'</p></div>';
     var e=est(ls('zs-city'));
     h+='<p class="small" style="margin-top:16px">Доставка '+(e.known?'в&nbsp;'+e.city+': ':'по&nbsp;России: ')+'от&nbsp;'+rub(e.pvz)+', '+e.when+'. Точная цена — при&nbsp;оформлении.</p>';
+    var ctext=String(C.card||'').trim(); if(ctext) h=h.replace('<div class="promo">',review(ctext)+'<div class="promo">');
     b.innerHTML=h; $$('[data-prog]',b).forEach(prog);
+    var rv=$('[data-cardrev]',b); if(rv){ var putw=cardScene($('.scene',rv)); $('[data-cardedit]',rv).addEventListener('click',function(){ var d=$('.note-box',b); if(d) d.open=true; var t=$('#cardtext'); if(t){ t.focus(); t.scrollIntoView({block:'center'}); } });
+      var ct=$('#cardtext'); if(ct) ct.addEventListener('input',function(){ var v=ct.value.trim(); if(v) putw(v); }); }
     var ta=$('#cardtext'); if(ta) ta.addEventListener('input',function(){ C.card=ta.value; try{ localStorage.setItem('zs-cart',JSON.stringify(C)); }catch(e){} });
     var pb=$('#cpromob'), pi=$('#cpromo'); if(pb){ pb.addEventListener('click',function(){ setPromo(pi.value); }); pi.addEventListener('keydown',function(ev){ if(ev.key==='Enter'){ ev.preventDefault(); setPromo(pi.value); } }); }
     var px=$('#cpromox'); if(px) px.addEventListener('click',function(){ setPromo(''); });
@@ -142,7 +167,7 @@
      promo codes, not counted toward the gift. The theme's WooCommerce cart does not charge it yet, so it is shown only here. */
   var CARD=100; function cardFee(){ return !window.ZSH&&C.card&&String(C.card).trim()?CARD:0; }
   /* the printed «Время вместе» card (+100 ₽, one per order), marked by «Время вместе» (m.js) in this browser */
-  var PRINT=100; function printFee(){ try{ return !window.ZSH&&localStorage.getItem('mv-print-card')==='1'?PRINT:0; }catch(x){ return 0; } }
+  var PRINT=100; function printFee(){ try{ return !window.ZSH&&window.MV&&MV.print&&localStorage.getItem('mv-print-card')==='1'?PRINT:0; }catch(x){ return 0; } }
   function fees(){ return cardFee()+printFee(); }
   ZS.cardFee=fees; ZS.fee={card:cardFee,print:printFee};
   document.addEventListener('zs:print',function(){ if(window.ZSH) ZSH.push(C); render(); });
@@ -215,11 +240,11 @@
     function pick(f){ sel=f; shutTo=0; zsTake(tk,f);
       $$('#bxpick .chip').forEach(function(b){ b.setAttribute('aria-pressed',String(b.dataset.f===f)); });
       $('#bxname').textContent=P[f].n; $('#bxnote').textContent=P[f].t; $('#bxlink').href=f+'.html'; outBx(f); }
-    function outBx(f){ var b=$('#bxadd'), o=out(f); b.disabled=o; b.classList.toggle('is-out',o); if(o) b.textContent='Нет в наличии'; else if(b.textContent==='Нет в наличии') b.textContent='В корзину — '+rub(PRICE); }
+    function outBx(f){ var b=$('#bxadd'), o=out(f); b.disabled=o; b.classList.toggle('is-out',o); if(o) b.textContent='Нет в наличии'; else b.textContent='В корзину — '+rub(cost(f)); }
     outBx(sel);
     $('#bxpick').addEventListener('click',function(e){ var b=e.target.closest('.chip'); if(b) pick(b.dataset.f); });
     $('#bxadd').addEventListener('click',function(){ var t=this; fly(tk,sel); add(sel,1); pulse(); shutTo=1; t.classList.add('done'); t.textContent='В корзине ✓';
-      setTimeout(function(){ t.classList.remove('done'); t.textContent='В корзину — 750 ₽'; },1700); });
+      setTimeout(function(){ t.classList.remove('done'); t.textContent='В корзину — '+rub(cost(sel)); },1700); });
     var warm=function(){ ['smorodina','klubnika','yabloko','assorti'].forEach(function(f){ (new Image()).src='img/take-'+f+'.webp?v=c5f0699d'; }); };
     if('requestIdleCallback' in window) requestIdleCallback(warm,{timeout:4000}); else setTimeout(warm,2500);
     var lastK=-1, sm=0;
@@ -265,7 +290,7 @@
       var nx=q.nextElementSibling; if(nx&&nx.hidden&&nx.dataset.qn){ nx.hidden=false; nx.classList.add('rv'); requestAnimationFrame(function(){ nx.classList.add('on'); }); }
       if(ans.t&&ans.w) show(); });
     function show(){ var f=ans.t, why={malina:'Вы любите, когда сладкое немного кислит: малина тает, а потом даёт яркую ягодную ноту.', smorodina:'Глубокий ягодный вкус и сиреневый цвет: смородина для тех, кто ценит оттенки.', klubnika:'Мягкая, бархатная сладость без резких нот: клубника нравится всем.', yabloko:'Тёплый, пряный и домашний: яблоко с корицей — вкус к чаю в холодный вечер.'}[f], gift=ans.w==='gift'||ans.w==='team';
-      if(ans.w==='team'){ f='assorti'; why='Для компании лучше всего «Ассорти»: четыре вкуса, каждому найдётся свой.'; }
+      if(ans.w==='team'){ f='assorti'; why='Для компании лучше всего «Ассорти»: коробка-сюрприз, не менее трёх вкусов на\u00a0выбор кондитера.'; }
       var r=$('.res',tp); r.hidden=false; r.innerHTML='<img src="img/'+f+'-1.webp?v=c5f0699d" alt=""><div style="display:grid;gap:8px"><p class="small">Ваш вкус</p><p class="h3">'+P[f].n+'</p><p class="small">'+why+(gift&&ans.w!=='team'?' В подарок положим открытку с вашими словами.':'')+'</p><div class="buyrow" style="margin-top:4px"><button class="btn buy" type="button" data-add="'+f+'">В корзину</button><a class="link" href="'+f+'.html">Подробнее</a></div></div>'; }
     tp.addEventListener('click',function(e){ var b=e.target.closest('.res [data-add]'); if(b){ setTimeout(function(){ b.textContent='В корзине ✓'; b.classList.add('done'); },10); } }); }
 
@@ -323,8 +348,43 @@
     /* the card answers the chosen occasion: its own words for New Year, 8 March, a birthday, or no reason at all (owner, 19 Nov evening) */
     var OCC={ny:'С Новым годом! Пусть он будет тёплым и сладким.', m8:'С 8 Марта! Весны, цветов и нежности.', bd:'С днём рождения, мама! Пусть жизнь будет прекрасна. Люблю тебя!', any:'Просто так. Потому что ты есть.'};
     document.addEventListener('zs:occ',function(e){ var m=OCC[e.detail]; if(!m) return; dflt=m; ta.placeholder=m; if(!ta.value.trim()){ nt.classList.add('lift'); setTimeout(function(){ tx.textContent=m; size(); nt.classList.remove('lift'); },260); } });
-    ta.addEventListener('input',function(){ tx.textContent=ta.value.trim()||dflt; size(); nt.classList.add('lift'); clearTimeout(tm); tm=setTimeout(function(){ nt.classList.remove('lift'); },500); });
+    ta.addEventListener('input',function(){ tx.textContent=ta.value.trim()||dflt; size(); nt.classList.add('lift'); clearTimeout(tm); tm=setTimeout(function(){ nt.classList.remove('lift'); },500);
+      clearTimeout(ta._s); ta._s=setTimeout(function(){ var v=ta.value.trim(); if(v===String(C.card||'').trim()) return; C.card=v; save(); $('#wok').textContent=v?'Открытка будет в заказе ✓':''; },600); });
     $('#wsave').addEventListener('click',function(){ if(!ta.value.trim()){ ta.focus(); $('#wok').textContent='Напишите пару слов'; return; } C.card=ta.value.trim(); save(); $('#wok').textContent='Открытка будет в заказе ✓'; }); }
+
+  /* ---------- «Проверьте открытку» (VanSlad, 26 Nov 2026): before paying, in the cart and at checkout, the card as it will be
+     written (the home page's photograph of the box with the words laid on the card), the «Время вместе» photo when printing
+     is on and marked, and «Изменить» back to the words. ---------- */
+  var CARD_Q='49.0 69.0,78.1 56.2,92.4 76.5,61.2 91.2';
+  function esc(t){ return String(t).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function printPic(){ try{ var on=window.ZSH&&ZSH.feeOn?ZSH.feeOn('print'):!!(window.MV&&MV.print);
+    return on&&localStorage.getItem('mv-print-card')==='1'?(localStorage.getItem('mv-print-img')||''):''; }catch(x){ return ''; } }
+  function review(text){ var pic=printPic();
+    return '<div class="writer2 ckcard" data-cardrev><p class="h3">Проверьте открытку</p>'+
+      '<div class="scene photo" data-card="'+CARD_Q+'"><img src="img/gift.webp?v=c5f0699d" alt="Открытка с вашими словами в коробке"><div class="note"><p>'+esc(text)+'</p></div></div>'+
+      '<p class="small">Перепишем от&nbsp;руки слово в&nbsp;слово. Хочется по-другому или нашлась ошибка&nbsp;— исправьте сейчас.</p>'+
+      (pic?'<figure class="ckpic"><img src="'+esc(pic)+'" alt="Ваш кадр «Время вместе»"><figcaption class="small">Это фото напечатаем и&nbsp;положим в&nbsp;коробку</figcaption></figure>':'')+
+      '<button class="link" type="button" data-cardedit>Изменить</button></div>'; }
+  /* lay the words on the card in the photograph (the same homography as the home page's writer) and size them to fit */
+  function cardScene(sc){ var nt=$('.note',sc), tx=$('p',nt), q=sc.dataset.card.split(',').map(function(p){ return p.trim().split(/\s+/).map(Number); });
+    function fit(){ var W=sc.clientWidth, H=sc.clientHeight, w=nt.offsetWidth, h=nt.offsetHeight; if(!W||!w) return;
+      var s=[[0,0],[w,0],[w,h],[0,h]], M=[], i, k, r, c;
+      for(i=0;i<4;i++){ var x=s[i][0], y=s[i][1], X=q[i][0]/100*W, Y=q[i][1]/100*H; M.push([x,y,1,0,0,0,-x*X,-y*X,X]); M.push([0,0,0,x,y,1,-x*Y,-y*Y,Y]); }
+      for(c=0;c<8;c++){ var pv=c; for(r=c+1;r<8;r++) if(Math.abs(M[r][c])>Math.abs(M[pv][c])) pv=r; var tmp=M[c]; M[c]=M[pv]; M[pv]=tmp;
+        for(r=0;r<8;r++) if(r!==c){ var f=M[r][c]/M[c][c]; for(k=c;k<9;k++) M[r][k]-=f*M[c][k]; } }
+      var g=M.map(function(row,n){ return row[8]/row[n]; });
+      nt.style.transform='matrix3d('+[g[0],g[3],0,g[6], g[1],g[4],0,g[7], 0,0,1,0, g[2],g[5],0,1].join(',')+')'; nt.classList.add('fit'); }
+    function size(){ var n=tx.textContent.length; tx.style.fontSize=(n<=44?46:n<=80?38:n<=120?32:27)+'px'; }
+    size(); fit(); if('ResizeObserver' in window) new ResizeObserver(fit).observe(sc);
+    return function(t){ tx.textContent=t; size(); }; }
+  ZS.review=review; ZS.cardScene=cardScene;
+  /* the checkout (the preview's and WooCommerce's: both have «Это подарок» #gift and the card text #g3): the block follows the words */
+  (function(){ var g3=$('#g3'), gb=$('#giftbox'), gc=$('#gift'); if(!g3||!gb||!gc) return;
+    var box=document.createElement('div'); box.hidden=true; gb.parentNode.insertBefore(box,gb.nextSibling); var put=null;
+    function sync(){ var t=g3.value.trim(), show=gc.checked&&!!t; box.hidden=!show; if(!show) return;
+      if(!put){ box.innerHTML=review(t); put=cardScene($('.scene',box)); $('[data-cardedit]',box).addEventListener('click',function(){ g3.focus(); g3.scrollIntoView({block:'center'}); }); }
+      else put(t); }
+    g3.addEventListener('input',sync); gc.addEventListener('change',function(){ setTimeout(sync,0); }); sync(); })();
 
   /* ---------- laptop: a box card leans toward the pointer, as if picked up ---------- */
   if(matchMedia('(hover:hover)').matches&&!RM){ $$('.card .ph').forEach(function(ph){
@@ -351,6 +411,7 @@
     function voice(f,fromScale){ qs.dataset.voice=f; qs.style.setProperty('--qg','var(--g-'+f+')'); qs.style.setProperty('--qd','var(--d-'+f+')');
       if(!fromScale) qs.style.setProperty('--cx',CX[f]); $$('.qt',qs).forEach(function(t){ t.setAttribute('aria-selected',String(t.dataset.f===f)); });
       $('#qname').textContent=P[f].n; $('#qtaste').textContent=P[f].t; $('#qline').textContent=LINES[f]; $('#qlink').href=f+'.html'; $('#qnamel').setAttribute('href',$('#qlink').getAttribute('href')); fitName();
+      setPrice($('.qinfo .price',qs),cost(f));
       var ad=$('#qadd'); ad.dataset.id=f; $('[data-add]',ad).dataset.add=f; if(!fromScale) $('#qscale').value=POS[f]; render(); }
     $('.qtabs',qs).addEventListener('click',function(e){ var t=e.target.closest('.qt'); if(t) voice(t.dataset.f); });
     /* dragging the taste scale pans along the row; letting go settles on the nearest voice */
