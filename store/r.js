@@ -285,6 +285,7 @@
       if (!S.review) { confirmed = true; go(); return; }
       var old = document.getElementById('zreview'); if (old) old.remove();
       var at = document.getElementById('coerr') || host; at.insertAdjacentHTML('beforebegin', reviewHtml());
+      if (at.id === 'coerr') at.textContent = '';   // the form passed its checks: an earlier «Заполните поле…» must not sit under the review
       var rv = document.getElementById('zreview'); rv.focus(); rv.scrollIntoView({ block: 'start', behavior: 'smooth' });
       rv.addEventListener('click', function (e) {
         var b = e.target.closest('button'); if (!b) return;

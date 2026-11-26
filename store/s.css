@@ -475,8 +475,7 @@ button,input,select,textarea{font:inherit;color:inherit}
   .tile img{transform:none}
 }
 
-/* ======================================================================
-   Pass 3: the box is the frame.
+/* ===============================================================   Pass 3: the box is the frame.
    Everything is cut from the real packaging: its rose paper (img/paper.webp?v=c5f0699d, from the sleeve),
    its blind-embossed berry (img/berry-*.png?v=c5f0699d, the die-line masks of the real artwork),
    its champagne foil, and its die-cut window. A piping thread joins the home page from the intro to the footer.
@@ -1233,6 +1232,49 @@ h1,h2,h3,.h1,.h2,.h3,.qname{word-break:normal;overflow-wrap:normal;-webkit-hyphe
 /* VanSlad edit 2: orders paused, the notice above the order button (the theme's checkout note looks the same) */
 .pausenote{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:var(--rose2);color:inherit}
 .foot .btn.is-off{opacity:.5;pointer-events:none;cursor:default}
+
+/* ---------- «Коробка для того, кто дорог» (VanSlad edit 7; owner's correction 26 Nov, #90): the monthly contest on /sobrat/ is the
+   «Собрать коробку» builder itself, the same look and interaction, with no price and no cart: «Подарить» opens the gift form
+   below it (one step per screen on phones). ---------- */
+.game .byo .gkick{margin:0;font:500 12px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
+.game .byo .gabout{margin:-4px 0 6px;color:var(--ink2)}
+.game .byo .gabout a,.game .gmix a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.game .byo .gperiod{margin:0 0 18px}
+.game .byo .btn.buy{margin-top:22px}
+.game .gmix{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;padding:14px 18px;border:1px solid var(--line);border-radius:var(--r-md,16px);background:rgba(255,255,255,.55);font:400 16px/1.45 var(--sans)}
+.game .gmix b{font-weight:500;color:var(--ink)}
+.game .gmix button{font:inherit;font-size:14px;color:var(--ink2);background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+@media (max-width:959px){.game .byo .ctl>.gkick{order:0}.game .byo .ctl>.gabout,.game .byo .ctl>.gperiod{order:4}.game .byo .ctl>.gabout{margin:18px 0 6px}}   /* on a phone the box and its counters stay on one screen, as in the builder; the contest's note follows the button */
+.game .gmix{margin:0 0 26px}
+.game .gstep{padding:clamp(36px,7vw,72px) 0}
+.game .gstep>.narrow{min-width:0;width:100%;box-sizing:border-box}
+.game .gperiod{font:500 13px/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.game fieldset{border:0;margin:0;padding:0;min-width:0}
+.game .h2{margin:0 0 10px}
+.game .gstep .h3{margin:0 0 6px}
+.game .lead{margin:0 0 22px}
+.game textarea,.game .fld input{min-height:48px}
+.game textarea{width:100%;resize:vertical}
+.game .gcount{margin:6px 0 0;text-align:right}
+.game .ghint{margin:6px 0 0}
+.game .gerr{margin:6px 0 0;min-height:0;font:500 14px/1.4 var(--sans);color:#9B1C2E}
+.game .gerr:empty{display:none}
+.game [aria-invalid="true"]{border-color:#9B1C2E}
+.game .gchk{margin:0 0 16px}
+.game .gchk .chk{align-items:flex-start}
+.game .gsend{margin-top:26px}
+.game .gtrap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.game .gsum{margin:0 auto;max-width:var(--narrow,760px);padding:12px 16px;border-radius:12px;background:var(--rose);color:var(--ink);font:500 15px/1.45 var(--sans)}
+.game .gdone{min-height:60vh;display:grid;align-items:center}
+.game .gdone .narrow{display:grid;gap:18px;justify-items:center}
+.gteaser .gteaser-in{display:grid;gap:14px;justify-items:center;text-align:center;padding:clamp(40px,7vw,80px) 22px}
+.gteaser .gteaser-in .h2,.gteaser .gteaser-in .lead{margin:0;max-width:640px}
+.gteaser .gteaser-in .btn{margin-top:8px}
+.gteaser .gkick{margin:0;font:500 12px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
+@media (max-width:759px){
+  .game .gstep{min-height:calc(100svh - 120px);display:grid;align-content:center}
+  .game .gform.gstick .gsend{position:sticky;bottom:0;z-index:5;padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(rgba(255,249,246,0),var(--paper) 30%)}
+}
 /* edit 6: «Открытка и получатель» (b.js): each box's own card and recipient in the cart panel */
 .boxlink{margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
 .boxlink .link{font-size:13.5px}
