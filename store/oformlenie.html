@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build" content="26.11 · 15:58 UTC">
+<meta name="build" content="26.11 · 17:52 UTC">
 <title>Оформление заказа — Зефирная симфония</title>
 <meta name="description" content="Оформление заказа.">
-<link rel="stylesheet" href="s.css?v=16ac36f7">
+<link rel="stylesheet" href="s.css?v=aa204223">
 <script>window.ZS_NOGIFT=1</script>
-<link rel="stylesheet" href="m.css?v=16ac36f7">
+<link rel="stylesheet" href="m.css?v=aa204223">
 </head>
 <body>
 <p class="ann">Доставка по всей России<!--gift: · три коробки — «Ассорти» в подарок · <a href="akcii.html">подробнее</a>--></p>
@@ -42,6 +42,8 @@
         </div>
       </fieldset>
       <fieldset class="fs"><legend><span class="num">2</span>Доставка</legend>
+        <div id="zrcp" class="zrcp"></div>
+        <div id="zone" style="display:grid;gap:22px">
         <div class="fld"><label for="d1">Город</label><input id="d1" required list="cities" autocomplete="address-level2"><datalist id="cities"><option>Москва</option><option>Санкт-Петербург</option><option>Пенза</option><option>Казань</option><option>Самара</option><option>Екатеринбург</option></datalist></div>
         <label class="opt"><input type="radio" name="dv" value="pvz" checked><div><b>Пункт выдачи СДЭК</b><br><span id="dv1"></span></div><b id="dp1"></b></label>
         <!-- team review, 22 Nov: the pickup map. Points come from CDEK (the preview asks CDEK's TEST server through our pilot server, so the list is shorter than the real one);
@@ -56,6 +58,7 @@
         </div>
         <label class="opt"><input type="radio" name="dv" value="cur"><div><b>Курьер до двери</b><br><span id="dv2"></span></div><b id="dp2"></b></label>
         <div id="curbox" hidden style="display:grid;gap:14px"><div class="two"><div class="fld"><label for="d3">Улица</label><input id="d3" autocomplete="address-line1"></div><div class="fld"><label for="d3b">Дом</label><input id="d3b" autocomplete="address-line2"></div></div><div class="fld"><label for="d4">Квартира или офис</label><input id="d4"></div></div>
+        </div>
         <div class="fld"><label for="d5">Комментарий к заказу — по желанию</label><input id="d5" placeholder="Например, позвонить за час"></div>
       </fieldset>
       <fieldset class="fs"><legend><span class="num">3</span>Оплата</legend>
@@ -100,7 +103,9 @@
   <div class="body"></div>
   <div class="foot" hidden><div class="sum"><span>Итого без доставки</span><b>0 ₽</b></div><a class="btn buy full" href="oformlenie.html">Оформить заказ</a><p class="small centre">Оплата картой, СБП или SberPay на странице банка</p><p class="small centre cartdocs"><a href="oferta.html">Оферта</a> · <a href="politika.html">Политика конфиденциальности</a> · <a href="vozvrat.html">Возврат</a></p></div>
 </aside>
-<script src="s.js?v=16ac36f7"></script>
+<script src="s.js?v=aa204223"></script>
+<script src="b.js?v=aa204223"></script>
+<script src="r.js?v=aa204223"></script>
 <script>
 (function(){
   var C=ZS.C, $=function(i){ return document.getElementById(i); }, city=$('d1');
@@ -108,8 +113,9 @@
   function dv(){ return document.querySelector('[name=dv]:checked').value; }
   function calc(){ var e=ZS.est(city.value), del=ZS.paid()?(dv()==='pvz'?e.pvz:e.cur):0, sub=ZS.subtotal();
     $('dv1').textContent=e.when+' · '+e.days+' дн. в пути'; $('dv2').textContent=e.when; $('dp1').textContent=ZS.rub(e.pvz); $('dp2').textContent=ZS.rub(e.cur);
-    var pr=ZS.promo(del), cf=ZS.cardFee?ZS.cardFee():0, tot=pr.total+cf;
-    $('s1').textContent=ZS.rub(sub); $('s2').textContent=pr.free?'0 ₽ · за наш счёт':(city.value.trim()?ZS.rub(del):'от '+ZS.rub(e.pvz)); $('s3').textContent=ZS.rub(tot); $('srow3').hidden=ZS.paid()<ZS.giftAt();
+    var pr=ZS.promo(del), cf=ZS.cardFee?ZS.cardFee():0, tot=pr.total+cf, rs=window.ZR&&ZR.state();
+    if(rs&&rs.active){ del=rs.totals.delivery; tot=rs.totals.total; }   /* edit 6: several addresses: the recipients' deliveries */
+    $('s1').textContent=ZS.rub(sub); $('s2').textContent=pr.free?'0 ₽ · за наш счёт':((rs&&rs.active)||city.value.trim()?ZS.rub(del):'от '+ZS.rub(e.pvz)); $('s3').textContent=ZS.rub(tot); $('srow3').hidden=ZS.paid()<ZS.giftAt();
     $('srow4').hidden=!pr.D; $('s4n').textContent='Промокод '+pr.code; $('s4').textContent='−'+ZS.rub(pr.D);
     if(document.activeElement!==$('promo')) $('promo').value=pr.code; $('promob').textContent=pr.code?'Обновить':'Применить';
     $('promom').className='small promo-msg'+(pr.applied?' ok':''); $('promom').textContent=pr.applied?pr.text:pr.why;
@@ -167,15 +173,17 @@
     if(e.target.closest('[data-pvz-change]')){ unpick(); d2.value=''; plist(); pmap(); pmsg(plural(PV.pts.length,'пункт','пункта','пунктов')+' в городе. Выберите удобный.'); d2.focus(); } });
   [].forEach.call(document.querySelectorAll('[name=dv]'),function(r){ r.addEventListener('change',pload); });
   if(city.value.trim()) pload();
-  document.addEventListener('zs:cart',calc); calc();
+  document.addEventListener('zs:cart',calc); document.addEventListener('zr:state',calc); calc();
   $('co').addEventListener('submit',function(e){ e.preventDefault(); var f=this;
     if(!ZS.paid()){ $('coerr').textContent='В корзине пока ничего нет.'; return; }
-    d2.setCustomValidity(dv()==='pvz'&&PV.ok&&!$('d2c').value?'pick':'');
+    var rs=window.ZR&&ZR.state(), multi=!!(rs&&rs.active);
+    [].forEach.call(document.querySelectorAll('#zone input'),function(x){ if(x.required) x.dataset.req='1'; x.required=multi?false:!!x.dataset.req; });
+    d2.setCustomValidity(!multi&&dv()==='pvz'&&PV.ok&&!$('d2c').value?'pick':'');
     if(!f.checkValidity()){ var bad=f.querySelector('input:invalid,textarea:invalid,select:invalid'); if(bad===d2&&PV.ok&&d2.value.trim()){ $('coerr').textContent='Выберите пункт выдачи из списка.'; d2.focus(); return; } $('coerr').textContent=(bad.type==='checkbox')?'Отметьте оба согласия, чтобы продолжить.':'Заполните поле «'+(f.querySelector('label[for="'+bad.id+'"]')||{}).textContent+'».'; bad.focus(); return; }
     var c=calc(), o={n:1000+Math.floor(Math.random()*900), name:$('f2').value.trim(), email:$('f3').value.trim(), total:c.tot, promo:c.pr.applied?c.pr.code:'', when:c.e.when, gift:$('gift').checked, to:$('g1').value.trim(), boxes:ZS.paid(), lines:$('sumlines').innerHTML, giftline:ZS.paid()>=ZS.giftAt(), city:$('d1').value.trim(), pvz:dv()==='pvz'?$('d2').value.trim():'', first:Object.keys(C.i)[0]||(C.m.length?'assorti':'malina')};
     try{ localStorage.setItem('zs-order',JSON.stringify(o)); }catch(x){} ZS.clear(); location.href='spasibo.html'; });
 })();
 </script>
-<script src="mvdata.js?v=16ac36f7"></script><script src="m.js?v=16ac36f7"></script>
+<script src="mvdata.js?v=aa204223"></script><script src="m.js?v=aa204223"></script>
 </body>
 </html>

@@ -1233,3 +1233,56 @@ h1,h2,h3,.h1,.h2,.h3,.qname{word-break:normal;overflow-wrap:normal;-webkit-hyphe
 /* VanSlad edit 2: orders paused, the notice above the order button (the theme's checkout note looks the same) */
 .pausenote{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:var(--rose2);color:inherit}
 .foot .btn.is-off{opacity:.5;pointer-events:none;cursor:default}
+/* edit 6: «Открытка и получатель» (b.js): each box's own card and recipient in the cart panel */
+.boxlink{margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
+.boxlink .link{font-size:13.5px}
+.boxlink .small{color:var(--ink2)}
+.boxsheet{display:grid;gap:14px;padding:16px 18px 18px;margin:0 0 14px;border:1px solid var(--line);border-radius:var(--r-md);background:#fff;animation:in .4s var(--ease) both}
+.bsh-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.bsh-top .h3{margin:0}
+.bsh-tabs{display:flex;gap:18px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.bsh-tabs button{font:500 13.5px/1 var(--sans);padding:10px 0 9px;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;color:var(--ink2);cursor:pointer}
+.bsh-tabs button[aria-selected="true"]{border-bottom-color:var(--wine);color:var(--wine)}
+.boxsheet textarea{min-height:76px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-sm);background:#fff;resize:vertical;font-size:15px;width:100%}
+.boxsheet select{min-height:44px}
+.bsh-hint{color:var(--ink2);margin:0}
+/* edit 6: «Всё на один адрес» / «На разные адреса» and «Проверьте заказ» (r.js) */
+.zrcp{display:grid;gap:14px}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:#fff}
+.seg button{min-height:52px;padding:10px 12px;border:0;background:none;font:500 15px/1.25 var(--sans);color:var(--ink2);cursor:pointer;border-bottom:2px solid transparent;transition:color .3s,border-color .3s}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-checked="true"]{color:var(--wine);border-bottom-color:var(--wine)}
+.seg button:focus-visible{outline:2px solid var(--wine);outline-offset:-4px}
+.rhint,.rcare{color:var(--ink2);margin:0}
+.rcps{display:grid;gap:14px}
+.rcp{display:grid;gap:14px;padding:18px;border:1px solid var(--line);border-radius:var(--r-md);background:#fff}
+.rcp.done{gap:8px}
+.rcp-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.rcp-top .h3{margin:0}
+.rcp-boxes{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.rcp-boxes li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;align-items:baseline;font-size:15px}
+.rmenu{flex-basis:100%;display:grid;gap:2px;padding:6px 0 4px 12px;border-left:2px solid var(--rose2)}
+.rmenu button{text-align:left;background:none;border:0;padding:8px 0;font:400 15px/1.3 var(--sans);color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--rose2)}
+.rcp-way{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rcp-way .opt{grid-template-columns:22px 1fr;padding:12px 14px}
+.rcp-sum{margin:0;font-size:15px}
+.rq{margin:0}.rq b{font-weight:500}
+.rconfirm{padding:14px 16px;border-left:2px solid var(--wine);background:#fff}
+.rconfirm p{margin:0 0 8px}
+.rerr{color:#9B1C2E;margin:0}
+.zrv{display:grid;gap:16px;padding:20px;border:1px solid var(--wine2);border-radius:var(--r-md);background:#fff;outline:0}
+.zrv .h3{margin:0}
+.zrvb{display:grid;gap:6px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.zrvh{margin:0}
+.zrvw{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--ink2);margin:0}
+.zrvb ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.zrvb li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;font-size:15px}
+.zrvb li>span:first-child{flex:1 1 60%;min-width:0}
+.zrvh .nw{white-space:nowrap}
+.zrvedit{flex-basis:100%;display:grid;gap:8px}
+.zrvedit textarea{min-height:70px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-sm);font-size:15px;width:100%}
+.zrvt{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;font-size:15px;color:var(--ink2)}
+.zrvt b{color:var(--ink);font:400 20px/1.2 var(--serif);margin-left:auto}
+@media (max-width:420px){.rcp-way{grid-template-columns:1fr}.rcp{padding:14px}}
+/* one payment method: WooCommerce hides its radio, so the title and note take the whole row */
+.opt > input[style*="none"] + div{grid-column:1 / -1}

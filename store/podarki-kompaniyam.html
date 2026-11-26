@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build" content="26.11 · 15:58 UTC">
+<meta name="build" content="26.11 · 17:52 UTC">
 <title>Подарки компаниям — Зефирная симфония</title>
 <meta name="description" content="Корпоративные подарки: зефир ручной работы с открытками от вашей компании. Оплата онлайн или по счёту.">
-<link rel="stylesheet" href="s.css?v=16ac36f7">
+<link rel="stylesheet" href="s.css?v=aa204223">
 <script>window.ZS_NOGIFT=1</script>
 <script>if(!/[?&]corp=1(&|$)/.test(location.search)) location.replace('index.html');</script>
-<link rel="stylesheet" href="m.css?v=16ac36f7">
+<link rel="stylesheet" href="m.css?v=aa204223">
 </head>
 <body>
 <p class="ann">Доставка по всей России<!--gift: · три коробки — «Ассорти» в подарок · <a href="akcii.html">подробнее</a>--></p>
@@ -87,7 +87,8 @@
   <div class="body"></div>
   <div class="foot" hidden><div class="sum"><span>Итого без доставки</span><b>0 ₽</b></div><a class="btn buy full" href="oformlenie.html">Оформить заказ</a><p class="small centre">Оплата картой, СБП или SberPay на странице банка</p><p class="small centre cartdocs"><a href="oferta.html">Оферта</a> · <a href="politika.html">Политика конфиденциальности</a> · <a href="vozvrat.html">Возврат</a></p></div>
 </aside>
-<script src="s.js?v=16ac36f7"></script>
+<script src="s.js?v=aa204223"></script>
+<script src="b.js?v=aa204223"></script>
 <script>
 (function(){ var qs=[].slice.call(document.querySelectorAll('[data-corp-qty]')), sum=document.getElementById('corpsum');
   function total(){ return qs.reduce(function(n,i){ return n+Math.max(0,parseInt(i.value,10)||0); },0); }
@@ -102,6 +103,6 @@
   if(inn){ inn.addEventListener('input',checkInn); checkInn(); } })();   /* fix batch 4: staff may hide the ИНН field */
 document.getElementById('corp').addEventListener('submit',function(e){ e.preventDefault(); if(!this.checkValidity()){ this.reportValidity(); return; } this.hidden=true; var d=document.getElementById('corpok'); d.hidden=false; d.scrollIntoView({block:'center'}); });
 </script>
-<script src="mvdata.js?v=16ac36f7"></script><script src="m.js?v=16ac36f7"></script>
+<script src="mvdata.js?v=aa204223"></script><script src="m.js?v=aa204223"></script>
 </body>
 </html>
